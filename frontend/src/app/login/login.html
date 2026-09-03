@@ -1,0 +1,118 @@
+<div class="login-page">
+
+    <!-- Fundo -->
+    <div class="background"></div>
+    <div class="overlay"></div>
+  
+    <main class="login-container">
+  
+      <!-- Lado esquerdo -->
+      <section class="school-info">
+  
+        <div class="logo">
+          <span>BM</span>
+          <small>ESCOLA 1978</small>
+        </div>
+  
+        <h1>
+          Escola Bicudo<br>
+          Monsenhor
+        </h1>
+  
+        <p>Sistema Integrado de Reservas</p>
+  
+      </section>
+  
+  
+      <!-- Card de Login -->
+      <section class="login-card">
+  
+        <div class="card-header">
+          <h2>
+            Reserva <span>BM</span>
+          </h2>
+  
+          <p>
+            Faça login para reservar salas de informática,<br>
+            laboratórios ou equipamentos.
+          </p>
+        </div>
+  
+  
+        <form (ngSubmit)="entrar()">
+  
+          <!-- E-mail -->
+          <div class="input-group">
+            <label for="email">E-mail Institucional</label>
+  
+            <div class="input-wrapper">
+  
+              <span class="input-icon">
+                ✉
+              </span>
+  
+              <input
+                id="email"
+                type="email"
+                name="email"
+                [(ngModel)]="email"
+                placeholder="exemplo@escola.gov.br"
+              >
+  
+            </div>
+          </div>
+  
+  
+          <!-- Senha -->
+          <div class="input-group">
+            <label for="senha">Senha</label>
+  
+            <div class="input-wrapper">
+  
+              <span class="input-icon">
+                ♙
+              </span>
+  
+              <input
+                id="senha"
+                type="password"
+                name="senha"
+                [(ngModel)]="senha"
+                placeholder="••••••••••••"
+              >
+  
+              <span class="password-icon">
+                ◉
+              </span>
+  
+            </div>
+          </div>
+  
+  
+          <!-- Opções -->
+          <div class="login-options">
+  
+            <label class="remember">
+              <input type="checkbox">
+              <span>Lembrar-me</span>
+            </label>
+  
+            <a href="#" (click)="$event.preventDefault()">
+              Esqueceu a senha?
+            </a>
+  
+          </div>
+  
+  
+          <!-- Botão -->
+          <button type="submit" class="login-button">
+            Entrar no Sistema
+          </button>
+  
+        </form>
+  
+      </section>
+  
+    </main>
+  
+  </div>

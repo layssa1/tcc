@@ -1,0 +1,452 @@
+:host {
+    display: block;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  .login-page {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffff;
+  }
+  
+  /* =================================
+     FUNDO
+  ================================= */
+  
+  .background {
+    position: absolute;
+    inset: 0;
+  
+    /*
+      TROQUE SOMENTE ESTA IMAGEM
+      quando quiser mudar o fundo.
+    */
+    background-image: url('/assets/escola-fundo.jpg');
+  
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+    transform: scale(1.02);
+  }
+  
+  /* Camada azul sobre a fotografia */
+  
+  .overlay {
+    position: absolute;
+    inset: 0;
+  
+    background:
+      linear-gradient(
+        90deg,
+        rgba(11, 27, 62, 0.92) 0%,
+        rgba(16, 35, 72, 0.82) 45%,
+        rgba(10, 27, 59, 0.86) 100%
+      );
+  }
+  
+  
+  /* =================================
+     CONTAINER
+  ================================= */
+  
+  .login-container {
+    position: relative;
+    z-index: 2;
+  
+    width: 100%;
+    min-height: 100vh;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    gap: 130px;
+  
+    padding: 40px 70px;
+  }
+  
+  
+  /* =================================
+     INFORMAÇÕES DA ESCOLA
+  ================================= */
+  
+  .school-info {
+    width: 360px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  
+  /* Logo */
+  
+  .logo {
+    width: 104px;
+    height: 118px;
+  
+    margin: 0 auto 18px;
+  
+    border: 3px solid #f3c400;
+  
+    border-radius: 8px 8px 50px 50px;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  
+    position: relative;
+  }
+  
+  .logo::after {
+    content: '';
+  
+    position: absolute;
+    bottom: 25px;
+  
+    width: 45px;
+    height: 1px;
+  
+    background: #ffffff;
+  }
+  
+  .logo span {
+    font-size: 32px;
+    font-weight: 800;
+    color: #f3c400;
+  }
+  
+  .logo small {
+    position: absolute;
+    bottom: 10px;
+  
+    font-size: 7px;
+    font-weight: bold;
+  
+    color: #ffffff;
+  }
+  
+  
+  /* Nome da escola */
+  
+  .school-info h1 {
+    margin: 0;
+  
+    font-size: 21px;
+    line-height: 1.15;
+  
+    font-weight: 700;
+  }
+  
+  .school-info p {
+    margin-top: 10px;
+  
+    font-size: 12px;
+  
+    color: #f3c400;
+  }
+  
+  
+  /* =================================
+     CARD LOGIN
+  ================================= */
+  
+  .login-card {
+    width: 380px;
+  
+    background: #ffffff;
+  
+    border-radius: 15px;
+  
+    padding: 30px;
+  
+    box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.25);
+  
+    color: #17274d;
+  }
+  
+  
+  /* Cabeçalho */
+  
+  .card-header h2 {
+    margin: 0 0 5px;
+  
+    font-size: 20px;
+  
+    font-weight: 800;
+  }
+  
+  .card-header h2 span {
+    color: #e2ad00;
+  }
+  
+  .card-header p {
+    margin: 0 0 25px;
+  
+    color: #71809a;
+  
+    font-size: 10px;
+  
+    line-height: 1.5;
+  }
+  
+  
+  /* =================================
+     CAMPOS
+  ================================= */
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group label {
+    display: block;
+  
+    margin-bottom: 6px;
+  
+    font-size: 9px;
+  
+    font-weight: 700;
+  
+    color: #28344b;
+  }
+  
+  .input-wrapper {
+    position: relative;
+  }
+  
+  .input-wrapper input {
+    width: 100%;
+  
+    height: 31px;
+  
+    border: 1px solid #e0e5ee;
+  
+    border-radius: 7px;
+  
+    background: #f4f6fa;
+  
+    padding: 0 35px;
+  
+    outline: none;
+  
+    color: #263653;
+  
+    font-size: 10px;
+  
+    transition: 0.2s;
+  }
+  
+  .input-wrapper input:focus {
+    border-color: #14254d;
+  
+    background: #ffffff;
+  
+    box-shadow:
+      0 0 0 2px rgba(20, 37, 77, 0.08);
+  }
+  
+  .input-wrapper input::placeholder {
+    color: #8793a8;
+  }
+  
+  
+  /* Ícones */
+  
+  .input-icon {
+    position: absolute;
+  
+    left: 11px;
+    top: 50%;
+  
+    transform: translateY(-50%);
+  
+    font-size: 12px;
+  
+    color: #71809a;
+  
+    z-index: 1;
+  }
+  
+  .password-icon {
+    position: absolute;
+  
+    right: 11px;
+    top: 50%;
+  
+    transform: translateY(-50%);
+  
+    color: #71809a;
+  
+    font-size: 11px;
+  }
+  
+  
+  /* =================================
+     OPÇÕES
+  ================================= */
+  
+  .login-options {
+    display: flex;
+  
+    justify-content: space-between;
+    align-items: center;
+  
+    margin: 2px 0 19px;
+  
+    font-size: 9px;
+  }
+  
+  .remember {
+    display: flex;
+  
+    align-items: center;
+  
+    gap: 5px;
+  
+    color: #68758a;
+  
+    cursor: pointer;
+  }
+  
+  .remember input {
+    width: 11px;
+    height: 11px;
+  
+    accent-color: #17274d;
+  }
+  
+  .login-options a {
+    color: #242424;
+  
+    font-weight: 700;
+  
+    text-decoration: underline;
+  }
+  
+  
+  /* =================================
+     BOTÃO
+  ================================= */
+  
+  .login-button {
+    width: 100%;
+  
+    height: 33px;
+  
+    border: none;
+  
+    border-radius: 7px;
+  
+    background: #101f48;
+  
+    color: #ffffff;
+  
+    font-size: 10px;
+  
+    font-weight: 700;
+  
+    cursor: pointer;
+  
+    transition:
+      transform 0.2s,
+      background 0.2s,
+      box-shadow 0.2s;
+  }
+  
+  .login-button:hover {
+    background: #182d61;
+  
+    transform: translateY(-1px);
+  
+    box-shadow:
+      0 5px 12px rgba(16, 31, 72, 0.25);
+  }
+  
+  .login-button:active {
+    transform: translateY(0);
+  }
+  
+  
+  /* =================================
+     RESPONSIVIDADE
+  ================================= */
+  
+  @media (max-width: 900px) {
+  
+    .login-container {
+      gap: 50px;
+      padding: 30px;
+    }
+  
+    .school-info {
+      width: 300px;
+    }
+  
+    .login-card {
+      width: 360px;
+    }
+  }
+  
+  
+  @media (max-width: 700px) {
+  
+    .login-container {
+      flex-direction: column;
+  
+      gap: 30px;
+  
+      padding: 30px 20px;
+  
+      justify-content: center;
+    }
+  
+    .school-info {
+      width: 100%;
+    }
+  
+    .school-info h1 {
+      font-size: 19px;
+    }
+  
+    .logo {
+      width: 85px;
+      height: 95px;
+    }
+  
+    .logo span {
+      font-size: 27px;
+    }
+  
+    .login-card {
+      width: 100%;
+      max-width: 380px;
+  
+      padding: 25px;
+    }
+  
+  }
+  
+  
+  @media (max-width: 420px) {
+  
+    .login-container {
+      padding: 20px 15px;
+    }
+  
+    .school-info {
+      transform: scale(0.9);
+    }
+  
+    .login-card {
+      padding: 22px;
+    }
+  
+  }
