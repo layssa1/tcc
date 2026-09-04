@@ -1,452 +1,208 @@
-:host {
-    display: block;
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
-  
-  .login-page {
+// ---------------------------------------------------------------
+// Identidade visual — Escola Bicudo Monsenhor
+// ---------------------------------------------------------------
+
+$navy-dark: #0B1F3A;
+$navy-light: #1E3A5F;
+$gold: #D4AF37;
+$white: #FFFFFF;
+$grey-blue: #6B7A8F;
+$grey-blue-bg: #F2F4F7;
+$error-red: #C0392B;
+
+.teste{
+  width: 100px;
+  height: 100px;
+}
+
+.login-screen {
+  position: relative;
+  height: calc(100vh - 47px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: hidden;
+
+  &__bg {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    min-height: 100vh;
-    position: relative;
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #ffffff;
+    object-fit: cover;
+    height: 100%;
+    z-index: 0;
   }
-  
-  /* =================================
-     FUNDO
-  ================================= */
-  
-  .background {
+
+  &__overlay {
     position: absolute;
     inset: 0;
-  
-    /*
-      TROQUE SOMENTE ESTA IMAGEM
-      quando quiser mudar o fundo.
-    */
-    background-image: url('/assets/escola-fundo.jpg');
-  
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  
-    transform: scale(1.02);
+    z-index: 1;
+
+    background: linear-gradient(
+      160deg,
+      rgba($navy-dark, 0.92) 0%,
+      rgba($navy-dark, 0.80) 45%,
+      rgba(#000000, 0.55) 100%
+    );
   }
-  
-  /* Camada azul sobre a fotografia */
-  
-  .overlay {
-    position: absolute;
-    inset: 0;
-  
-    background:
-      linear-gradient(
-        90deg,
-        rgba(11, 27, 62, 0.92) 0%,
-        rgba(16, 35, 72, 0.82) 45%,
-        rgba(10, 27, 59, 0.86) 100%
-      );
-  }
-  
-  
-  /* =================================
-     CONTAINER
-  ================================= */
-  
-  .login-container {
+
+  &__content {
     position: relative;
     z-index: 2;
-  
     width: 100%;
-    min-height: 100vh;
-  
+    max-width: 320px;
+  }
+}
+
+.login-card {
+  background: $white;
+  border-radius: 16px;
+  padding: 40px 36px;
+  box-shadow: 0 24px 60px rgba(#000000, 0.35);
+
+  &__brand {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  &__badge {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: $navy-dark;
+    border: 2px solid $gold;
     display: flex;
     align-items: center;
     justify-content: center;
-  
-    gap: 130px;
-  
-    padding: 40px 70px;
+
+    span {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: $gold;
+    }
   }
-  
-  
-  /* =================================
-     INFORMAÇÕES DA ESCOLA
-  ================================= */
-  
-  .school-info {
-    width: 360px;
-    text-align: center;
-    margin-top: 20px;
+
+  &__system-name {
+    margin: 0 0 4px;
+    font-family: Georgia, serif;
+    font-size: 26px;
+    color: $navy-dark;
   }
-  
-  
-  /* Logo */
-  
-  .logo {
-    width: 104px;
-    height: 118px;
-  
-    margin: 0 auto 18px;
-  
-    border: 3px solid #f3c400;
-  
-    border-radius: 8px 8px 50px 50px;
-  
+
+  &__accent {
+    color: $gold;
+  }
+
+  &__school-name {
+    margin: 0;
+    color: $grey-blue;
+    font-size: 14px;
+  }
+
+  &__founded {
+    margin-top: 4px;
+    color: $grey-blue;
+    font-size: 12px;
+  }
+
+  &__form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  
-    position: relative;
+    gap: 18px;
   }
-  
-  .logo::after {
-    content: '';
-  
-    position: absolute;
-    bottom: 25px;
-  
-    width: 45px;
-    height: 1px;
-  
-    background: #ffffff;
+
+  &__error {
+    color: $error-red;
+    font-size: 13px;
   }
-  
-  .logo span {
-    font-size: 32px;
-    font-weight: 800;
-    color: #f3c400;
-  }
-  
-  .logo small {
-    position: absolute;
-    bottom: 10px;
-  
-    font-size: 7px;
-    font-weight: bold;
-  
-    color: #ffffff;
-  }
-  
-  
-  /* Nome da escola */
-  
-  .school-info h1 {
-    margin: 0;
-  
-    font-size: 21px;
-    line-height: 1.15;
-  
-    font-weight: 700;
-  }
-  
-  .school-info p {
-    margin-top: 10px;
-  
-    font-size: 12px;
-  
-    color: #f3c400;
-  }
-  
-  
-  /* =================================
-     CARD LOGIN
-  ================================= */
-  
-  .login-card {
-    width: 380px;
-  
-    background: #ffffff;
-  
-    border-radius: 15px;
-  
-    padding: 30px;
-  
-    box-shadow:
-      0 20px 50px rgba(0, 0, 0, 0.25);
-  
-    color: #17274d;
-  }
-  
-  
-  /* Cabeçalho */
-  
-  .card-header h2 {
-    margin: 0 0 5px;
-  
-    font-size: 20px;
-  
-    font-weight: 800;
-  }
-  
-  .card-header h2 span {
-    color: #e2ad00;
-  }
-  
-  .card-header p {
-    margin: 0 0 25px;
-  
-    color: #71809a;
-  
-    font-size: 10px;
-  
-    line-height: 1.5;
-  }
-  
-  
-  /* =================================
-     CAMPOS
-  ================================= */
-  
-  .input-group {
-    margin-bottom: 15px;
-  }
-  
-  .input-group label {
-    display: block;
-  
-    margin-bottom: 6px;
-  
-    font-size: 9px;
-  
-    font-weight: 700;
-  
-    color: #28344b;
-  }
-  
-  .input-wrapper {
-    position: relative;
-  }
-  
-  .input-wrapper input {
-    width: 100%;
-  
-    height: 31px;
-  
-    border: 1px solid #e0e5ee;
-  
-    border-radius: 7px;
-  
-    background: #f4f6fa;
-  
-    padding: 0 35px;
-  
-    outline: none;
-  
-    color: #263653;
-  
-    font-size: 10px;
-  
-    transition: 0.2s;
-  }
-  
-  .input-wrapper input:focus {
-    border-color: #14254d;
-  
-    background: #ffffff;
-  
-    box-shadow:
-      0 0 0 2px rgba(20, 37, 77, 0.08);
-  }
-  
-  .input-wrapper input::placeholder {
-    color: #8793a8;
-  }
-  
-  
-  /* Ícones */
-  
-  .input-icon {
-    position: absolute;
-  
-    left: 11px;
-    top: 50%;
-  
-    transform: translateY(-50%);
-  
-    font-size: 12px;
-  
-    color: #71809a;
-  
-    z-index: 1;
-  }
-  
-  .password-icon {
-    position: absolute;
-  
-    right: 11px;
-    top: 50%;
-  
-    transform: translateY(-50%);
-  
-    color: #71809a;
-  
-    font-size: 11px;
-  }
-  
-  
-  /* =================================
-     OPÇÕES
-  ================================= */
-  
-  .login-options {
-    display: flex;
-  
-    justify-content: space-between;
-    align-items: center;
-  
-    margin: 2px 0 19px;
-  
-    font-size: 9px;
-  }
-  
-  .remember {
-    display: flex;
-  
-    align-items: center;
-  
-    gap: 5px;
-  
-    color: #68758a;
-  
-    cursor: pointer;
-  }
-  
-  .remember input {
-    width: 11px;
-    height: 11px;
-  
-    accent-color: #17274d;
-  }
-  
-  .login-options a {
-    color: #242424;
-  
-    font-weight: 700;
-  
-    text-decoration: underline;
-  }
-  
-  
-  /* =================================
-     BOTÃO
-  ================================= */
-  
-  .login-button {
-    width: 100%;
-  
-    height: 33px;
-  
+
+  &__submit {
+    height: 48px;
     border: none;
-  
-    border-radius: 7px;
-  
-    background: #101f48;
-  
-    color: #ffffff;
-  
-    font-size: 10px;
-  
-    font-weight: 700;
-  
+    border-radius: 10px;
+    background: $navy-dark;
+    color: $white;
+    font-weight: 600;
     cursor: pointer;
-  
-    transition:
-      transform 0.2s,
-      background 0.2s,
-      box-shadow 0.2s;
-  }
-  
-  .login-button:hover {
-    background: #182d61;
-  
-    transform: translateY(-1px);
-  
-    box-shadow:
-      0 5px 12px rgba(16, 31, 72, 0.25);
-  }
-  
-  .login-button:active {
-    transform: translateY(0);
-  }
-  
-  
-  /* =================================
-     RESPONSIVIDADE
-  ================================= */
-  
-  @media (max-width: 900px) {
-  
-    .login-container {
-      gap: 50px;
-      padding: 30px;
+    transition: .25s;
+
+    &:hover:not(:disabled) {
+      background: $navy-light;
+      transform: translateY(-1px);
     }
-  
-    .school-info {
-      width: 300px;
-    }
-  
-    .login-card {
-      width: 360px;
+
+    &:disabled {
+      opacity: .6;
+      cursor: not-allowed;
     }
   }
-  
-  
-  @media (max-width: 700px) {
-  
-    .login-container {
-      flex-direction: column;
-  
-      gap: 30px;
-  
-      padding: 30px 20px;
-  
-      justify-content: center;
+
+  &__forgot {
+    text-align: center;
+    color: $grey-blue;
+    text-decoration: none;
+    font-size: 13px;
+
+    &:hover {
+      color: $navy-dark;
     }
-  
-    .school-info {
-      width: 100%;
-    }
-  
-    .school-info h1 {
-      font-size: 19px;
-    }
-  
-    .logo {
-      width: 85px;
-      height: 95px;
-    }
-  
-    .logo span {
-      font-size: 27px;
-    }
-  
-    .login-card {
-      width: 100%;
-      max-width: 380px;
-  
-      padding: 25px;
-    }
-  
   }
-  
-  
-  @media (max-width: 420px) {
-  
-    .login-container {
-      padding: 20px 15px;
-    }
-  
-    .school-info {
-      transform: scale(0.9);
-    }
-  
-    .login-card {
-      padding: 22px;
-    }
-  
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: $navy-dark;
   }
+
+  input {
+    height: 46px;
+    border: 1px solid #D9DEE6;
+    border-radius: 10px;
+    padding: 0 14px;
+    background: $grey-blue-bg;
+    transition: .2s;
+
+    &:focus {
+      outline: none;
+      border-color: $navy-light;
+      box-shadow: 0 0 0 3px rgba($navy-light, .15);
+      background: $white;
+    }
+  }
+
+  &__password-wrapper {
+    position: relative;
+
+    input {
+
+      padding-right: 80px;
+    }
+  }
+
+  &__toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: $navy-light;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
+@media (max-width:420px) {
+  .login-card {
+    padding: 30px 24px;
+  }
+}

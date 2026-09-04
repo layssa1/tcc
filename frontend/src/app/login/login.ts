@@ -1,24 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.scss'
+  styleUrls: ['./login.scss']
 })
 export class Login {
 
-  email = '';
-  senha = '';
+  // ---------------------------------------------------------------
+  // PERSONALIZAÇÃO — troque estes valores pelos definitivos
+  // ---------------------------------------------------------------
 
-  entrar() {
-    if (!this.email || !this.senha) {
-      alert('Preencha o e-mail e a senha.');
+  // Logo temporária. Quando tiver a arte final da escola, basta
+  // trocar por um <img> — veja o comentário no HTML.
+  @Input() schoolInitials: string = 'BM';
+  @Input() schoolName: string = 'Bicudo Monsenhor';
+  @Input() schoolFoundedYear: string = '1961';
+  @Input() systemName: string = 'Reserva BM';
+
+  // ---------------------------------------------------------------
+  // Estado do formulário
+  // ---------------------------------------------------------------
+
+  email: string = '';
+  password: string = '';
+  showPassword: boolean = false;
+  isSubmitting: boolean = false;
+  errorMessage: string = '';
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  onSubmit(form: any): void {
+    if (form.invalid) {
+      this.errorMessage = 'Preencha e-mail e senha para continuar.';
       return;
     }
 
-    console.log('Login:', this.email);
+    this.errorMessage = '';
+    this.isSubmitting = true;
+
+    // TODO: substituir pela chamada real ao serviço de autenticação
+    // this.authService.login(this.email, this.password).subscribe(...)
+    setTimeout(() => {
+      this.isSubmitting = false;
+      console.log('Login enviado:', { email: this.email });
+    }, 1200);
   }
 }

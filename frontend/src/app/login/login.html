@@ -1,118 +1,98 @@
-<div class="login-page">
+<div class="login-screen">
 
-    <!-- Fundo -->
-    <div class="background"></div>
-    <div class="overlay"></div>
-  
-    <main class="login-container">
-  
-      <!-- Lado esquerdo -->
-      <section class="school-info">
-  
-        <div class="logo">
-          <span>BM</span>
-          <small>ESCOLA 1978</small>
+  <!-- Imagem de fundo -->
+  <img
+    class="login-screen__bg"
+    src="https://i.postimg.cc/T229QGPR/back.jpg"
+    alt="Escola Bicudo Monsenhor"
+  >
+
+  <!-- Overlay azul-marinho -->
+  <div class="login-screen__overlay"></div>
+
+  <div class="login-screen__content">
+    <div class="login-card">
+
+      <div class="login-card__brand">
+        <div class="login-card__badge" aria-hidden="true">
+          <span>{{ schoolInitials }}</span>
         </div>
-  
-        <h1>
-          Escola Bicudo<br>
-          Monsenhor
+
+        <h1 class="login-card__system-name">
+          Reserva <span class="login-card__accent">BM</span>
         </h1>
-  
-        <p>Sistema Integrado de Reservas</p>
-  
-      </section>
-  
-  
-      <!-- Card de Login -->
-      <section class="login-card">
-  
-        <div class="card-header">
-          <h2>
-            Reserva <span>BM</span>
-          </h2>
-  
-          <p>
-            Faça login para reservar salas de informática,<br>
-            laboratórios ou equipamentos.
-          </p>
+
+        <p class="login-card__school-name">{{ schoolName }}</p>
+        <p class="login-card__founded">Desde {{ schoolFoundedYear }}</p>
+      </div>
+
+      <form
+        class="login-card__form"
+        #loginForm="ngForm"
+        (ngSubmit)="onSubmit(loginForm)"
+        novalidate
+      >
+
+        <div class="field">
+          <label for="email">E-mail</label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="seu.email@escola.com.br"
+            [(ngModel)]="email"
+            #emailField="ngModel"
+            required
+            autocomplete="email"
+          >
         </div>
-  
-  
-        <form (ngSubmit)="entrar()">
-  
-          <!-- E-mail -->
-          <div class="input-group">
-            <label for="email">E-mail Institucional</label>
-  
-            <div class="input-wrapper">
-  
-              <span class="input-icon">
-                ✉
-              </span>
-  
-              <input
-                id="email"
-                type="email"
-                name="email"
-                [(ngModel)]="email"
-                placeholder="exemplo@escola.gov.br"
-              >
-  
-            </div>
+
+        <div class="field">
+          <label for="password">Senha</label>
+
+          <div class="field__password-wrapper">
+
+            <input
+              id="password"
+              name="password"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="••••••••"
+              [(ngModel)]="password"
+              #passwordField="ngModel"
+              required
+              autocomplete="current-password"
+            >
+
+            <button
+              type="button"
+              class="field__toggle"
+              (click)="togglePassword()"
+              [attr.aria-label]="showPassword ? 'Ocultar senha' : 'Mostrar senha'"
+            >
+              {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+            </button>
+
           </div>
-  
-  
-          <!-- Senha -->
-          <div class="input-group">
-            <label for="senha">Senha</label>
-  
-            <div class="input-wrapper">
-  
-              <span class="input-icon">
-                ♙
-              </span>
-  
-              <input
-                id="senha"
-                type="password"
-                name="senha"
-                [(ngModel)]="senha"
-                placeholder="••••••••••••"
-              >
-  
-              <span class="password-icon">
-                ◉
-              </span>
-  
-            </div>
-          </div>
-  
-  
-          <!-- Opções -->
-          <div class="login-options">
-  
-            <label class="remember">
-              <input type="checkbox">
-              <span>Lembrar-me</span>
-            </label>
-  
-            <a href="#" (click)="$event.preventDefault()">
-              Esqueceu a senha?
-            </a>
-  
-          </div>
-  
-  
-          <!-- Botão -->
-          <button type="submit" class="login-button">
-            Entrar no Sistema
-          </button>
-  
-        </form>
-  
-      </section>
-  
-    </main>
-  
+        </div>
+
+        <p class="login-card__error" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </p>
+
+        <button
+          type="submit"
+          class="login-card__submit"
+          [disabled]="isSubmitting"
+        >
+          {{ isSubmitting ? 'Entrando...' : 'Entrar' }}
+        </button>
+
+        <a href="#" class="login-card__forgot">
+          Esqueci minha senha
+        </a>
+
+      </form>
+    </div>
   </div>
+</div>
