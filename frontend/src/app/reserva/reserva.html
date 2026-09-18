@@ -1,0 +1,223 @@
+<!-- =========================================     TELA DE GESTÃO — RESERVAS========================================= -->
+<header class="topo"> <!-- LOGO -->
+    <div class="logo">
+        <div class="logo-icon"> 🏫 </div>
+        <div>
+            <h1>ReservaLab</h1> <span>Monsenhor Bicudo</span>
+        </div>
+    </div> <!-- USUÁRIO -->
+    <div class="usuario">
+        <div class="usuario-icon"> 👨‍💼 </div>
+        <div> <strong>Área de Gestão</strong> <small>Gerenciamento do sistema</small> </div>
+    </div>
+</header>
+<!-- =========================================     CONTEÚDO PRINCIPAL========================================= -->
+<main>
+    <!-- =========================================         CABEÇALHO    ========================================== -->
+    <section class="cabecalho-pagina">
+        <div> <span class="titulo-pequeno"> GERENCIAMENTO </span>
+            <h2> Reservas </h2>
+            <p> Consulte e organize os agendamentos de professores, espaços e equipamentos da escola. </p>
+        </div> <!-- BOTÃO --> <button class="btn-cadastrar"> <span>＋</span> Nova reserva </button>
+    </section>
+    <!-- =========================================         RESUMO    ========================================== -->
+    <section class="resumo"> <!-- CARD 1 -->
+        <div class="resumo-card">
+            <div class="resumo-icon"> 📅 </div>
+            <div> <small> RESERVAS </small> <strong> 12 </strong> </div>
+        </div> <!-- CARD 2 -->
+        <div class="resumo-card">
+            <div class="resumo-icon"> 👨‍🏫 </div>
+            <div> <small> PROFESSORES </small> <strong> 5 </strong> </div>
+        </div> <!-- CARD 3 -->
+        <div class="resumo-card">
+            <div class="resumo-icon"> 🏫 </div>
+            <div> <small> ESPAÇOS RESERVADOS </small> <strong> 8 </strong> </div>
+        </div>
+    </section>
+    <!-- =========================================         FILTROS VISUAIS    ========================================== -->
+    <section class="filtros">
+        <div class="campo"> <label> Semana </label> <select>
+                <option> Semana 02 — 07/09 a 11/09 </option>
+                <option> Semana 03 — 14/09 a 18/09 </option>
+                <option> Semana 04 — 21/09 a 25/09 </option>
+            </select> </div>
+        <div class="campo"> <label> Professor </label> <select>
+                <option> Todos os professores </option>
+                <option> Carlos Eduardo </option>
+                <option> Ana Paula Santos </option>
+                <option> Marcos Oliveira </option>
+                <option> Juliana Martins </option>
+                <option> Ricardo Almeida </option>
+            </select> </div>
+        <div class="campo"> <label> Espaço </label> <select>
+                <option> Todos os espaços </option>
+                <option> Laboratório </option>
+                <option> Informática 1 </option>
+                <option> Informática 2 </option>
+                <option> Informática 3 </option>
+                <option> Informática 4 </option>
+                <option> Sala Maker </option>
+                <option> Sala de Leitura </option>
+                <option> Salão Nobre </option>
+            </select> </div> <button class="btn-filtrar"> Consultar </button>
+    </section>
+    <!-- =========================================         TABELA DE RESERVAS    ========================================== -->
+    <section class="painel"> <!-- CABEÇALHO DA TABELA -->
+        <div class="painel-topo">
+            <div> <span class="titulo-pequeno"> AGENDA DE RESERVAS </span>
+                <h3> Reservas cadastradas </h3>
+                <p> Visualização dos agendamentos organizados por semana e dia. </p>
+            </div>
+        </div>
+        <!-- =========================================             TABELA        ========================================== -->
+        <div class="tabela-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th> Professor </th>
+                        <th> Semana </th>
+                        <th> Dia </th>
+                        <th> Data </th>
+                        <th> Horário </th>
+                        <th> Espaço </th>
+                        <th> Equipamento </th>
+                        <th> Status </th>
+                        <th class="acoes-coluna"> Ações </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- =================================                         RESERVA 1                    ================================== -->
+                    <tr>
+                        <td>
+                            <div class="professor">
+                                <div class="avatar"> C </div>
+                                <div> <strong> Carlos Eduardo </strong> <small> Professor </small> </div>
+                            </div>
+                        </td>
+                        <td> Semana 02 </td>
+                        <td> Segunda-feira </td>
+                        <td> 07/09/2026 </td>
+                        <td> 08:00 — 10:00 </td>
+                        <td> <span class="espaco"> Informática 1 </span> </td>
+                        <td> Computadores </td>
+                        <td> <span class="status confirmado"> Confirmada </span> </td>
+                        <td>
+                            <div class="acoes"> <button class="btn-acao editar" title="Editar"> ✏️ </button> <button
+                                    class="btn-acao excluir" title="Excluir"> 🗑️ </button> </div>
+                        </td>
+                    </tr>
+                    <!-- =================================                         RESERVA 2                    ================================== -->
+                    <tr>
+                        <td>
+                            <div class="professor">
+                                <div class="avatar"> A </div>
+                                <div> <strong> Ana Paula Santos </strong> <small> Professora </small> </div>
+                            </div>
+                        </td>
+                        <td> Semana 02 </td>
+                        <td> Terça-feira </td>
+                        <td> 08/09/2026 </td>
+                        <td> 10:00 — 12:00 </td>
+                        <td> <span class="espaco"> Sala Maker </span> </td>
+                        <td> Kit de Robótica </td>
+                        <td> <span class="status confirmado"> Confirmada </span> </td>
+                        <td>
+                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
+                                    class="btn-acao excluir"> 🗑️ </button> </div>
+                        </td>
+                    </tr>
+                    <!-- =================================                         RESERVA 3                    ================================== -->
+                    <tr>
+                        <td>
+                            <div class="professor">
+                                <div class="avatar"> M </div>
+                                <div> <strong> Marcos Oliveira </strong> <small> Professor </small> </div>
+                            </div>
+                        </td>
+                        <td> Semana 02 </td>
+                        <td> Quarta-feira </td>
+                        <td> 09/09/2026 </td>
+                        <td> 08:00 — 09:30 </td>
+                        <td> <span class="espaco"> Laboratório </span> </td>
+                        <td> Microscópios </td>
+                        <td> <span class="status confirmado"> Confirmada </span> </td>
+                        <td>
+                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
+                                    class="btn-acao excluir"> 🗑️ </button> </div>
+                        </td>
+                    </tr>
+                    <!-- =================================                         RESERVA 4                    ================================== -->
+                    <tr>
+                        <td>
+                            <div class="professor">
+                                <div class="avatar"> J </div>
+                                <div> <strong> Juliana Martins </strong> <small> Professora </small> </div>
+                            </div>
+                        </td>
+                        <td> Semana 02 </td>
+                        <td> Quinta-feira </td>
+                        <td> 10/09/2026 </td>
+                        <td> 13:00 — 15:00 </td>
+                        <td> <span class="espaco"> Sala de Leitura </span> </td>
+                        <td> Projetor </td>
+                        <td> <span class="status pendente"> Pendente </span> </td>
+                        <td>
+                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
+                                    class="btn-acao excluir"> 🗑️ </button> </div>
+                        </td>
+                    </tr>
+                    <!-- =================================                         RESERVA 5                    ================================== -->
+                    <tr>
+                        <td>
+                            <div class="professor">
+                                <div class="avatar"> R </div>
+                                <div> <strong> Ricardo Almeida </strong> <small> Professor </small> </div>
+                            </div>
+                        </td>
+                        <td> Semana 02 </td>
+                        <td> Sexta-feira </td>
+                        <td> 11/09/2026 </td>
+                        <td> 09:00 — 11:00 </td>
+                        <td> <span class="espaco"> Salão Nobre </span> </td>
+                        <td> Projetor + Notebook </td>
+                        <td> <span class="status confirmado"> Confirmada </span> </td>
+                        <td>
+                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
+                                    class="btn-acao excluir"> 🗑️ </button> </div>
+                        </td>
+                    </tr>
+                    <!-- =================================                         RESERVA 6                    ================================== -->
+                    <tr>
+                        <td>
+                            <div class="professor">
+                                <div class="avatar"> C </div>
+                                <div> <strong> Carlos Eduardo </strong> <small> Professor </small> </div>
+                            </div>
+                        </td>
+                        <td> Semana 03 </td>
+                        <td> Segunda-feira </td>
+                        <td> 14/09/2026 </td>
+                        <td> 14:00 — 16:00 </td>
+                        <td> <span class="espaco"> Informática 2 </span> </td>
+                        <td> Computadores </td>
+                        <td> <span class="status confirmado"> Confirmada </span> </td>
+                        <td>
+                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
+                                    class="btn-acao excluir"> 🗑️ </button> </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> <!-- LEGENDA -->
+        <div class="legenda"> <span> 🟢 Reserva confirmada </span> <span> 🟡 Reserva pendente </span> </div>
+    </section>
+    <!-- =========================================         AVISO    ========================================== -->
+    <section class="aviso"> <span> ℹ️ </span>
+        <div> <strong> Gerenciamento de reservas </strong>
+            <p> Nesta área a Gestão pode acompanhar os agendamentos de professores, espaços e equipamentos da
+                instituição. </p>
+        </div>
+    </section>
+</main><!-- =========================================     RODAPÉ========================================= -->
+<footer> <span> © 2026 ReservaLab </span> <span> Monsenhor Bicudo </span></footer>
