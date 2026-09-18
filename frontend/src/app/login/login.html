@@ -1,11 +1,7 @@
 <div class="login-screen">
 
   <!-- Imagem de fundo -->
-  <img
-    class="login-screen__bg"
-    src="https://i.postimg.cc/T229QGPR/back.jpg"
-    alt="Escola Bicudo Monsenhor"
-  >
+  <img class="login-screen__bg" src="https://i.postimg.cc/T229QGPR/back.jpg" alt="Escola Bicudo Monsenhor">
 
   <!-- Overlay azul-marinho -->
   <div class="login-screen__overlay"></div>
@@ -14,8 +10,13 @@
     <div class="login-card">
 
       <div class="login-card__brand">
-        <div class="login-card__badge" aria-hidden="true">
-          <span>{{ schoolInitials }}</span>
+
+        <div class="login-card__badge">
+          <img
+            class="login-card__badge-img"
+            src="https://i.postimg.cc/Z4rW8F8Z/logo2.png"
+            alt="E.E. Bicudo Monsenhor"
+          >
         </div>
 
         <h1 class="login-card__system-name">
@@ -26,26 +27,13 @@
         <p class="login-card__founded">Desde {{ schoolFoundedYear }}</p>
       </div>
 
-      <form
-        class="login-card__form"
-        #loginForm="ngForm"
-        (ngSubmit)="onSubmit(loginForm)"
-        novalidate
-      >
+      <form class="login-card__form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
 
         <div class="field">
           <label for="email">E-mail</label>
 
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="seu.email@escola.com.br"
-            [(ngModel)]="email"
-            #emailField="ngModel"
-            required
-            autocomplete="email"
-          >
+          <input id="email" name="email" type="email" placeholder="seu.email@escola.com.br" [(ngModel)]="email"
+            #emailField="ngModel" required autocomplete="email">
         </div>
 
         <div class="field">
@@ -53,23 +41,11 @@
 
           <div class="field__password-wrapper">
 
-            <input
-              id="password"
-              name="password"
-              [type]="showPassword ? 'text' : 'password'"
-              placeholder="••••••••"
-              [(ngModel)]="password"
-              #passwordField="ngModel"
-              required
-              autocomplete="current-password"
-            >
+            <input id="password" name="password" [type]="showPassword ? 'text' : 'password'" placeholder="••••••••"
+              [(ngModel)]="password" #passwordField="ngModel" required autocomplete="current-password">
 
-            <button
-              type="button"
-              class="field__toggle"
-              (click)="togglePassword()"
-              [attr.aria-label]="showPassword ? 'Ocultar senha' : 'Mostrar senha'"
-            >
+            <button type="button" class="field__toggle" (click)="togglePassword()"
+              [attr.aria-label]="showPassword ? 'Ocultar senha' : 'Mostrar senha'">
               {{ showPassword ? 'Ocultar' : 'Mostrar' }}
             </button>
 
@@ -80,11 +56,7 @@
           {{ errorMessage }}
         </p>
 
-        <button
-          type="submit"
-          class="login-card__submit"
-          [disabled]="isSubmitting"
-        >
+        <button type="submit" class="login-card__submit" [disabled]="isSubmitting">
           {{ isSubmitting ? 'Entrando...' : 'Entrar' }}
         </button>
 

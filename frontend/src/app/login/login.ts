@@ -15,9 +15,6 @@ export class Login {
   // PERSONALIZAÇÃO — troque estes valores pelos definitivos
   // ---------------------------------------------------------------
 
-  // Logo temporária. Quando tiver a arte final da escola, basta
-  // trocar por um <img> — veja o comentário no HTML.
-  @Input() schoolInitials: string = 'BM';
   @Input() schoolName: string = 'Bicudo Monsenhor';
   @Input() schoolFoundedYear: string = '1961';
   @Input() systemName: string = 'Reserva BM';

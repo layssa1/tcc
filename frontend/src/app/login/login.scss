@@ -66,22 +66,22 @@ $error-red: #C0392B;
   }
 
   &__badge {
-    width: 72px;
-    height: 72px;
+    width: 150px;
+    height: 120px;
     margin: 0 auto 16px;
     border-radius: 50%;
-    background: $navy-dark;
-    border: 2px solid $gold;
+    background: $white;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+  }
 
-    span {
-      font-family: Georgia, serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: $gold;
-    }
+  &__badge-img {
+    width: 100%;
+    height: 95%;
+    object-fit: contain;
+    padding: 2px;
   }
 
   &__system-name {
