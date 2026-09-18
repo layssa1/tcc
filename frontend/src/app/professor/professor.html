@@ -1,0 +1,108 @@
+<!-- =========================================         CABEÇALHO    ========================================== -->
+<header class="topo">
+    <div class="logo">
+        <div class="logo-icon"> 🏫 </div>
+        <div>
+            <h1>ReservaLab</h1> <span>Monsenhor Bicudo</span>
+        </div>
+    </div>
+    <div class="usuario">
+        <div class="usuario-icon"> 👨‍💼 </div>
+        <div> <strong>Área de Gestão</strong> <small>Gerenciamento do sistema</small> </div>
+    </div>
+</header>
+<!-- =========================================         CONTEÚDO PRINCIPAL    ========================================== -->
+<main> <!-- CABEÇALHO DA PÁGINA -->
+    <section class="cabecalho-pagina">
+        <div> <span class="titulo-pequeno"> GERENCIAMENTO </span>
+            <h2> Professores </h2>
+            <p> Cadastre, consulte e gerencie os professores cadastrados no sistema. </p>
+        </div> <!-- BOTÃO CADASTRAR --> <button class="btn-cadastrar" onclick="abrirModal()"> <span>＋</span> Cadastrar
+            professor </button>
+    </section>
+    <!-- =========================================             PAINEL DA TABELA        ========================================== -->
+    <section class="painel">
+        <div class="painel-topo">
+            <div> <span class="titulo-pequeno"> PROFESSORES CADASTRADOS </span>
+                <h3> Lista de professores </h3>
+            </div>
+            <div class="contador"> <strong id="contadorProfessores"> 5 </strong> <span> professores </span> </div>
+        </div>
+        <!-- =========================================                 TABELA            ========================================== -->
+        <div class="tabela-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th> Professor </th>
+                        <th> RG </th>
+                        <th> E-mail </th>
+                        <th> Status </th>
+                        <th class="coluna-acoes"> Ações </th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaProfessores"> <!-- PROFESSOR 1 -->
+                    <tr>
+                        <td>
+                            <div class="professor">
+                                <div class="avatar"> C </div>
+                                <div> <strong> Carlos Eduardo </strong> <small> Professor </small> </div>
+                            </div>
+                        </td>
+                        <td> 12.345.678-9 </td>
+                        <td> carlos@escola.com </td>
+                        <td> <span class="status ativo"> Ativo </span> </td>
+                        <td>
+                            <div class="acoes"> <button class="btn-acao editar" title="Editar professor"> ✏️ </button>
+                                <button class="btn-acao excluir" title="Excluir professor"> 🗑️ </button> </div>
+                        </td>
+                    </tr> <!-- PROFESSOR 2 -->
+                    <tr>
+                        <td>
+                            <div class="professor">
+                                <div class="avatar"> A </div>
+                                <div> <strong> Ana Paula Santos </strong> <small> Professora </small> </div>
+                            </div>
+                        </td>
+                        <td> 23.456.789-0 </td>
+                        <td> ana.santos@escola.com </td>
+                        <td> <span class="status ativo"> Ativo </span> </td>
+                        <td>
+                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
+                                    class="btn-acao excluir"> 🗑️ </button> </div>
+                        </td>
+                    </tr> <!-- PROFESSOR 3 -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- =========================================             AVISO        ========================================== -->
+    <section class="aviso"> <span> ℹ️ </span>
+        <div> <strong> Gerenciamento de professores </strong>
+            <p> Utilize esta área para manter atualizado o cadastro dos professores que poderão realizar reservas no
+                sistema. </p>
+        </div>
+    </section>
+</main>
+<!-- =========================================         MODAL DE CADASTRO    ========================================== -->
+<div class="modal-fundo" id="modalCadastro">
+    <div class="modal">
+        <div class="modal-cabecalho">
+            <div> <span class="titulo-pequeno"> NOVO CADASTRO </span>
+                <h2> Cadastrar professor </h2>
+            </div> <button class="btn-fechar" onclick="fecharModal()"> × </button>
+        </div> <!-- FORMULÁRIO -->
+        <form id="formProfessor">
+            <div class="campo"> <label for="nome"> Nome do professor </label> <input type="text" id="nome"
+                    placeholder="Digite o nome completo" required> </div>
+            <div class="campo"> <label for="rg"> RG </label> <input type="text" id="rg" placeholder="Digite o RG"
+                    required> </div>
+            <div class="campo"> <label for="email"> E-mail </label> <input type="email" id="email"
+                    placeholder="professor@escola.com" required> </div>
+            <div class="modal-acoes"> <button type="button" class="btn-cancelar" onclick="fecharModal()"> Cancelar
+                </button> <button type="submit" class="btn-salvar"> Cadastrar professor </button> </div>
+        </form>
+    </div>
+</div> <!-- =========================================         RODAPÉ    ========================================== -->
+<footer> <span> © 2026 ReservaLab </span> <span> Monsenhor Bicudo </span> </footer>
+<!-- =========================================         JAVASCRIPT    ========================================== -->
+<script>        const modal = document.getElementById("modalCadastro"); const formulario = document.getElementById("formProfessor"); const tabela = document.getElementById("tabelaProfessores"); const contador = document.getElementById("contadorProfessores");        /* ABRIR MODAL */        function abrirModal() { modal.classList.add("ativo"); document.getElementById("nome").focus(); }        /* FECHAR MODAL */        function fecharModal() { modal.classList.remove("ativo"); formulario.reset(); }        /* CADASTRAR PROFESSOR */        formulario.addEventListener("submit", function (event) { event.preventDefault(); const nome = document.getElementById("nome").value; const rg = document.getElementById("rg").value; const email = document.getElementById("email").value;            /* PRIMEIRA LETRA DO NOME */            const inicial = nome.charAt(0).toUpperCase();            /* CRIAR NOVA LINHA */            const linha = document.createElement("tr"); linha.innerHTML = `                <td>                    <div class="professor">                        <div class="avatar">                            ${inicial}                        </div>                        <div>                            <strong>                                ${nome}                            </strong>                            <small>                                Professor                            </small>                        </div>                    </div>                </td>                <td>                    ${rg}                </td>                <td>                    ${email}                </td>                <td>                    <span class="status ativo">                        Ativo                    </span>                </td>                <td>                    <div class="acoes">                        <button                            class="btn-acao editar"                            title="Editar professor">                            ✏️                        </button>                        <button                            class="btn-acao excluir"                            title="Excluir professor">                            🗑️                        </button>                    </div>                </td>            `; tabela.appendChild(linha); atualizarContador(); fecharModal(); });        /* ATUALIZAR CONTADOR */        function atualizarContador() { const total = tabela.querySelectorAll("tr").length; contador.textContent = total; }        /* FECHAR CLICANDO FORA */        modal.addEventListener("click", function (event) { if (event.target === modal) { fecharModal(); } });    </script>

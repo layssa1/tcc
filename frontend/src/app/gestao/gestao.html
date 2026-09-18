@@ -1,0 +1,421 @@
+<!-- ==================================================         MENU LATERAL    =================================================== -->
+<aside class="sidebar"> <!-- LOGO -->
+    <div class="logo">
+        <div class="logo-icon"> 🏫 </div>
+        <div class="logo-text">
+            <h2> ReservaLab </h2> <span> Monsenhor Bicudo </span>
+        </div>
+    </div> <!-- MENU -->
+    <nav> <a href="#inicio" class="ativo"> <span>📊</span> Dashboard </a> <a href="#agenda"> <span>📅</span> Agenda
+            semanal </a> <a href="#nova-reserva"> <span>➕</span> Nova reserva </a> <a href="#professores">
+            <span>👨‍🏫</span> Professores </a> <a href="#espacos"> <span>🏫</span> Espaços </a> <a
+            href="#equipamentos"> <span>💻</span> Equipamentos </a> </nav> <!-- ADMINISTRADOR -->
+    <div class="administrador">
+        <div class="admin-avatar"> A </div>
+        <div> <strong> Gestão </strong> <small> Administrador </small> </div>
+    </div>
+</aside>
+<!-- ==================================================             CONTEÚDO        =================================================== -->
+<main class="main">
+    <!-- ==================================================                 CABEÇALHO            =================================================== -->
+    <header class="topo" id="inicio">
+        <div> <span class="tag"> PAINEL ADMINISTRATIVO </span>
+            <h1> Gestão de reservas </h1>
+            <p> Organize professores, espaços, horários e equipamentos da instituição. </p>
+        </div> <a href="index.html" class="btn-sair"> Sair </a>
+    </header>
+    <!-- ==================================================                 CARDS            =================================================== -->
+    <section class="cards">
+        <div class="card">
+            <div class="card-icone verde"> 📅 </div>
+            <div> <span> Reservas da semana </span> <strong> 24 </strong> </div>
+        </div>
+        <div class="card">
+            <div class="card-icone azul"> 👨‍🏫 </div>
+            <div> <span> Professores </span> <strong id="contadorProfessores"> 4 </strong> </div>
+        </div>
+        <div class="card">
+            <div class="card-icone amarelo"> 🏫 </div>'' <div> <span> Espaços </span> <strong> 7 </strong> </div>
+        </div>
+        <div class="card">
+            <div class="card-icone roxo"> 💻 </div>
+            <div> <span> Equipamentos </span> <strong> 32 </strong> </div>
+        </div>
+    </section>
+    <!-- ==================================================                 AGENDA SEMANAL            =================================================== -->
+    <section class="painel" id="agenda">
+        <div class="cabecalho">
+            <div> <span class="etiqueta"> AGENDA </span>
+                <h2> Reservas da semana </h2>
+                <p> Organize todos os horários em uma única planilha. </p>
+            </div>
+            <div class="semana-controle"> <button> ‹ </button>
+                <div> <strong> Semana 02 </strong> <small> 07/09/2026 — 11/09/2026 </small> </div> <button> › </button>
+            </div>
+        </div> <!-- FILTROS -->
+        <div class="filtros">
+            <div> <label> Professor </label> <select>
+                    <option> Todos os professores </option>
+                    <option> Prof. Carlos </option>
+                    <option> Prof. Mariana </option>
+                    <option> Prof. Ricardo </option>
+                    <option> Prof. Amanda </option>
+                </select> </div>
+            <div> <label> Espaço </label> <select>
+                    <option> Todos os espaços </option>
+                    <option> Laboratório 1 </option>
+                    <option> Laboratório 2 </option>
+                    <option> Sala Maker </option>
+                    <option> Sala de Leitura </option>
+                    <option> Salão Nobre </option>
+                </select> </div>
+            <div> <label> Equipamento </label> <select>
+                    <option> Todos </option>
+                    <option> Projetor </option>
+                    <option> Notebook </option>
+                    <option> Kit de robótica </option>
+                    <option> Caixa de som </option>
+                </select> </div>
+        </div>
+        <!-- ==================================================                     PLANILHA                =================================================== -->
+        <div class="planilha">
+            <table>
+                <thead>
+                    <tr>
+                        <th> Horário </th>
+                        <th> Segunda<br> <small>07/09</small> </th>
+                        <th> Terça<br> <small>08/09</small> </th>
+                        <th> Quarta<br> <small>09/09</small> </th>
+                        <th> Quinta<br> <small>10/09</small> </th>
+                        <th> Sexta<br> <small>11/09</small> </th>
+                    </tr>
+                </thead>
+                <tbody> <!-- 08:00 -->
+                    <tr>
+                        <td class="hora"> 08:00<br> <span>09:00</span> </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Carlos </strong> <span> Laboratório 1 </span> <small>
+                                    💻 Projetor </small> </div>
+                        </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Amanda </strong> <span> Sala 201 </span> <small> 📦
+                                    Nenhum </small> </div>
+                        </td>
+                        <td class="livre"> Livre </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Ricardo </strong> <span> Sala Maker </span> <small> 🤖
+                                    Kit Robótica </small> </div>
+                        </td>
+                        <td class="livre"> Livre </td>
+                    </tr> <!-- 09:00 -->
+                    <tr>
+                        <td class="hora"> 09:00<br> <span>10:00</span> </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Carlos </strong> <span> Laboratório 1 </span> <small>
+                                    💻 Projetor </small> </div>
+                        </td>
+                        <td class="livre"> Livre </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Mariana </strong> <span> Laboratório 2 </span> <small>
+                                    💻 Notebook </small> </div>
+                        </td>
+                        <td class="livre"> Livre </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Amanda </strong> <span> Sala 203 </span> <small> 📽️
+                                    Projetor </small> </div>
+                        </td>
+                    </tr> <!-- 10:00 -->
+                    <tr>
+                        <td class="hora"> 10:00<br> <span>11:00</span> </td>
+                        <td class="livre"> Livre </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Carlos </strong> <span> Laboratório 3 </span> <small>
+                                    💻 Computadores </small> </div>
+                        </td>
+                        <td class="livre"> Livre </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Mariana </strong> <span> Sala de Leitura </span>
+                                <small> 📽️ Projetor </small>
+                            </div>
+                        </td>
+                        <td class="livre"> Livre </td>
+                    </tr> <!-- 11:00 -->
+                    <tr>
+                        <td class="hora"> 11:00<br> <span>12:00</span> </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Ricardo </strong> <span> Laboratório 4 </span> <small>
+                                    💻 Notebook </small> </div>
+                        </td>
+                        <td class="livre"> Livre </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Amanda </strong> <span> Salão Nobre </span> <small> 🔊
+                                    Caixa de som </small> </div>
+                        </td>
+                        <td class="livre"> Livre </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Carlos </strong> <span> Laboratório 2 </span> <small>
+                                    📽️ Projetor </small> </div>
+                        </td>
+                    </tr> <!-- 13:00 -->
+                    <tr>
+                        <td class="hora"> 13:00<br> <span>14:00</span> </td>
+                        <td class="livre"> Livre </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Ricardo </strong> <span> Sala Maker </span> <small> 🤖
+                                    Kit Robótica </small> </div>
+                        </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Carlos </strong> <span> Laboratório 1 </span> <small>
+                                    📽️ Projetor </small> </div>
+                        </td>
+                        <td class="livre"> Livre </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Mariana </strong> <span> Laboratório 3 </span> <small>
+                                    💻 Notebook </small> </div>
+                        </td>
+                    </tr> <!-- 14:00 -->
+                    <tr>
+                        <td class="hora"> 14:00<br> <span>15:00</span> </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Mariana </strong> <span> Laboratório 2 </span> <small>
+                                    📽️ Projetor </small> </div>
+                        </td>
+                        <td class="livre"> Livre </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Ricardo </strong> <span> Sala Maker </span> <small> 🤖
+                                    Kit Robótica </small> </div>
+                        </td>
+                        <td>
+                            <div class="reserva"> <strong> Prof. Amanda </strong> <span> Salão Nobre </span> <small> 🔊
+                                    Caixa de som </small> </div>
+                        </td>
+                        <td class="livre"> Livre </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> <!-- LEGENDA -->
+        <div class="legenda"> <span> 🟢 Reservado </span> <span> ⚪ Livre </span> <span> 💻 Equipamento solicitado
+            </span> </div>
+    </section>
+    <!-- ==================================================                 NOVA RESERVA            =================================================== -->
+    <section class="painel" id="nova-reserva">
+        <div class="cabecalho">
+            <div> <span class="etiqueta"> ADMINISTRAÇÃO </span>
+                <h2> Agendar horário </h2>
+                <p> A gestão pode definir professor, espaço, semana e equipamento. </p>
+            </div>
+        </div>
+        <form class="formulario">
+            <div class="campo"> <label> Semana </label> <select name="semana" id="semana">
+                    <option value="">Selecione uma semana</option>
+                    <option value="semana-01">Semana 01 — 01/01 a 07/01</option>
+                    <option value="semana-02">Semana 02 — 08/01 a 14/01</option>
+                    <option value="semana-03">Semana 03 — 15/01 a 21/01</option>
+                    <option value="semana-04">Semana 04 — 22/01 a 28/01</option>
+                    <option value="semana-05">Semana 05 — 29/01 a 04/02</option>
+                    <option value="semana-06">Semana 06 — 05/02 a 11/02</option>
+                    <option value="semana-07">Semana 07 — 12/02 a 18/02</option>
+                    <option value="semana-08">Semana 08 — 19/02 a 25/02</option>
+                    <option value="semana-09">Semana 09 — 26/02 a 04/03</option>
+                    <option value="semana-10">Semana 10 — 05/03 a 11/03</option>
+                    <option value="semana-11">Semana 11 — 12/03 a 18/03</option>
+                    <option value="semana-12">Semana 12 — 19/03 a 25/03</option>
+                    <option value="semana-13">Semana 13 — 26/03 a 01/04</option>
+                    <option value="semana-14">Semana 14 — 02/04 a 08/04</option>
+                    <option value="semana-15">Semana 15 — 09/04 a 15/04</option>
+                    <option value="semana-16">Semana 16 — 16/04 a 22/04</option>
+                    <option value="semana-17">Semana 17 — 23/04 a 29/04</option>
+                    <option value="semana-18">Semana 18 — 30/04 a 06/05</option>
+                    <option value="semana-19">Semana 19 — 07/05 a 13/05</option>
+                    <option value="semana-20">Semana 20 — 14/05 a 20/05</option>
+                    <option value="semana-21">Semana 21 — 21/05 a 27/05</option>
+                    <option value="semana-22">Semana 22 — 28/05 a 03/06</option>
+                    <option value="semana-23">Semana 23 — 04/06 a 10/06</option>
+                    <option value="semana-24">Semana 24 — 11/06 a 17/06</option>
+                    <option value="semana-25">Semana 25 — 18/06 a 24/06</option>
+                    <option value="semana-26">Semana 26 — 25/06 a 01/07</option>
+                    <option value="semana-27">Semana 27 — 02/07 a 08/07</option>
+                    <option value="semana-28">Semana 28 — 09/07 a 15/07</option>
+                    <option value="semana-29">Semana 29 — 16/07 a 22/07</option>
+                    <option value="semana-30">Semana 30 — 23/07 a 29/07</option>
+                    <option value="semana-31">Semana 31 — 30/07 a 05/08</option>
+                    <option value="semana-32">Semana 32 — 06/08 a 12/08</option>
+                    <option value="semana-33">Semana 33 — 13/08 a 19/08</option>
+                    <option value="semana-34">Semana 34 — 20/08 a 26/08</option>
+                    <option value="semana-35">Semana 35 — 27/08 a 02/09</option>
+                    <option value="semana-36">Semana 36 — 03/09 a 09/09</option>
+                    <option value="semana-37">Semana 37 — 10/09 a 16/09</option>
+                    <option value="semana-38">Semana 38 — 17/09 a 23/09</option>
+                    <option value="semana-39">Semana 39 — 24/09 a 30/09</option>
+                    <option value="semana-40">Semana 40 — 01/10 a 07/10</option>
+                    <option value="semana-41">Semana 41 — 08/10 a 14/10</option>
+                    <option value="semana-42">Semana 42 — 15/10 a 21/10</option>
+                    <option value="semana-43">Semana 43 — 22/10 a 28/10</option>
+                    <option value="semana-44">Semana 44 — 29/10 a 04/11</option>
+                    <option value="semana-45">Semana 45 — 05/11 a 11/11</option>
+                    <option value="semana-46">Semana 46 — 12/11 a 18/11</option>
+                    <option value="semana-47">Semana 47 — 19/11 a 25/11</option>
+                    <option value="semana-48">Semana 48 — 26/11 a 02/12</option>
+                    <option value="semana-49">Semana 49 — 03/12 a 09/12</option>
+                    <option value="semana-50">Semana 50 — 10/12 a 16/12</option>
+                    <option value="semana-51">Semana 51 — 17/12 a 23/12</option>
+                    <option value="semana-52">Semana 52 — 24/12 a 30/12</option>
+                    <option value="semana-53">Semana 53 — 31/12</option>
+                </select> </div>
+            <div class="campo"> <label> Professor responsável </label> <select>
+                    <option> Selecione o professor </option>
+                    <option> Prof. Carlos </option>
+                    <option> Prof. Mariana </option>
+                    <option> Prof. Ricardo </option>
+                    <option> Prof. Amanda </option>
+                </select> </div>
+            <div class="campo"> <label> Dia da semana </label> <select>
+                    <option> Segunda-feira </option>
+                    <option> Terça-feira </option>
+                    <option> Quarta-feira </option>
+                    <option> Quinta-feira </option>
+                    <option> Sexta-feira </option>
+                </select> </div>
+            <div class="campo"> <label> Espaço </label> <select>
+                    <option> Selecione o espaço </option>
+                    <option> Laboratório de Informática 1 </option>
+                    <option> Laboratório de Informática 2 </option>
+                    <option> Laboratório de Informática 3 </option>
+                    <option> Laboratório de Informática 4 </option>
+                    <option> Sala Maker </option>
+                    <option> Sala de Leitura </option>
+                    <option> Salão Nobre </option>
+                </select> </div>
+            <div class="campo"> <label> Horário inicial </label> <input type="time" value="08:00"> </div>
+            <div class="campo"> <label> Horário final </label> <input type="time" value="10:00"> </div>
+            <div class="campo"> <label> Equipamento </label> <select>
+                    <option> Nenhum equipamento </option>
+                    <option> Projetor </option>
+                    <option> Notebook </option>
+                    <option> Computadores </option>
+                    <option> Kit de Robótica </option>
+                    <option> Caixa de som </option>
+                    <option> Impressora 3D </option>
+                </select> </div>
+            <div class="campo"> <label> Turma / Sala </label> <input type="text" placeholder="Ex.: 2º Ano A - Sala 201">
+            </div>
+            <div class="campo grande"> <label> Observação </label> <textarea
+                    placeholder="Informações adicionais sobre a reserva..."></textarea> </div>
+            <div class="acoes"> <button type="reset" class="btn-secundario"> Limpar </button> <button type="submit"
+                    class="btn-principal"> ✓ Agendar horário </button> </div>
+        </form>
+    </section>
+    <!-- ==================================================                 PROFESSORES            =================================================== -->
+    <section>
+        <div class="cabecalho">
+            <div> <span class="etiqueta"> PROFESSORES </span>
+                <h2> Professores cadastrados </h2>
+                <p> Adicione ou exclua professores do sistema. </p>
+            </div>
+            <div class="acoes-professores"> <button type="button" class="btn-principal" id="btnAdicionarProfessor"> +
+                    Adicionar professor </button> <button type="button" class="btn-excluir-professor"
+                    id="btnExcluirProfessor"> 🗑 Excluir professor </button> </div>
+        </div> <!-- ÁREA DE ADICIONAR PROFESSOR -->
+        <div class="gerenciamento-professor" id="areaAdicionarProfessor" hidden>
+            <div class="gerenciamento-conteudo">
+                <div> <strong>Adicionar professor</strong> <small>Digite o nome do novo professor para
+                        cadastrá-lo.</small> </div>
+                <div class="campo-professor"> <label for="nomeProfessor">Nome do professor</label> <input type="text"
+                        id="nomeProfessor" placeholder="Ex.: João da Silva" maxlength="80" autocomplete="off"> </div>
+                <div class="acoes-gerenciamento"> <button type="button" class="btn-secundario"
+                        id="btnCancelarAdicionar"> Cancelar </button> <button type="button" class="btn-principal"
+                        id="btnSalvarProfessor"> ✓ Adicionar </button> </div>
+            </div>
+        </div> <!-- ÁREA DE EXCLUIR PROFESSOR -->
+        <div class="gerenciamento-professor excluir" id="areaExcluirProfessor" hidden>
+            <div class="gerenciamento-conteudo">
+                <div> <strong>Excluir professor</strong> <small>Selecione o professor que deseja remover do
+                        cadastro.</small> </div>
+                <div class="campo-professor"> <label for="professorExcluir">Professor</label> <select
+                        id="professorExcluir">
+                        <option value="">Selecione um professor</option>
+                    </select> </div>
+                <div class="acoes-gerenciamento"> <button type="button" class="btn-secundario" id="btnCancelarExcluir">
+                        Cancelar </button> <button type="button" class="btn-excluir-confirmar" id="btnConfirmarExcluir">
+                        🗑 Excluir selecionado </button> </div>
+            </div>
+        </div>
+        <div class="mensagem-professor" id="mensagemProfessor" role="status" aria-live="polite"></div>
+        <div class="lista" id="listaProfessores">
+            <div class="professor">
+                <div class="avatar"> C </div>
+                <div> <strong> Prof. Carlos </strong> <small> 6 reservas nesta semana </small> </div> <span
+                    class="status"> Ativo </span>
+            </div>
+            <div class="professor">
+                <div class="avatar"> M </div>
+                <div> <strong> Prof. Mariana </strong> <small> 5 reservas nesta semana </small> </div> <span
+                    class="status"> Ativo </span>
+            </div>
+            <div class="professor">
+                <div class="avatar"> R </div>
+                <div> <strong> Prof. Ricardo </strong> <small> 7 reservas nesta semana </small> </div> <span
+                    class="status"> Ativo </span>
+            </div>
+            <div class="professor">
+                <div class="avatar"> A </div>
+                <div> <strong> Prof. Amanda </strong> <small> 6 reservas nesta semana </small> </div> <span
+                    class="status"> Ativo </span>
+            </div>
+        </div>
+    </section>
+    <!-- ==================================================                 ESPAÇOS            =================================================== -->
+    <section class="painel" id="espacos">
+        <div class="cabecalho">
+            <div> <span class="etiqueta"> ESPAÇOS </span>
+                <h2> Espaços da instituição </h2>
+                <p> Gerencie os ambientes disponíveis. </p>
+            </div> <button class="btn-principal"> + Novo espaço </button>
+        </div>
+        <div class="espacos">
+            <div class="espaco"> <span>💻</span> <strong> Laboratório 1 </strong> <small> Capacidade: 30 alunos </small>
+                <div> <button> Editar </button> <button> Excluir </button> </div>
+            </div>
+            <div class="espaco"> <span>💻</span> <strong> Laboratório 2 </strong> <small> Capacidade: 30 alunos </small>
+                <div> <button> Editar </button> <button> Excluir </button> </div>
+            </div>
+            <div class="espaco"> <span>🛠️</span> <strong> Sala Maker </strong> <small> Capacidade: 25 alunos </small>
+                <div> <button> Editar </button> <button> Excluir </button> </div>
+            </div>
+            <div class="espaco"> <span>📚</span> <strong> Sala de Leitura </strong> <small> Capacidade: 40 alunos
+                </small>
+                <div> <button> Editar </button> <button> Excluir </button> </div>
+            </div>
+            <div class="espaco"> <span>🎤</span> <strong> Salão Nobre </strong> <small> Capacidade: 100 pessoas </small>
+                <div> <button> Editar </button> <button> Excluir </button> </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==================================================                 EQUIPAMENTOS            =================================================== -->
+    <section class="painel" id="equipamentos">
+        <div class="cabecalho">
+            <div> <span class="etiqueta"> EQUIPAMENTOS </span>
+                <h2> Equipamentos </h2>
+                <p> Controle os equipamentos disponíveis para os professores. </p>
+            </div> <button class="btn-principal"> + Novo equipamento </button>
+        </div>
+        <div class="equipamentos">
+            <div class="equipamento"> <span> 📽️ </span>
+                <div> <strong> Projetores </strong> <small> 8 disponíveis </small> </div>
+            </div>
+            <div class="equipamento"> <span> 💻 </span>
+                <div> <strong> Notebooks </strong> <small> 12 disponíveis </small> </div>
+            </div>
+            <div class="equipamento"> <span> 🤖 </span>
+                <div> <strong> Kits de Robótica </strong> <small> 5 disponíveis </small> </div>
+            </div>
+            <div class="equipamento"> <span> 🔊 </span>
+                <div> <strong> Caixas de som </strong> <small> 4 disponíveis </small> </div>
+            </div>
+            <div class="equipamento"> <span> 🖨️ </span>
+                <div> <strong> Impressoras 3D </strong> <small> 3 disponíveis </small> </div>
+            </div>
+        </div>
+    </section> <!-- RODAPÉ -->
+    <footer> <span> © 2026 ReservaLab </span> <span> Painel de Gestão — Monsenhor Bicudo </span> </footer>
+</main>
