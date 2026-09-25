@@ -22,32 +22,6 @@ body {
 }
 
 
-/* =========================================
-   MENU LATERAL
-========================================= */
-
-.sidebar {
-    position: fixed;
-
-    left: 0;
-    top: 0;
-
-    width: 245px;
-    height: 100vh;
-
-    background: #ffffff;
-
-    border-right: 1px solid #dce6df;
-
-    padding: 24px 17px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    z-index: 100;
-}
-
 
 /* LOGO */
 
