@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   selector: 'app-professor',
   styleUrl: './professor.scss',
   templateUrl: './professor.html',
