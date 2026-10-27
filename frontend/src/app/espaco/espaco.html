@@ -1,213 +1,336 @@
-<main>
-    <!-- =========================================         CABEÇALHO    ========================================== -->
-    <section class="cabecalho">
-        <div class="introducao"> <span>GERENCIAMENTO</span>
-            <h2>Espaços</h2>
-            <p> Cadastre, consulte e gerencie os espaços disponíveis para reservas no sistema. </p>
-        </div> <!-- BOTÃO CADASTRAR --> <button class="btn-cadastrar" routerLink="/espaco-register">cadastrar</button> 
-    </section>
-    <!-- =========================================         LISTA DE ESPAÇOS    ========================================== -->
-    <section class="painel"> <!-- CABEÇALHO DO PAINEL -->
-        <div class="painel-cabecalho">
-            <div> <span>ESPAÇOS CADASTRADOS</span>
-                <h3>Lista de espaços</h3>
-            </div> <!-- CONTADOR -->
-            <div class="contador"> <strong>10</strong> <small>espaços</small> </div>
+<div class="espaco-page">
+  <!-- View Header -->
+  <header class="view-header">
+    <div class="view-header__left">
+      <span class="view-header__badge">INFRAESTRUTURA ESCOLAR</span>
+      <h1 class="view-header__title">Espaços Didáticos & Ambientes</h1>
+      <p class="view-header__subtitle">
+        Gerencie laboratórios de informática, salas maker, salas de leitura e auditórios disponíveis.
+      </p>
+    </div>
+
+    <div class="view-header__actions">
+      <button type="button" class="btn btn-primary" (click)="abrirModalNovo()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Novo Espaço</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Search & Filter Bar -->
+  <div class="search-toolbar ui-card">
+    <div class="search-input-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Buscar por nome do ambiente ou localização..."
+        [ngModel]="busca()"
+        (ngModelChange)="busca.set($event)"
+      >
+    </div>
+
+    <div class="filter-type-box">
+      <label for="espFilterTipo">Tipo:</label>
+      <select
+        id="espFilterTipo"
+        class="form-select"
+        [ngModel]="filtroTipo()"
+        (ngModelChange)="filtroTipo.set($event)"
+      >
+        <option value="Todos">Todos os Tipos</option>
+        <option value="Informática">Informática</option>
+        <option value="Laboratório Especial">Laboratório Especial / Maker</option>
+        <option value="Multiuso">Multiuso / Sala de Leitura</option>
+        <option value="Auditório">Auditório / Salão Nobre</option>
+        <option value="Ciências">Ciências</option>
+      </select>
+    </div>
+
+    <!-- View Switcher -->
+    <div class="view-toggle-group">
+      <button
+        type="button"
+        class="btn-toggle"
+        [class.active]="visualizacao() === 'grid'"
+        (click)="visualizacao.set('grid')"
+        title="Visualização em Cards"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="btn-toggle"
+        [class.active]="visualizacao() === 'tabela'"
+        (click)="visualizacao.set('tabela')"
+        title="Visualização em Tabela"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3" y1="6" x2="3.01" y2="6"></line>
+          <line x1="3" y1="12" x2="3.01" y2="12"></line>
+          <line x1="3" y1="18" x2="3.01" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Cards Grid View -->
+  <div class="espacos-grid" *ngIf="visualizacao() === 'grid'">
+    <div *ngFor="let espaco of espacosFiltrados()" class="ui-card espaco-card ui-card--interactive">
+      <div class="espaco-card-header">
+        <div class="espaco-icon-wrapper">
+          <span class="espaco-emoji">{{ espaco.icone }}</span>
         </div>
-        <!-- =========================================             TABELA        ========================================== -->
-        <div class="tabela-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Espaço</th>
-                        <th>Tipo</th>
-                        <th>Capacidade</th>
-                        <th>Equipamentos</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- =================================                         INFORMÁTICA 1                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="espaco">
-                                <div class="espaco-icon"> 💻 </div>
-                                <div> <strong>Informática 1</strong> <small> Sala de informática </small> </div>
-                            </div>
-                        </td>
-                        <td> Informática </td>
-                        <td> 30 alunos </td>
-                        <td> Computadores, projetor </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         INFORMÁTICA 2                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="espaco">
-                                <div class="espaco-icon"> 💻 </div>
-                                <div> <strong>Informática 2</strong> <small> Sala de informática </small> </div>
-                            </div>
-                        </td>
-                        <td> Informática </td>
-                        <td> 30 alunos </td>
-                        <td> Computadores, projetor </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         INFORMÁTICA 3                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="espaco">
-                                <div class="espaco-icon"> 💻 </div>
-                                <div> <strong>Informática 3</strong> <small> Sala de informática </small> </div>
-                            </div>
-                        </td>
-                        <td> Informática </td>
-                        <td> 30 alunos </td>
-                        <td> Computadores, projetor </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         INFORMÁTICA 4                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="espaco">
-                                <div class="espaco-icon"> 💻 </div>
-                                <div> <strong>Informática 4</strong> <small> Sala de informática </small> </div>
-                            </div>
-                        </td>
-                        <td> Informática </td>
-                        <td> 30 alunos </td>
-                        <td> Computadores, projetor </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         INFORMÁTICA 5                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="espaco">
-                                <div class="espaco-icon"> 💻 </div>
-                                <div> <strong>Informática 5</strong> <small> Sala de informática </small> </div>
-                            </div>
-                        </td>
-                        <td> Informática </td>
-                        <td> 30 alunos </td>
-                        <td> Computadores, projetor </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         SALA DE LEITURA                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="espaco">
-                                <div class="espaco-icon"> 📚 </div>
-                                <div> <strong>Sala de Leitura</strong> <small> Espaço de leitura </small> </div>
-                            </div>
-                        </td>
-                        <td> Sala de leitura </td>
-                        <td> 40 alunos </td>
-                        <td> Estantes, mesas, projetor </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         LABORATÓRIO                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="espaco">
-                                <div class="espaco-icon"> 🔬 </div>
-                                <div> <strong>Laboratório</strong> <small> Laboratório de Ciências </small> </div>
-                            </div>
-                        </td>
-                        <td> Laboratório </td>
-                        <td> 25 alunos </td>
-                        <td> Microscópios, bancadas </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         SALA MAKER                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="espaco">
-                                <div class="espaco-icon"> 🤖 </div>
-                                <div> <strong>Sala Maker</strong> <small> Espaço de criação e tecnologia </small> </div>
-                            </div>
-                        </td>
-                        <td> Sala Maker </td>
-                        <td> 25 alunos </td>
-                        <td> Kit robótica, impressora 3D </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         SALÃO NOBRE                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="espaco">
-                                <div class="espaco-icon"> 🎤 </div>
-                                <div> <strong>Salão Nobre</strong> <small> Eventos e apresentações </small> </div>
-                            </div>
-                        </td>
-                        <td> Auditório </td>
-                        <td> 150 pessoas </td>
-                        <td> Projetor, som, microfones </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         SALA DE REUNIÃO                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="espaco">
-                                <div class="espaco-icon"> 🏫 </div>
-                                <div> <strong>Sala de Reunião</strong> <small> Reuniões e atividades </small> </div>
-                            </div>
-                        </td>
-                        <td> Sala </td>
-                        <td> 20 pessoas </td>
-                        <td> TV, projetor </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="espaco-title-area">
+          <span class="espaco-type-tag">{{ espaco.tipo }}</span>
+          <h3>{{ espaco.nome }}</h3>
+          <small class="location-text">📍 {{ espaco.localizacao }}</small>
         </div>
-    </section>
-    <!-- =========================================         AVISO    ========================================== -->
-    <section class="aviso"> <span>ℹ️</span>
-        <div> <strong>Gerenciamento de espaços</strong>
-            <p> Utilize esta área para manter atualizado o cadastro dos espaços que poderão ser utilizados nas reservas
-                do sistema. </p>
+      </div>
+
+      <div class="espaco-card-body">
+        <div class="capacity-bar">
+          <span class="capacity-label">Capacidade Máxima:</span>
+          <span class="capacity-val">👥 {{ espaco.capacidade }} alunos</span>
         </div>
-    </section>
-</main><!-- =========================================     RODAPÉ========================================= -->
-<footer> <span> © 2026 ReservaLab </span> <span> Monsenhor Bicudo </span></footer>
+
+        <div class="equip-tags-container">
+          <span class="tags-title">Equipamentos no local:</span>
+          <div class="tags-list">
+            <span *ngFor="let eq of espaco.equipamentos" class="equip-pill">
+              {{ eq }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="espaco-card-footer">
+        <span
+          class="badge"
+          [ngClass]="{
+            'badge-success': espaco.status === 'Disponível',
+            'badge-warning': espaco.status === 'Ocupado',
+            'badge-danger': espaco.status === 'Em manutenção'
+          }"
+        >
+          {{ espaco.status }}
+        </span>
+
+        <div class="card-action-btns">
+          <button type="button" class="btn btn-sm btn-ghost" (click)="abrirModalEditar(espaco)">
+            Editar
+          </button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="confirmarExcluir(espaco)">
+            Excluir
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table View Alternative -->
+  <div class="ui-card table-card" *ngIf="visualizacao() === 'tabela'">
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Espaço</th>
+            <th>Tipo</th>
+            <th>Capacidade</th>
+            <th>Localização</th>
+            <th>Equipamentos</th>
+            <th>Status</th>
+            <th class="col-actions">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let espaco of espacosFiltrados()">
+            <td>
+              <div class="table-espaco-cell">
+                <span class="cell-icon">{{ espaco.icone }}</span>
+                <strong>{{ espaco.nome }}</strong>
+              </div>
+            </td>
+            <td><span class="badge badge-neutral">{{ espaco.tipo }}</span></td>
+            <td>{{ espaco.capacidade }} alunos</td>
+            <td>{{ espaco.localizacao }}</td>
+            <td>
+              <small class="text-muted">{{ espaco.equipamentos.join(', ') }}</small>
+            </td>
+            <td>
+              <span
+                class="badge"
+                [ngClass]="{
+                  'badge-success': espaco.status === 'Disponível',
+                  'badge-warning': espaco.status === 'Ocupado',
+                  'badge-danger': espaco.status === 'Em manutenção'
+                }"
+              >
+                {{ espaco.status }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button type="button" class="btn-icon btn-ghost" (click)="abrirModalEditar(espaco)" title="Editar">
+                  ✏️
+                </button>
+                <button type="button" class="btn-icon btn-danger" (click)="confirmarExcluir(espaco)" title="Excluir">
+                  🗑️
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Cadastro / Edição de Espaço -->
+<div class="modal-overlay" *ngIf="modalAberto()" (click)="fecharModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <span class="badge badge-success">{{ editandoId() ? 'EDIÇÃO' : 'NOVO AMBIENTE' }}</span>
+        <h2 class="modal-title">{{ editandoId() ? 'Editar Espaço Didático' : 'Cadastrar Espaço Didático' }}</h2>
+      </div>
+      <button type="button" class="btn-ghost btn-sm" (click)="fecharModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <form (ngSubmit)="salvarEspaco()">
+        <div class="form-group">
+          <label class="form-label" for="espNome">Nome do Ambiente *</label>
+          <input
+            id="espNome"
+            type="text"
+            class="form-control"
+            placeholder="Ex.: Laboratório de Informática 3"
+            [ngModel]="formNome()"
+            (ngModelChange)="formNome.set($event)"
+            name="nome"
+            required
+          >
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="espTipo">Tipo de Ambiente</label>
+            <select
+              id="espTipo"
+              class="form-select"
+              [ngModel]="formTipo()"
+              (ngModelChange)="formTipo.set($event)"
+              name="tipo"
+            >
+              <option value="Informática">Informática</option>
+              <option value="Laboratório Especial">Laboratório Especial / Maker</option>
+              <option value="Multiuso">Multiuso / Leitura</option>
+              <option value="Auditório">Auditório / Salão Nobre</option>
+              <option value="Ciências">Ciências</option>
+            </select>
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="espCapac">Capacidade (Alunos)</label>
+            <input
+              id="espCapac"
+              type="number"
+              class="form-control"
+              [ngModel]="formCapacidade()"
+              (ngModelChange)="formCapacidade.set($event)"
+              name="capacidade"
+              min="1"
+              max="300"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="espLoc">Localização / Bloco</label>
+            <input
+              id="espLoc"
+              type="text"
+              class="form-control"
+              placeholder="Ex.: Bloco B — 2º Andar"
+              [ngModel]="formLocalizacao()"
+              (ngModelChange)="formLocalizacao.set($event)"
+              name="localizacao"
+            >
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="espIcone">Ícone / Símbolo</label>
+            <select
+              id="espIcone"
+              class="form-select"
+              [ngModel]="formIcone()"
+              (ngModelChange)="formIcone.set($event)"
+              name="icone"
+            >
+              <option value="💻">💻 Computador / Informática</option>
+              <option value="🖥️">🖥️ Desktop / TI</option>
+              <option value="🤖">🤖 Robótica / Maker</option>
+              <option value="📚">📚 Leitura / Biblioteca</option>
+              <option value="🎭">🎭 Salão Nobre / Auditório</option>
+              <option value="🔬">🔬 Ciências / Microscópio</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="espEquips">Equipamentos Instalados (separados por vírgula)</label>
+          <input
+            id="espEquips"
+            type="text"
+            class="form-control"
+            placeholder="Ex.: 30 Computadores, Projetor Epson, Ar-condicionado"
+            [ngModel]="formEquipamentos()"
+            (ngModelChange)="formEquipamentos.set($event)"
+            name="equipamentos"
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="espStatus">Status Operacional</label>
+          <select
+            id="espStatus"
+            class="form-select"
+            [ngModel]="formStatus()"
+            (ngModelChange)="formStatus.set($event)"
+            name="status"
+          >
+            <option value="Disponível">Disponível para reservas</option>
+            <option value="Ocupado">Ocupado</option>
+            <option value="Em manutenção">Em Manutenção Técnica</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="fecharModal()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            ✓ {{ editandoId() ? 'Salvar Alterações' : 'Cadastrar Espaço' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

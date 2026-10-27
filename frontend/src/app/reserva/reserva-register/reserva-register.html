@@ -1,555 +1,145 @@
-<div class="page">
-
-    <!-- CABEÇALHO -->
-    <header class="page-header">
-  
-      <div class="header-content">
-  
-        <span class="eyebrow">
-          GERENCIAMENTO
-        </span>
-  
-        <h1>
-          Reservas
-        </h1>
-  
-        <p>
-          Consulte e organize os agendamentos de professores,
-          espaços e equipamentos da escola.
-        </p>
-  
-      </div>
-  
-      <button
-        class="btn-primary"
-        type="button"
-        (click)="abrirCadastro()">
-  
-        <span class="plus">+</span>
-  
-        Nova reserva
-  
-      </button>
-  
-    </header>
-  
-  
-    <!-- CONTEÚDO -->
-    <main class="content">
-  
-      <div class="filters">
-  
-        <div class="filter-group">
-          <label>Data</label>
-  
-          <input
-            type="date"
-            [(ngModel)]="filtroData">
-        </div>
-  
-  
-        <div class="filter-group">
-          <label>Espaço</label>
-  
-          <select [(ngModel)]="filtroEspaco">
-  
-            <option value="">
-              Todos os espaços
-            </option>
-  
-            <option value="sala-01">
-              Sala 01
-            </option>
-  
-            <option value="sala-02">
-              Sala 02
-            </option>
-  
-            <option value="laboratorio">
-              Laboratório
-            </option>
-  
-            <option value="auditorio">
-              Auditório
-            </option>
-  
-          </select>
-        </div>
-  
-  
-        <div class="filter-group">
-          <label>Status</label>
-  
-          <select [(ngModel)]="filtroStatus">
-  
-            <option value="">
-              Todos
-            </option>
-  
-            <option value="confirmada">
-              Confirmada
-            </option>
-  
-            <option value="pendente">
-              Pendente
-            </option>
-  
-            <option value="cancelada">
-              Cancelada
-            </option>
-  
-          </select>
-  
-        </div>
-  
-      </div>
-  
-  
-      <!-- TABELA -->
-      <div class="table-card">
-  
-        <div class="table-header">
-  
-          <div>
-            <h2>
-              Agendamentos
-            </h2>
-  
-            <p>
-              Reservas cadastradas no sistema
-            </p>
-          </div>
-  
-        </div>
-  
-  
-        <div class="table-container">
-  
-          <table>
-  
-            <thead>
-  
-              <tr>
-                <th>Data</th>
-                <th>Horário</th>
-                <th>Professor</th>
-                <th>Espaço</th>
-                <th>Equipamento</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-  
-            </thead>
-  
-  
-            <tbody>
-  
-              <tr>
-  
-                <td>
-                  30/09/2026
-                </td>
-  
-                <td>
-                  08:00 - 10:00
-                </td>
-  
-                <td>
-                  João da Silva
-                </td>
-  
-                <td>
-                  Sala 01
-                </td>
-  
-                <td>
-                  Projetor
-                </td>
-  
-                <td>
-  
-                  <span class="status confirmed">
-                    Confirmada
-                  </span>
-  
-                </td>
-  
-                <td>
-  
-                  <div class="actions">
-  
-                    <button
-                      type="button"
-                      title="Editar"
-                      class="action-button">
-  
-                      ✎
-  
-                    </button>
-  
-                    <button
-                      type="button"
-                      title="Excluir"
-                      class="action-button delete">
-  
-                      ×
-  
-                    </button>
-  
-                  </div>
-  
-                </td>
-  
-              </tr>
-  
-  
-              <tr>
-  
-                <td>
-                  30/09/2026
-                </td>
-  
-                <td>
-                  13:00 - 15:00
-                </td>
-  
-                <td>
-                  Maria Oliveira
-                </td>
-  
-                <td>
-                  Laboratório
-                </td>
-  
-                <td>
-                  Notebook
-                </td>
-  
-                <td>
-  
-                  <span class="status pending">
-                    Pendente
-                  </span>
-  
-                </td>
-  
-                <td>
-  
-                  <div class="actions">
-  
-                    <button
-                      type="button"
-                      class="action-button">
-  
-                      ✎
-  
-                    </button>
-  
-                    <button
-                      type="button"
-                      class="action-button delete">
-  
-                      ×
-  
-                    </button>
-  
-                  </div>
-  
-                </td>
-  
-              </tr>
-  
-            </tbody>
-  
-          </table>
-  
-        </div>
-  
-      </div>
-  
-    </main>
-  
-  
-    <!-- OVERLAY -->
-    <div
-      class="drawer-overlay"
-      *ngIf="cadastroAberto"
-      (click)="fecharCadastro()">
+<div class="register-page">
+  <header class="view-header">
+    <div class="view-header__left">
+      <span class="view-header__badge">FORMULÁRIO DE AGENDAMENTO</span>
+      <h1 class="view-header__title">Nova Reserva de Espaço</h1>
+      <p class="view-header__subtitle">
+        Agende o uso de laboratórios de informática, sala maker ou auditório com validação de conflito de horários.
+      </p>
     </div>
-  
-  
-    <!-- DRAWER DE CADASTRO -->
-    <aside
-      class="drawer"
-      [class.drawer-open]="cadastroAberto">
-  
-  
-      <!-- HEADER DO DRAWER -->
-      <div class="drawer-header">
-  
-        <div>
-  
-          <span class="drawer-eyebrow">
-            NOVO AGENDAMENTO
-          </span>
-  
-          <h2>
-            Nova reserva
-          </h2>
-  
-          <p>
-            Preencha os dados para cadastrar uma nova reserva.
-          </p>
-  
-        </div>
-  
-  
-        <button
-          type="button"
-          class="btn-close"
-          (click)="fecharCadastro()">
-  
-          ×
-  
-        </button>
-  
+
+    <div class="view-header__actions">
+      <a routerLink="/reserva" class="btn btn-secondary">
+        ← Voltar às Reservas
+      </a>
+    </div>
+  </header>
+
+  <div class="ui-card register-card">
+    <form (ngSubmit)="salvar()">
+      <div class="form-group">
+        <label class="form-label" for="regResProf">Professor Responsável *</label>
+        <select
+          id="regResProf"
+          class="form-select"
+          [(ngModel)]="professorId"
+          name="professorId"
+          required
+        >
+          <option *ngFor="let prof of dataService.professores()" [value]="prof.id">
+            {{ prof.nome }} — {{ prof.disciplina }}
+          </option>
+        </select>
       </div>
-  
-  
-      <!-- FORMULÁRIO -->
-      <form
-        class="reservation-form"
-        (ngSubmit)="cadastrarReserva()">
-  
-  
-        <!-- PROFESSOR -->
-        <div class="form-group">
-  
-          <label for="professor">
-            Professor / responsável
-          </label>
-  
+
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regResEsp">Espaço Solicitado *</label>
           <select
-            id="professor"
-            name="professor"
-            [(ngModel)]="reserva.professor"
-            required>
-  
-            <option value="">
-              Selecione o professor
+            id="regResEsp"
+            class="form-select"
+            [(ngModel)]="espacoId"
+            name="espacoId"
+            required
+          >
+            <option *ngFor="let espaco of dataService.espacos()" [value]="espaco.id">
+              {{ espaco.nome }} ({{ espaco.capacidade }} vagas)
             </option>
-  
-            <option value="joao">
-              João da Silva
-            </option>
-  
-            <option value="maria">
-              Maria Oliveira
-            </option>
-  
-            <option value="carlos">
-              Carlos Santos
-            </option>
-  
           </select>
-  
         </div>
-  
-  
-        <!-- DATA -->
-        <div class="form-group">
-  
-          <label for="data">
-            Data da reserva
-          </label>
-  
+
+        <div class="form-group flex-1">
+          <label class="form-label" for="regResEq">Equipamento Adicional</label>
+          <select
+            id="regResEq"
+            class="form-select"
+            [(ngModel)]="equipamentoNome"
+            name="equipamentoNome"
+          >
+            <option value="Nenhum">Nenhum equipamento adicional</option>
+            <option *ngFor="let eq of dataService.equipamentos()" [value]="eq.nome">
+              {{ eq.nome }} ({{ eq.quantidadeDisponivel }} disp.)
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regResDia">Dia da Semana</label>
+          <select
+            id="regResDia"
+            class="form-select"
+            [(ngModel)]="diaSemana"
+            name="diaSemana"
+          >
+            <option value="Segunda">Segunda-feira</option>
+            <option value="Terça">Terça-feira</option>
+            <option value="Quarta">Quarta-feira</option>
+            <option value="Quinta">Quinta-feira</option>
+            <option value="Sexta">Sexta-feira</option>
+          </select>
+        </div>
+
+        <div class="form-group flex-1">
+          <label class="form-label" for="regResTurma">Turma / Série *</label>
           <input
-            id="data"
-            type="date"
-            name="data"
-            [(ngModel)]="reserva.data"
-            required>
-  
-        </div>
-  
-  
-        <!-- HORÁRIOS -->
-        <div class="form-row">
-  
-          <div class="form-group">
-  
-            <label for="horaInicio">
-              Horário inicial
-            </label>
-  
-            <input
-              id="horaInicio"
-              type="time"
-              name="horaInicio"
-              [(ngModel)]="reserva.horaInicio"
-              required>
-  
-          </div>
-  
-  
-          <div class="form-group">
-  
-            <label for="horaFim">
-              Horário final
-            </label>
-  
-            <input
-              id="horaFim"
-              type="time"
-              name="horaFim"
-              [(ngModel)]="reserva.horaFim"
-              required>
-  
-          </div>
-  
-        </div>
-  
-  
-        <!-- ESPAÇO -->
-        <div class="form-group">
-  
-          <label for="espaco">
-            Espaço
-          </label>
-  
-          <select
-            id="espaco"
-            name="espaco"
-            [(ngModel)]="reserva.espaco"
-            required>
-  
-            <option value="">
-              Selecione o espaço
-            </option>
-  
-            <option value="sala-01">
-              Sala 01
-            </option>
-  
-            <option value="sala-02">
-              Sala 02
-            </option>
-  
-            <option value="laboratorio">
-              Laboratório
-            </option>
-  
-            <option value="auditorio">
-              Auditório
-            </option>
-  
-            <option value="quadra">
-              Quadra esportiva
-            </option>
-  
-          </select>
-  
-        </div>
-  
-  
-        <!-- EQUIPAMENTO -->
-        <div class="form-group">
-  
-          <label for="equipamento">
-            Equipamento
-          </label>
-  
-          <select
-            id="equipamento"
-            name="equipamento"
-            [(ngModel)]="reserva.equipamento">
-  
-            <option value="">
-              Nenhum equipamento
-            </option>
-  
-            <option value="projetor">
-              Projetor
-            </option>
-  
-            <option value="notebook">
-              Notebook
-            </option>
-  
-            <option value="caixa-som">
-              Caixa de som
-            </option>
-  
-            <option value="microfone">
-              Microfone
-            </option>
-  
-          </select>
-  
-        </div>
-  
-  
-        <!-- FINALIDADE -->
-        <div class="form-group">
-  
-          <label for="finalidade">
-            Finalidade da reserva
-          </label>
-  
-          <input
-            id="finalidade"
+            id="regResTurma"
             type="text"
-            name="finalidade"
-            [(ngModel)]="reserva.finalidade"
-            placeholder="Ex.: Aula de matemática">
-  
+            class="form-control"
+            placeholder="Ex.: 3º Ano A - Ensino Médio"
+            [(ngModel)]="turma"
+            name="turma"
+            required
+          >
         </div>
-  
-  
-        <!-- OBSERVAÇÕES -->
-        <div class="form-group">
-  
-          <label for="observacoes">
-            Observações
-          </label>
-  
-          <textarea
-            id="observacoes"
-            name="observacoes"
-            [(ngModel)]="reserva.observacoes"
-            rows="4"
-            placeholder="Adicione alguma observação...">
-          </textarea>
-  
+      </div>
+
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regResIni">Horário de Início *</label>
+          <input
+            id="regResIni"
+            type="time"
+            class="form-control"
+            [(ngModel)]="horarioInicio"
+            name="horarioInicio"
+            required
+          >
         </div>
-  
-  
-        <!-- FOOTER -->
-        <div class="drawer-footer">
-  
-          <button
-            type="button"
-            class="btn-secondary"
-            (click)="fecharCadastro()">
-  
-            Cancelar
-  
-          </button>
-  
-  
-          <button
-            type="submit"
-            class="btn-primary">
-  
-            Cadastrar reserva
-  
-          </button>
-  
+
+        <div class="form-group flex-1">
+          <label class="form-label" for="regResFim">Horário de Término *</label>
+          <input
+            id="regResFim"
+            type="time"
+            class="form-control"
+            [(ngModel)]="horarioFim"
+            name="horarioFim"
+            required
+          >
         </div>
-  
-      </form>
-  
-    </aside>
-  
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="regResObs">Observações / Descrição da Atividade</label>
+        <textarea
+          id="regResObs"
+          class="form-control form-textarea"
+          placeholder="Ex.: Aula interdisciplinar com projeção de documentário histórico."
+          [(ngModel)]="observacao"
+          name="observacao"
+        ></textarea>
+      </div>
+
+      <div class="ui-card-footer">
+        <a routerLink="/reserva" class="btn btn-secondary">
+          Cancelar
+        </a>
+        <button type="submit" class="btn btn-primary">
+          ✓ Confirmar Agendamento
+        </button>
+      </div>
+    </form>
   </div>
-  
+</div>

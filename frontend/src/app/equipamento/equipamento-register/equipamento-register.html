@@ -1,344 +1,133 @@
-
-<!-- Controle do painel lateral -->
-<input
-  type="checkbox"
-  id="abrir-equipamento"
-  class="controle-equipamento"
->
-
-<main class="pagina-equipamentos">
-
-  <!-- Cabeçalho -->
-  <header class="cabecalho">
-    <div>
-      <span class="sobretitulo">GERENCIAMENTO</span>
-      <h1>Equipamentos</h1>
-      <p>Cadastre e organize os equipamentos disponíveis na escola.</p>
+<div class="register-page">
+  <header class="view-header">
+    <div class="view-header__left">
+      <span class="view-header__badge">CADASTRO DE PATRIMÔNIO</span>
+      <h1 class="view-header__title">Novo Equipamento</h1>
+      <p class="view-header__subtitle">
+        Cadastre novos notebooks, projetores, kits de robótica e recursos audiovisuais no sistema.
+      </p>
     </div>
 
-    <label for="abrir-equipamento" class="btn-novo">
-      <span>+</span>
-      Novo equipamento
-    </label>
+    <div class="view-header__actions">
+      <a routerLink="/equipamento" class="btn btn-secondary">
+        ← Voltar ao Inventário
+      </a>
+    </div>
   </header>
 
-  <section class="conteudo">
-
-    <!-- Filtros -->
-    <div class="filtros">
-
-      <div class="campo campo-pesquisa">
-        <label for="pesquisar-equipamento">Pesquisar equipamento</label>
+  <div class="ui-card register-card">
+    <form (ngSubmit)="salvar()">
+      <div class="form-group">
+        <label class="form-label" for="regEqNome">Nome / Modelo do Equipamento *</label>
         <input
+          id="regEqNome"
           type="text"
-          id="pesquisar-equipamento"
-          placeholder="Buscar por nome ou localização..."
+          class="form-control"
+          placeholder="Ex.: Projetor Epson PowerLite 3500 Lumens"
+          [(ngModel)]="nome"
+          name="nome"
+          required
         >
       </div>
 
-      <div class="campo">
-        <label for="filtro-categoria">Categoria</label>
-        <select id="filtro-categoria">
-          <option>Todas as categorias</option>
-          <option>Informática</option>
-          <option>Robótica</option>
-          <option>Redes</option>
-          <option>Química</option>
-          <option>Áudio</option>
-          <option>Acessórios</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label for="filtro-status">Status</label>
-        <select id="filtro-status">
-          <option>Todos</option>
-          <option>Disponível</option>
-          <option>Em uso</option>
-          <option>Em manutenção</option>
-        </select>
-      </div>
-
-    </div>
-
-    <!-- Tabela de equipamentos -->
-    <section class="cartao-tabela">
-
-      <div class="titulo-tabela">
-        <div>
-          <h2>Equipamentos cadastrados</h2>
-          <p>Consulte os equipamentos registrados no sistema.</p>
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEqCat">Categoria</label>
+          <select
+            id="regEqCat"
+            class="form-select"
+            [(ngModel)]="categoria"
+            name="categoria"
+          >
+            <option value="Áudio & Vídeo">Áudio & Vídeo</option>
+            <option value="Informática">Informática</option>
+            <option value="Robótica">Robótica Educacional</option>
+            <option value="Áudio">Áudio & Som</option>
+            <option value="Maker">Cultura Maker / 3D</option>
+          </select>
         </div>
 
-        <span class="contador">06 equipamentos</span>
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEqPat">Número de Patrimônio</label>
+          <input
+            id="regEqPat"
+            type="text"
+            class="form-control"
+            [(ngModel)]="patrimonio"
+            name="patrimonio"
+          >
+        </div>
       </div>
 
-      <div class="tabela-responsiva">
-        <table>
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEqTot">Quantidade Total</label>
+          <input
+            id="regEqTot"
+            type="number"
+            class="form-control"
+            [(ngModel)]="quantidadeTotal"
+            name="quantidadeTotal"
+            min="1"
+            required
+          >
+        </div>
 
-          <thead>
-            <tr>
-              <th>Equipamento</th>
-              <th>Categoria</th>
-              <th>Quantidade</th>
-              <th>Localização</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">NB</span>
-                  <strong>Carrinho de notebook</strong>
-                </div>
-              </td>
-              <td>Informática</td>
-              <td>2 unidades</td>
-              <td>Bloco A</td>
-              <td><span class="status disponivel">Disponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar equipamento">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir equipamento">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">RB</span>
-                  <strong>Robótica</strong>
-                </div>
-              </td>
-              <td>Robótica</td>
-              <td>5 unidades</td>
-              <td>Sala Maker</td>
-              <td><span class="status em-uso">Em uso</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar equipamento">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir equipamento">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">RD</span>
-                  <strong>Equipamentos de redes</strong>
-                </div>
-              </td>
-              <td>Redes</td>
-              <td>8 unidades</td>
-              <td>Informática 2</td>
-              <td><span class="status disponivel">Disponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar equipamento">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir equipamento">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">QU</span>
-                  <strong>Kit de Química</strong>
-                </div>
-              </td>
-              <td>Química</td>
-              <td>4 unidades</td>
-              <td>Laboratório</td>
-              <td><span class="status manutencao">Em manutenção</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar equipamento">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir equipamento">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">CS</span>
-                  <strong>Caixa de som</strong>
-                </div>
-              </td>
-              <td>Áudio</td>
-              <td>6 unidades</td>
-              <td>Almoxarifado</td>
-              <td><span class="status disponivel">Disponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar equipamento">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir equipamento">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">CF</span>
-                  <strong>Caixa de fones</strong>
-                </div>
-              </td>
-              <td>Acessórios</td>
-              <td>3 unidades</td>
-              <td>Informática 1</td>
-              <td><span class="status disponivel">Disponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar equipamento">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir equipamento">×</button>
-                </div>
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEqDisp">Quantidade Disponível</label>
+          <input
+            id="regEqDisp"
+            type="number"
+            class="form-control"
+            [(ngModel)]="quantidadeDisponivel"
+            name="quantidadeDisponivel"
+            min="0"
+            required
+          >
+        </div>
       </div>
 
-    </section>
-  </section>
-</main>
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEqIcon">Ícone</label>
+          <select
+            id="regEqIcon"
+            class="form-select"
+            [(ngModel)]="icone"
+            name="icone"
+          >
+            <option value="📽️">📽️ Projetor</option>
+            <option value="💻">💻 Notebook</option>
+            <option value="🤖">🤖 Robótica</option>
+            <option value="🔊">🔊 Som / Bluetooth</option>
+            <option value="🖨️">🖨️ Impressora 3D</option>
+            <option value="🎙️">🎙️ Microfone</option>
+          </select>
+        </div>
 
-<!-- Fundo escurecido -->
-<label
-  for="abrir-equipamento"
-  class="fundo-escuro"
-  aria-label="Fechar painel de equipamentos"
-></label>
-
-<!-- Painel lateral -->
-<aside class="painel-equipamento" aria-label="Cadastrar equipamento">
-
-  <header class="painel-cabecalho">
-    <div>
-      <span class="sobretitulo">GERENCIAMENTO DE EQUIPAMENTOS</span>
-      <h2>Novo equipamento</h2>
-      <p>Preencha os dados para cadastrar um novo equipamento.</p>
-    </div>
-
-    <label
-      for="abrir-equipamento"
-      class="btn-fechar"
-      aria-label="Fechar painel"
-    >×</label>
-  </header>
-
-  <div class="painel-conteudo">
-
-    <form class="formulario-equipamento">
-
-      <div class="campo">
-        <label for="nome-equipamento">Nome do equipamento *</label>
-        <input
-          id="nome-equipamento"
-          type="text"
-          placeholder="Ex.: Carrinho de notebook"
-        >
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEqSt">Status</label>
+          <select
+            id="regEqSt"
+            class="form-select"
+            [(ngModel)]="status"
+            name="status"
+          >
+            <option value="Disponível">Disponível</option>
+            <option value="Em uso">Em uso regular</option>
+            <option value="Em manutenção">Em manutenção</option>
+          </select>
+        </div>
       </div>
 
-      <div class="campo">
-        <label for="categoria-equipamento">Categoria *</label>
-        <select id="categoria-equipamento">
-          <option value="">Selecione a categoria</option>
-          <option>Informática</option>
-          <option>Robótica</option>
-          <option>Redes</option>
-          <option>Química</option>
-          <option>Áudio</option>
-          <option>Acessórios</option>
-          <option>Outro</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label for="quantidade">Quantidade *</label>
-        <input
-          id="quantidade"
-          type="number"
-          placeholder="Ex.: 10"
-        >
-      </div>
-
-      <div class="campo">
-        <label for="local-equipamento">Localização</label>
-        <select id="local-equipamento">
-          <option value="">Selecione a localização</option>
-          <option>Informática 1</option>
-          <option>Informática 2</option>
-          <option>Informática 3</option>
-          <option>Informática 4</option>
-          <option>Informática 5</option>
-          <option>Sala de Leitura</option>
-          <option>Laboratório</option>
-          <option>Sala Maker</option>
-          <option>Salão Nobre</option>
-          <option>Almoxarifado</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label for="status-equipamento">Status do equipamento</label>
-        <select id="status-equipamento">
-          <option>Disponível</option>
-          <option>Em uso</option>
-          <option>Em manutenção</option>
-          <option>Indisponível</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label for="identificacao">Número de patrimônio</label>
-        <input
-          id="identificacao"
-          type="text"
-          placeholder="Ex.: PAT-0001"
-        >
-      </div>
-
-      <div class="campo">
-        <label for="descricao-equipamento">Descrição</label>
-        <textarea
-          id="descricao-equipamento"
-          rows="4"
-          placeholder="Adicione informações sobre o equipamento..."
-        ></textarea>
-      </div>
-
-      <footer class="painel-acoes">
-        <label for="abrir-equipamento" class="btn-cancelar">
+      <div class="ui-card-footer">
+        <a routerLink="/equipamento" class="btn btn-secondary">
           Cancelar
-        </label>
-
-        <button type="button" class="btn-cadastrar">
-          <span>+</span>
-          Cadastrar equipamento
+        </a>
+        <button type="submit" class="btn btn-primary">
+          ✓ Cadastrar Equipamento
         </button>
-      </footer>
-
+      </div>
     </form>
   </div>
-</aside>
+</div>

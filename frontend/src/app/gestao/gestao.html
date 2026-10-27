@@ -1,405 +1,439 @@
+<div class="gestao-page">
+  <!-- Page Header -->
+  <header class="view-header">
+    <div class="view-header__left">
+      <span class="view-header__badge">PAINEL DE CONTROLE ADMINISTRATIVO</span>
+      <h1 class="view-header__title">Gestão Geral de Reservas</h1>
+      <p class="view-header__subtitle">
+        Controle de horários, ocupação de espaços didáticos e alocação de equipamentos da E.E. Monsenhor Bicudo.
+      </p>
+    </div>
 
-<!-- ==================================================             CONTEÚDO        =================================================== -->
-<main class="main">
-    <!-- ==================================================                 CABEÇALHO            =================================================== -->
-    <header class="topo" id="inicio">
-        <div> <span class="tag"> PAINEL ADMINISTRATIVO </span>
-            <h1> Gestão de reservas </h1>
-            <p> Organize professores, espaços, horários e equipamentos da instituição. </p>
-        </div> <a href="index.html" class="btn-sair"> Sair </a>
-    </header>
-    <!-- ==================================================                 CARDS            =================================================== -->
-    <section class="cards">
-        <div class="card">
-            <div class="card-icone verde"> 📅 </div>
-            <div> <span> Reservas da semana </span> <strong> 24 </strong> </div>
+    <div class="view-header__actions">
+      <button type="button" class="btn btn-secondary" routerLink="/agenda">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span>Ver Agenda Semanal</span>
+      </button>
+
+      <button type="button" class="btn btn-primary" (click)="abrirModalReserva()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Nova Reserva Express</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- KPI Metric Cards Grid -->
+  <section class="kpi-grid">
+    <!-- Card 1: Reservas -->
+    <div class="kpi-card kpi-card--emerald">
+      <div class="kpi-header">
+        <span class="kpi-title">Reservas Confirmadas</span>
+        <div class="kpi-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
         </div>
-        <div class="card">
-            <div class="card-icone azul"> 👨‍🏫 </div>
-            <div> <span> Professores </span> <strong id="contadorProfessores"> 4 </strong> </div>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-value">{{ dataService.reservasAtivas() }}</span>
+        <span class="kpi-badge kpi-badge--up">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+          Semana Atual
+        </span>
+      </div>
+      <div class="kpi-footer">
+        <span>Ocupação contínua da grade letiva</span>
+      </div>
+    </div>
+
+    <!-- Card 2: Professores -->
+    <div class="kpi-card kpi-card--blue">
+      <div class="kpi-header">
+        <span class="kpi-title">Professores Cadastrados</span>
+        <div class="kpi-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
         </div>
-        <div class="card">
-            <div class="card-icone amarelo"> 🏫 </div>'' <div> <span> Espaços </span> <strong> 7 </strong> </div>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-value">{{ dataService.totalProfessores() }}</span>
+        <span class="kpi-badge kpi-badge--neutral">
+          {{ dataService.professoresAtivos() }} Ativos
+        </span>
+      </div>
+      <div class="kpi-footer">
+        <a routerLink="/professor">Gerenciar corpo docente →</a>
+      </div>
+    </div>
+
+    <!-- Card 3: Espaços -->
+    <div class="kpi-card kpi-card--amber">
+      <div class="kpi-header">
+        <span class="kpi-title">Espaços & Laboratórios</span>
+        <div class="kpi-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
         </div>
-        <div class="card">
-            <div class="card-icone roxo"> 💻 </div>
-            <div> <span> Equipamentos </span> <strong> 32 </strong> </div>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-value">{{ dataService.totalEspacos() }}</span>
+        <span class="kpi-badge kpi-badge--up">
+          {{ dataService.espacosDisponiveis() }} Prontos
+        </span>
+      </div>
+      <div class="kpi-footer">
+        <a routerLink="/espaco">Consultar ambientes →</a>
+      </div>
+    </div>
+
+    <!-- Card 4: Equipamentos -->
+    <div class="kpi-card kpi-card--purple">
+      <div class="kpi-header">
+        <span class="kpi-title">Itens de Equipamento</span>
+        <div class="kpi-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
         </div>
-    </section>
-    <!-- ==================================================                 AGENDA SEMANAL            =================================================== -->
-    <section class="painel" id="agenda">
-        <div class="cabecalho">
-            <div> <span class="etiqueta"> AGENDA </span>
-                <h2> Reservas da semana </h2>
-                <p> Organize todos os horários em uma única planilha. </p>
-            </div>
-            <div class="semana-controle"> <button> ‹ </button>
-                <div> <strong> Semana 02 </strong> <small> 07/09/2026 — 11/09/2026 </small> </div> <button> › </button>
-            </div>
-        </div> <!-- FILTROS -->
-        <div class="filtros">
-            <div> <label> Professor </label> <select>
-                    <option> Todos os professores </option>
-                    <option> Prof. Carlos </option>
-                    <option> Prof. Mariana </option>
-                    <option> Prof. Ricardo </option>
-                    <option> Prof. Amanda </option>
-                </select> </div>
-            <div> <label> Espaço </label> <select>
-                    <option> Todos os espaços </option>
-                    <option> Laboratório 1 </option>
-                    <option> Laboratório 2 </option>
-                    <option> Sala Maker </option>
-                    <option> Sala de Leitura </option>
-                    <option> Salão Nobre </option>
-                </select> </div>
-            <div> <label> Equipamento </label> <select>
-                    <option> Todos </option>
-                    <option> Projetor </option>
-                    <option> Notebook </option>
-                    <option> Kit de robótica </option>
-                    <option> Caixa de som </option>
-                </select> </div>
+      </div>
+      <div class="kpi-body">
+        <span class="kpi-value">{{ dataService.totalEquipamentos() }}</span>
+        <span class="kpi-badge kpi-badge--neutral">
+          {{ dataService.equipamentosDisponiveis() }} Disponíveis
+        </span>
+      </div>
+      <div class="kpi-footer">
+        <a routerLink="/equipamento">Ver inventário completo →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Weekly Schedule Matrix Card -->
+  <section class="ui-card schedule-preview-card">
+    <div class="ui-card-header">
+      <div>
+        <span class="badge badge-success">GRADE DINÂMICA</span>
+        <h3 class="card-section-title">Ocupação Semanal dos Ambientes</h3>
+        <p class="card-section-desc">Visualização rápida dos horários agendados na semana atual.</p>
+      </div>
+
+      <div class="schedule-controls">
+        <label class="filter-label" for="filterEspaco">Filtrar Espaço:</label>
+        <select
+          id="filterEspaco"
+          class="form-select form-select-sm"
+          [ngModel]="filtroEspacoNome()"
+          (ngModelChange)="filtroEspacoNome.set($event)"
+        >
+          <option value="Todos">Todos os Espaços</option>
+          <option *ngFor="let espaco of dataService.espacos()" [value]="espaco.nome">
+            {{ espaco.nome }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="ui-card-body p-0">
+      <div class="table-responsive">
+        <table class="data-table schedule-matrix-table">
+          <thead>
+            <tr>
+              <th class="col-time">Horário</th>
+              <th *ngFor="let dia of diasSemana" class="col-day">
+                {{ dia }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let horario of horariosGrade">
+              <td class="time-slot-label">
+                <strong>{{ horario.inicio }}</strong>
+                <small>{{ horario.fim }}</small>
+              </td>
+
+              <td *ngFor="let dia of diasSemana" class="slot-cell">
+                <ng-container *ngIf="getReservaSlot(dia, horario.inicio) as res; else emptySlot">
+                  <div class="booked-card">
+                    <div class="booked-header">
+                      <span class="booked-prof">{{ res.professorNome }}</span>
+                    </div>
+                    <div class="booked-space">
+                      <span class="icon">🏫</span>
+                      <span>{{ res.espacoNome }}</span>
+                    </div>
+                    <div class="booked-equip" *ngIf="res.equipamentoNome && res.equipamentoNome !== 'Nenhum'">
+                      <span class="icon">💻</span>
+                      <span>{{ res.equipamentoNome }}</span>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <ng-template #emptySlot>
+                  <div class="available-slot" (click)="abrirModalReserva()">
+                    <span class="available-dot"></span>
+                    <span>Disponível</span>
+                  </div>
+                </ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom Grid: Recent Activity & Spaces Overview -->
+  <div class="bottom-grid">
+    <!-- Recent Bookings Table -->
+    <div class="ui-card recent-bookings-card">
+      <div class="ui-card-header">
+        <div>
+          <h3>Últimas Reservas Cadastradas</h3>
+          <p>Acompanhamento das atividades mais recentes no sistema.</p>
         </div>
-        <!-- ==================================================                     PLANILHA                =================================================== -->
-        <div class="planilha">
-            <table>
-                <thead>
-                    <tr>
-                        <th> Horário </th>
-                        <th> Segunda<br> <small>07/09</small> </th>
-                        <th> Terça<br> <small>08/09</small> </th>
-                        <th> Quarta<br> <small>09/09</small> </th>
-                        <th> Quinta<br> <small>10/09</small> </th>
-                        <th> Sexta<br> <small>11/09</small> </th>
-                    </tr>
-                </thead>
-                <tbody> <!-- 08:00 -->
-                    <tr>
-                        <td class="hora"> 08:00<br> <span>09:00</span> </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Carlos </strong> <span> Laboratório 1 </span> <small>
-                                    💻 Projetor </small> </div>
-                        </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Amanda </strong> <span> Sala 201 </span> <small> 📦
-                                    Nenhum </small> </div>
-                        </td>
-                        <td class="livre"> Livre </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Ricardo </strong> <span> Sala Maker </span> <small> 🤖
-                                    Kit Robótica </small> </div>
-                        </td>
-                        <td class="livre"> Livre </td>
-                    </tr> <!-- 09:00 -->
-                    <tr>
-                        <td class="hora"> 09:00<br> <span>10:00</span> </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Carlos </strong> <span> Laboratório 1 </span> <small>
-                                    💻 Projetor </small> </div>
-                        </td>
-                        <td class="livre"> Livre </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Mariana </strong> <span> Laboratório 2 </span> <small>
-                                    💻 Notebook </small> </div>
-                        </td>
-                        <td class="livre"> Livre </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Amanda </strong> <span> Sala 203 </span> <small> 📽️
-                                    Projetor </small> </div>
-                        </td>
-                    </tr> <!-- 10:00 -->
-                    <tr>
-                        <td class="hora"> 10:00<br> <span>11:00</span> </td>
-                        <td class="livre"> Livre </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Carlos </strong> <span> Laboratório 3 </span> <small>
-                                    💻 Computadores </small> </div>
-                        </td>
-                        <td class="livre"> Livre </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Mariana </strong> <span> Sala de Leitura </span>
-                                <small> 📽️ Projetor </small>
-                            </div>
-                        </td>
-                        <td class="livre"> Livre </td>
-                    </tr> <!-- 11:00 -->
-                    <tr>
-                        <td class="hora"> 11:00<br> <span>12:00</span> </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Ricardo </strong> <span> Laboratório 4 </span> <small>
-                                    💻 Notebook </small> </div>
-                        </td>
-                        <td class="livre"> Livre </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Amanda </strong> <span> Salão Nobre </span> <small> 🔊
-                                    Caixa de som </small> </div>
-                        </td>
-                        <td class="livre"> Livre </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Carlos </strong> <span> Laboratório 2 </span> <small>
-                                    📽️ Projetor </small> </div>
-                        </td>
-                    </tr> <!-- 13:00 -->
-                    <tr>
-                        <td class="hora"> 13:00<br> <span>14:00</span> </td>
-                        <td class="livre"> Livre </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Ricardo </strong> <span> Sala Maker </span> <small> 🤖
-                                    Kit Robótica </small> </div>
-                        </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Carlos </strong> <span> Laboratório 1 </span> <small>
-                                    📽️ Projetor </small> </div>
-                        </td>
-                        <td class="livre"> Livre </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Mariana </strong> <span> Laboratório 3 </span> <small>
-                                    💻 Notebook </small> </div>
-                        </td>
-                    </tr> <!-- 14:00 -->
-                    <tr>
-                        <td class="hora"> 14:00<br> <span>15:00</span> </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Mariana </strong> <span> Laboratório 2 </span> <small>
-                                    📽️ Projetor </small> </div>
-                        </td>
-                        <td class="livre"> Livre </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Ricardo </strong> <span> Sala Maker </span> <small> 🤖
-                                    Kit Robótica </small> </div>
-                        </td>
-                        <td>
-                            <div class="reserva"> <strong> Prof. Amanda </strong> <span> Salão Nobre </span> <small> 🔊
-                                    Caixa de som </small> </div>
-                        </td>
-                        <td class="livre"> Livre </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div> <!-- LEGENDA -->
-        <div class="legenda"> <span> 🟢 Reservado </span> <span> ⚪ Livre </span> <span> 💻 Equipamento solicitado
-            </span> </div>
-    </section>
-    <!-- ==================================================                 NOVA RESERVA            =================================================== -->
-    <section class="painel" id="nova-reserva">
-        <div class="cabecalho">
-            <div> <span class="etiqueta"> ADMINISTRAÇÃO </span>
-                <h2> Agendar horário </h2>
-                <p> A gestão pode definir professor, espaço, semana e equipamento. </p>
-            </div>
+        <a routerLink="/reserva" class="btn btn-sm btn-secondary">Ver Todas</a>
+      </div>
+
+      <div class="ui-card-body p-0">
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Professor</th>
+                <th>Espaço</th>
+                <th>Data / Horário</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let res of dataService.reservas().slice(0, 5)">
+                <td>
+                  <div class="teacher-cell">
+                    <div class="teacher-avatar">{{ res.professorNome.charAt(0) }}</div>
+                    <div class="teacher-meta">
+                      <strong>{{ res.professorNome }}</strong>
+                      <small>{{ res.turma }}</small>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="space-tag">{{ res.espacoNome }}</span>
+                </td>
+                <td>
+                  <div class="time-meta">
+                    <strong>{{ res.diaSemana }}</strong>
+                    <small>{{ res.horarioInicio }} - {{ res.horarioFim }}</small>
+                  </div>
+                </td>
+                <td>
+                  <span
+                    class="badge"
+                    [ngClass]="{
+                      'badge-success': res.status === 'Confirmada',
+                      'badge-warning': res.status === 'Pendente',
+                      'badge-danger': res.status === 'Cancelada'
+                    }"
+                  >
+                    {{ res.status }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <form class="formulario">
-            <div class="campo"> <label> Semana </label> <select name="semana" id="semana">
-                    <option value="">Selecione uma semana</option>
-                    <option value="semana-01">Semana 01 — 01/01 a 07/01</option>
-                    <option value="semana-02">Semana 02 — 08/01 a 14/01</option>
-                    <option value="semana-03">Semana 03 — 15/01 a 21/01</option>
-                    <option value="semana-04">Semana 04 — 22/01 a 28/01</option>
-                    <option value="semana-05">Semana 05 — 29/01 a 04/02</option>
-                    <option value="semana-06">Semana 06 — 05/02 a 11/02</option>
-                    <option value="semana-07">Semana 07 — 12/02 a 18/02</option>
-                    <option value="semana-08">Semana 08 — 19/02 a 25/02</option>
-                    <option value="semana-09">Semana 09 — 26/02 a 04/03</option>
-                    <option value="semana-10">Semana 10 — 05/03 a 11/03</option>
-                    <option value="semana-11">Semana 11 — 12/03 a 18/03</option>
-                    <option value="semana-12">Semana 12 — 19/03 a 25/03</option>
-                    <option value="semana-13">Semana 13 — 26/03 a 01/04</option>
-                    <option value="semana-14">Semana 14 — 02/04 a 08/04</option>
-                    <option value="semana-15">Semana 15 — 09/04 a 15/04</option>
-                    <option value="semana-16">Semana 16 — 16/04 a 22/04</option>
-                    <option value="semana-17">Semana 17 — 23/04 a 29/04</option>
-                    <option value="semana-18">Semana 18 — 30/04 a 06/05</option>
-                    <option value="semana-19">Semana 19 — 07/05 a 13/05</option>
-                    <option value="semana-20">Semana 20 — 14/05 a 20/05</option>
-                    <option value="semana-21">Semana 21 — 21/05 a 27/05</option>
-                    <option value="semana-22">Semana 22 — 28/05 a 03/06</option>
-                    <option value="semana-23">Semana 23 — 04/06 a 10/06</option>
-                    <option value="semana-24">Semana 24 — 11/06 a 17/06</option>
-                    <option value="semana-25">Semana 25 — 18/06 a 24/06</option>
-                    <option value="semana-26">Semana 26 — 25/06 a 01/07</option>
-                    <option value="semana-27">Semana 27 — 02/07 a 08/07</option>
-                    <option value="semana-28">Semana 28 — 09/07 a 15/07</option>
-                    <option value="semana-29">Semana 29 — 16/07 a 22/07</option>
-                    <option value="semana-30">Semana 30 — 23/07 a 29/07</option>
-                    <option value="semana-31">Semana 31 — 30/07 a 05/08</option>
-                    <option value="semana-32">Semana 32 — 06/08 a 12/08</option>
-                    <option value="semana-33">Semana 33 — 13/08 a 19/08</option>
-                    <option value="semana-34">Semana 34 — 20/08 a 26/08</option>
-                    <option value="semana-35">Semana 35 — 27/08 a 02/09</option>
-                    <option value="semana-36">Semana 36 — 03/09 a 09/09</option>
-                    <option value="semana-37">Semana 37 — 10/09 a 16/09</option>
-                    <option value="semana-38">Semana 38 — 17/09 a 23/09</option>
-                    <option value="semana-39">Semana 39 — 24/09 a 30/09</option>
-                    <option value="semana-40">Semana 40 — 01/10 a 07/10</option>
-                    <option value="semana-41">Semana 41 — 08/10 a 14/10</option>
-                    <option value="semana-42">Semana 42 — 15/10 a 21/10</option>
-                    <option value="semana-43">Semana 43 — 22/10 a 28/10</option>
-                    <option value="semana-44">Semana 44 — 29/10 a 04/11</option>
-                    <option value="semana-45">Semana 45 — 05/11 a 11/11</option>
-                    <option value="semana-46">Semana 46 — 12/11 a 18/11</option>
-                    <option value="semana-47">Semana 47 — 19/11 a 25/11</option>
-                    <option value="semana-48">Semana 48 — 26/11 a 02/12</option>
-                    <option value="semana-49">Semana 49 — 03/12 a 09/12</option>
-                    <option value="semana-50">Semana 50 — 10/12 a 16/12</option>
-                    <option value="semana-51">Semana 51 — 17/12 a 23/12</option>
-                    <option value="semana-52">Semana 52 — 24/12 a 30/12</option>
-                    <option value="semana-53">Semana 53 — 31/12</option>
-                </select> </div>
-            <div class="campo"> <label> Professor responsável </label> <select>
-                    <option> Selecione o professor </option>
-                    <option> Prof. Carlos </option>
-                    <option> Prof. Mariana </option>
-                    <option> Prof. Ricardo </option>
-                    <option> Prof. Amanda </option>
-                </select> </div>
-            <div class="campo"> <label> Dia da semana </label> <select>
-                    <option> Segunda-feira </option>
-                    <option> Terça-feira </option>
-                    <option> Quarta-feira </option>
-                    <option> Quinta-feira </option>
-                    <option> Sexta-feira </option>
-                </select> </div>
-            <div class="campo"> <label> Espaço </label> <select>
-                    <option> Selecione o espaço </option>
-                    <option> Laboratório de Informática 1 </option>
-                    <option> Laboratório de Informática 2 </option>
-                    <option> Laboratório de Informática 3 </option>
-                    <option> Laboratório de Informática 4 </option>
-                    <option> Sala Maker </option>
-                    <option> Sala de Leitura </option>
-                    <option> Salão Nobre </option>
-                </select> </div>
-            <div class="campo"> <label> Horário inicial </label> <input type="time" value="08:00"> </div>
-            <div class="campo"> <label> Horário final </label> <input type="time" value="10:00"> </div>
-            <div class="campo"> <label> Equipamento </label> <select>
-                    <option> Nenhum equipamento </option>
-                    <option> Projetor </option>
-                    <option> Notebook </option>
-                    <option> Computadores </option>
-                    <option> Kit de Robótica </option>
-                    <option> Caixa de som </option>
-                    <option> Impressora 3D </option>
-                </select> </div>
-            <div class="campo"> <label> Turma / Sala </label> <input type="text" placeholder="Ex.: 2º Ano A - Sala 201">
-            </div>
-            <div class="campo grande"> <label> Observação </label> <textarea
-                    placeholder="Informações adicionais sobre a reserva..."></textarea> </div>
-            <div class="acoes"> <button type="reset" class="btn-secundario"> Limpar </button> <button type="submit"
-                    class="btn-principal"> ✓ Agendar horário </button> </div>
-        </form>
-    </section>
-    <!-- ==================================================                 PROFESSORES            =================================================== -->
-    <section>
-        <div class="cabecalho">
-            <div> <span class="etiqueta"> PROFESSORES </span>
-                <h2> Professores cadastrados </h2>
-                <p> Adicione ou exclua professores do sistema. </p>
-            </div>
-            <div class="acoes-professores"> <button type="button" class="btn-principal" id="btnAdicionarProfessor"> +
-                    Adicionar professor </button> <button type="button" class="btn-excluir-professor"
-                    id="btnExcluirProfessor"> 🗑 Excluir professor </button> </div>
-        </div> <!-- ÁREA DE ADICIONAR PROFESSOR -->
-        <div class="gerenciamento-professor" id="areaAdicionarProfessor" hidden>
-            <div class="gerenciamento-conteudo">
-                <div> <strong>Adicionar professor</strong> <small>Digite o nome do novo professor para
-                        cadastrá-lo.</small> </div>
-                <div class="campo-professor"> <label for="nomeProfessor">Nome do professor</label> <input type="text"
-                        id="nomeProfessor" placeholder="Ex.: João da Silva" maxlength="80" autocomplete="off"> </div>
-                <div class="acoes-gerenciamento"> <button type="button" class="btn-secundario"
-                        id="btnCancelarAdicionar"> Cancelar </button> <button type="button" class="btn-principal"
-                        id="btnSalvarProfessor"> ✓ Adicionar </button> </div>
-            </div>
-        </div> <!-- ÁREA DE EXCLUIR PROFESSOR -->
-        <div class="gerenciamento-professor excluir" id="areaExcluirProfessor" hidden>
-            <div class="gerenciamento-conteudo">
-                <div> <strong>Excluir professor</strong> <small>Selecione o professor que deseja remover do
-                        cadastro.</small> </div>
-                <div class="campo-professor"> <label for="professorExcluir">Professor</label> <select
-                        id="professorExcluir">
-                        <option value="">Selecione um professor</option>
-                    </select> </div>
-                <div class="acoes-gerenciamento"> <button type="button" class="btn-secundario" id="btnCancelarExcluir">
-                        Cancelar </button> <button type="button" class="btn-excluir-confirmar" id="btnConfirmarExcluir">
-                        🗑 Excluir selecionado </button> </div>
-            </div>
+      </div>
+    </div>
+
+    <!-- Spaces Capacity & Utilization -->
+    <div class="ui-card spaces-status-card">
+      <div class="ui-card-header">
+        <div>
+          <h3>Ambientes Didáticos</h3>
+          <p>Status atual e capacidade dos locais</p>
         </div>
-        <div class="mensagem-professor" id="mensagemProfessor" role="status" aria-live="polite"></div>
-        <div class="lista" id="listaProfessores">
-            <div class="professor">
-                <div class="avatar"> C </div>
-                <div> <strong> Prof. Carlos </strong> <small> 6 reservas nesta semana </small> </div> <span
-                    class="status"> Ativo </span>
+        <a routerLink="/espaco" class="btn btn-sm btn-secondary">Gerenciar</a>
+      </div>
+
+      <div class="ui-card-body">
+        <div class="spaces-list">
+          <div *ngFor="let espaco of dataService.espacos()" class="space-item">
+            <div class="space-icon-box">{{ espaco.icone }}</div>
+            <div class="space-info">
+              <div class="space-title-line">
+                <strong>{{ espaco.nome }}</strong>
+                <span class="badge badge-success">{{ espaco.status }}</span>
+              </div>
+              <div class="space-sub-line">
+                <span>Capacidade: {{ espaco.capacidade }} alunos</span>
+                <span>•</span>
+                <span>{{ espaco.localizacao }}</span>
+              </div>
             </div>
-            <div class="professor">
-                <div class="avatar"> M </div>
-                <div> <strong> Prof. Mariana </strong> <small> 5 reservas nesta semana </small> </div> <span
-                    class="status"> Ativo </span>
-            </div>
-            <div class="professor">
-                <div class="avatar"> R </div>
-                <div> <strong> Prof. Ricardo </strong> <small> 7 reservas nesta semana </small> </div> <span
-                    class="status"> Ativo </span>
-            </div>
-            <div class="professor">
-                <div class="avatar"> A </div>
-                <div> <strong> Prof. Amanda </strong> <small> 6 reservas nesta semana </small> </div> <span
-                    class="status"> Ativo </span>
-            </div>
+          </div>
         </div>
-    </section>
-    <!-- ==================================================                 ESPAÇOS            =================================================== -->
-    <section class="painel" id="espacos">
-        <div class="cabecalho">
-            <div> <span class="etiqueta"> ESPAÇOS </span>
-                <h2> Espaços da instituição </h2>
-                <p> Gerencie os ambientes disponíveis. </p>
-            </div> <button class="btn-principal"> + Novo espaço </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Nova Reserva Express -->
+<div class="modal-overlay" *ngIf="showModalNovaReserva()" (click)="fecharModalReserva()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <span class="badge badge-success">AGENDAMENTO RÁPIDO</span>
+        <h2 class="modal-title">Agendar Horário / Nova Reserva</h2>
+      </div>
+      <button type="button" class="btn-ghost btn-sm" (click)="fecharModalReserva()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <form (ngSubmit)="salvarNovaReserva()">
+        <div class="form-group">
+          <label class="form-label" for="reservaProf">Professor Responsável</label>
+          <select
+            id="reservaProf"
+            class="form-select"
+            [ngModel]="formProfessorId()"
+            (ngModelChange)="formProfessorId.set($event)"
+            name="professorId"
+            required
+          >
+            <option *ngFor="let prof of dataService.professores()" [value]="prof.id">
+              {{ prof.nome }} — {{ prof.disciplina }}
+            </option>
+          </select>
         </div>
-        <div class="espacos">
-            <div class="espaco"> <span>💻</span> <strong> Laboratório 1 </strong> <small> Capacidade: 30 alunos </small>
-                <div> <button> Editar </button> <button> Excluir </button> </div>
-            </div>
-            <div class="espaco"> <span>💻</span> <strong> Laboratório 2 </strong> <small> Capacidade: 30 alunos </small>
-                <div> <button> Editar </button> <button> Excluir </button> </div>
-            </div>
-            <div class="espaco"> <span>🛠️</span> <strong> Sala Maker </strong> <small> Capacidade: 25 alunos </small>
-                <div> <button> Editar </button> <button> Excluir </button> </div>
-            </div>
-            <div class="espaco"> <span>📚</span> <strong> Sala de Leitura </strong> <small> Capacidade: 40 alunos
-                </small>
-                <div> <button> Editar </button> <button> Excluir </button> </div>
-            </div>
-            <div class="espaco"> <span>🎤</span> <strong> Salão Nobre </strong> <small> Capacidade: 100 pessoas </small>
-                <div> <button> Editar </button> <button> Excluir </button> </div>
-            </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="reservaEspaco">Espaço Desejado</label>
+            <select
+              id="reservaEspaco"
+              class="form-select"
+              [ngModel]="formEspacoId()"
+              (ngModelChange)="formEspacoId.set($event)"
+              name="espacoId"
+              required
+            >
+              <option *ngFor="let espaco of dataService.espacos()" [value]="espaco.id">
+                {{ espaco.nome }} ({{ espaco.capacidade }} vagas)
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="reservaEquip">Equipamento Extra</label>
+            <select
+              id="reservaEquip"
+              class="form-select"
+              [ngModel]="formEquipamentoNome()"
+              (ngModelChange)="formEquipamentoNome.set($event)"
+              name="equipamentoNome"
+            >
+              <option value="Nenhum">Nenhum equipamento adicional</option>
+              <option *ngFor="let eq of dataService.equipamentos()" [value]="eq.nome">
+                {{ eq.nome }} ({{ eq.quantidadeDisponivel }} disp.)
+              </option>
+            </select>
+          </div>
         </div>
-    </section>
-    <!-- ==================================================                 EQUIPAMENTOS            =================================================== -->
-    <section class="painel" id="equipamentos">
-        <div class="cabecalho">
-            <div> <span class="etiqueta"> EQUIPAMENTOS </span>
-                <h2> Equipamentos </h2>
-                <p> Controle os equipamentos disponíveis para os professores. </p>
-            </div> <button class="btn-principal"> + Novo equipamento </button>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="reservaDia">Dia da Semana</label>
+            <select
+              id="reservaDia"
+              class="form-select"
+              [ngModel]="formDiaSemana()"
+              (ngModelChange)="formDiaSemana.set($event)"
+              name="diaSemana"
+            >
+              <option *ngFor="let dia of diasSemana" [value]="dia">{{ dia }}-feira</option>
+            </select>
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="reservaTurma">Turma / Finalidade</label>
+            <input
+              id="reservaTurma"
+              type="text"
+              class="form-control"
+              placeholder="Ex.: 3º Ano A - Ensino Médio"
+              [ngModel]="formTurma()"
+              (ngModelChange)="formTurma.set($event)"
+              name="turma"
+              required
+            >
+          </div>
         </div>
-        <div class="equipamentos">
-            <div class="equipamento"> <span> 📽️ </span>
-                <div> <strong> Projetores </strong> <small> 8 disponíveis </small> </div>
-            </div>
-            <div class="equipamento"> <span> 💻 </span>
-                <div> <strong> Notebooks </strong> <small> 12 disponíveis </small> </div>
-            </div>
-            <div class="equipamento"> <span> 🤖 </span>
-                <div> <strong> Kits de Robótica </strong> <small> 5 disponíveis </small> </div>
-            </div>
-            <div class="equipamento"> <span> 🔊 </span>
-                <div> <strong> Caixas de som </strong> <small> 4 disponíveis </small> </div>
-            </div>
-            <div class="equipamento"> <span> 🖨️ </span>
-                <div> <strong> Impressoras 3D </strong> <small> 3 disponíveis </small> </div>
-            </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="horaInicio">Horário de Início</label>
+            <input
+              id="horaInicio"
+              type="time"
+              class="form-control"
+              [ngModel]="formHorarioInicio()"
+              (ngModelChange)="formHorarioInicio.set($event)"
+              name="horarioInicio"
+              required
+            >
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="horaFim">Horário de Término</label>
+            <input
+              id="horaFim"
+              type="time"
+              class="form-control"
+              [ngModel]="formHorarioFim()"
+              (ngModelChange)="formHorarioFim.set($event)"
+              name="horarioFim"
+              required
+            >
+          </div>
         </div>
-    </section> <!-- RODAPÉ -->
-    <footer> <span> © 2026 ReservaLab </span> <span> Painel de Gestão — Monsenhor Bicudo </span> </footer>
-</main>
+
+        <div class="form-group">
+          <label class="form-label" for="obs">Observações Pedagógicas</label>
+          <textarea
+            id="obs"
+            class="form-control form-textarea"
+            placeholder="Ex.: Necessário ligar computadores com antecedência de 10 min."
+            [ngModel]="formObservacao()"
+            (ngModelChange)="formObservacao.set($event)"
+            name="observacao"
+          ></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="fecharModalReserva()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            ✓ Confirmar Reserva
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

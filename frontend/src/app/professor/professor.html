@@ -1,94 +1,257 @@
-<main> <!-- CABEÇALHO DA PÁGINA -->
-    <section class="cabecalho-pagina">
-        <div> <span class="titulo-pequeno"> GERENCIAMENTO </span>
-            <h2> Professores </h2>
-            <p> Cadastre, consulte e gerencie os professores cadastrados no sistema. </p>
-        </div> <!-- BOTÃO CADASTRAR --> <button class="btn-cadastrar"  routerLink="/professor-register"> <span>＋</span> Cadastrar
-            professor </button>
-    </section>
-    <!-- =========================================             PAINEL DA TABELA        ========================================== -->
-    <section class="painel">
-        <div class="painel-topo">
-            <div> <span class="titulo-pequeno"> PROFESSORES CADASTRADOS </span>
-                <h3> Lista de professores </h3>
-            </div>
-            <div class="contador"> <strong id="contadorProfessores"> 5 </strong> <span> professores </span> </div>
-        </div>
-        <!-- =========================================                 TABELA            ========================================== -->
-        <div class="tabela-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th> Professor </th>
-                        <th> RG </th>
-                        <th> E-mail </th>
-                        <th> Status </th>
-                        <th class="coluna-acoes"> Ações </th>
-                    </tr>
-                </thead>
-                <tbody id="tabelaProfessores"> <!-- PROFESSOR 1 -->
-                    <tr>
-                        <td>
-                            <div class="professor">
-                                <div class="avatar"> C </div>
-                                <div> <strong> Carlos Eduardo </strong> <small> Professor </small> </div>
-                            </div>
-                        </td>
-                        <td> 12.345.678-9 </td>
-                        <td> carlos@escola.com </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar" title="Editar professor"> ✏️ </button>
-                                <button class="btn-acao excluir" title="Excluir professor"> 🗑️ </button> </div>
-                        </td>
-                    </tr> <!-- PROFESSOR 2 -->
-                    <tr>
-                        <td>
-                            <div class="professor">
-                                <div class="avatar"> A </div>
-                                <div> <strong> Ana Paula Santos </strong> <small> Professora </small> </div>
-                            </div>
-                        </td>
-                        <td> 23.456.789-0 </td>
-                        <td> ana.santos@escola.com </td>
-                        <td> <span class="status ativo"> Ativo </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr> <!-- PROFESSOR 3 -->
-                </tbody>
-            </table>
-        </div>
-    </section>
-    <!-- =========================================             AVISO        ========================================== -->
-    <section class="aviso"> <span> ℹ️ </span>
-        <div> <strong> Gerenciamento de professores </strong>
-            <p> Utilize esta área para manter atualizado o cadastro dos professores que poderão realizar reservas no
-                sistema. </p>
-        </div>
-    </section>
-</main>
-<!-- =========================================         MODAL DE CADASTRO    ========================================== -->
-<div class="modal-fundo" id="modalCadastro">
-    <div class="modal">
-        <div class="modal-cabecalho">
-            <div> <span class="titulo-pequeno"> NOVO CADASTRO </span>
-                <h2> Cadastrar professor </h2>
-            </div> <button class="btn-fechar" onclick="fecharModal()"> × </button>
-        </div> <!-- FORMULÁRIO -->
-        <form id="formProfessor">
-            <div class="campo"> <label for="nome"> Nome do professor </label> <input type="text" id="nome"
-                    placeholder="Digite o nome completo" required> </div>
-            <div class="campo"> <label for="rg"> RG </label> <input type="text" id="rg" placeholder="Digite o RG"
-                    required> </div>
-            <div class="campo"> <label for="email"> E-mail </label> <input type="email" id="email"
-                    placeholder="professor@escola.com" required> </div>
-            <div class="modal-acoes"> <button type="button" class="btn-cancelar" onclick="fecharModal()"> Cancelar
-                </button> <button type="submit" class="btn-salvar"> Cadastrar professor </button> </div>
-        </form>
+<div class="professor-page">
+  <!-- View Header -->
+  <header class="view-header">
+    <div class="view-header__left">
+      <span class="view-header__badge">CORPO DOCENTE</span>
+      <h1 class="view-header__title">Gerenciamento de Professores</h1>
+      <p class="view-header__subtitle">
+        Cadastre, atualize e consulte os professores autorizados a realizar agendamentos no ReservaLab.
+      </p>
     </div>
-</div> <!-- =========================================         RODAPÉ    ========================================== -->
-<footer> <span> © 2026 ReservaLab </span> <span> Monsenhor Bicudo </span> </footer>
-<!-- =========================================         JAVASCRIPT    ========================================== -->
-<script>        const modal = document.getElementById("modalCadastro"); const formulario = document.getElementById("formProfessor"); const tabela = document.getElementById("tabelaProfessores"); const contador = document.getElementById("contadorProfessores");        /* ABRIR MODAL */        function abrirModal() { modal.classList.add("ativo"); document.getElementById("nome").focus(); }        /* FECHAR MODAL */        function fecharModal() { modal.classList.remove("ativo"); formulario.reset(); }        /* CADASTRAR PROFESSOR */        formulario.addEventListener("submit", function (event) { event.preventDefault(); const nome = document.getElementById("nome").value; const rg = document.getElementById("rg").value; const email = document.getElementById("email").value;            /* PRIMEIRA LETRA DO NOME */            const inicial = nome.charAt(0).toUpperCase();            /* CRIAR NOVA LINHA */            const linha = document.createElement("tr"); linha.innerHTML = `                <td>                    <div class="professor">                        <div class="avatar">                            ${inicial}                        </div>                        <div>                            <strong>                                ${nome}                            </strong>                            <small>                                Professor                            </small>                        </div>                    </div>                </td>                <td>                    ${rg}                </td>                <td>                    ${email}                </td>                <td>                    <span class="status ativo">                        Ativo                    </span>                </td>                <td>                    <div class="acoes">                        <button                            class="btn-acao editar"                            title="Editar professor">                            ✏️                        </button>                        <button                            class="btn-acao excluir"                            title="Excluir professor">                            🗑️                        </button>                    </div>                </td>            `; tabela.appendChild(linha); atualizarContador(); fecharModal(); });        /* ATUALIZAR CONTADOR */        function atualizarContador() { const total = tabela.querySelectorAll("tr").length; contador.textContent = total; }        /* FECHAR CLICANDO FORA */        modal.addEventListener("click", function (event) { if (event.target === modal) { fecharModal(); } });    </script>
+
+    <div class="view-header__actions">
+      <button type="button" class="btn btn-primary" (click)="abrirModalNovo()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Novo Professor</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Filter & Search Bar -->
+  <div class="search-toolbar ui-card">
+    <div class="search-input-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Buscar por nome, disciplina ou e-mail..."
+        [ngModel]="busca()"
+        (ngModelChange)="busca.set($event)"
+      >
+    </div>
+
+    <div class="filter-status-box">
+      <label for="profFilterStatus">Status:</label>
+      <select
+        id="profFilterStatus"
+        class="form-select"
+        [ngModel]="filtroStatus()"
+        (ngModelChange)="filtroStatus.set($event)"
+      >
+        <option value="Todos">Todos os Status</option>
+        <option value="Ativo">Apenas Ativos</option>
+        <option value="Inativo">Inativos</option>
+      </select>
+    </div>
+
+    <div class="counter-chip">
+      <strong>{{ professoresFiltrados().length }}</strong>
+      <span>encontrados</span>
+    </div>
+  </div>
+
+  <!-- Teachers Table Card -->
+  <div class="ui-card table-card">
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Professor / Nome</th>
+            <th>Disciplina Principal</th>
+            <th>RG</th>
+            <th>E-mail Institucional</th>
+            <th>Telefone</th>
+            <th>Status</th>
+            <th class="col-actions">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prof of professoresFiltrados()">
+            <td>
+              <div class="prof-profile">
+                <div class="prof-avatar">{{ prof.nome.charAt(prof.nome.indexOf(' ') + 1) || prof.nome.charAt(0) }}</div>
+                <div class="prof-info">
+                  <strong>{{ prof.nome }}</strong>
+                  <small>Docente Regular</small>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="subject-chip">{{ prof.disciplina }}</span>
+            </td>
+            <td class="font-mono">{{ prof.rg }}</td>
+            <td>
+              <a [href]="'mailto:' + prof.email" class="email-link">{{ prof.email }}</a>
+            </td>
+            <td>{{ prof.telefone }}</td>
+            <td>
+              <span
+                class="badge"
+                [ngClass]="prof.status === 'Ativo' ? 'badge-success' : 'badge-neutral'"
+              >
+                {{ prof.status }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button
+                  type="button"
+                  class="btn-icon btn-ghost"
+                  (click)="abrirModalEditar(prof)"
+                  title="Editar cadastro"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  class="btn-icon btn-danger"
+                  (click)="confirmarExcluir(prof)"
+                  title="Remover professor"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="professoresFiltrados().length === 0">
+            <td colspan="7">
+              <div class="empty-state">
+                <div class="empty-state__icon">🔍</div>
+                <div class="empty-state__title">Nenhum professor encontrado</div>
+                <p class="empty-state__desc">Tente alterar os termos de busca ou cadastre um novo docente no sistema.</p>
+                <button type="button" class="btn btn-primary btn-sm" (click)="abrirModalNovo()">
+                  Cadastrar Professor
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Cadastro / Edição de Professor -->
+<div class="modal-overlay" *ngIf="modalAberto()" (click)="fecharModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <span class="badge badge-success">{{ editandoId() ? 'ATUALIZAÇÃO' : 'NOVO REGISTRO' }}</span>
+        <h2 class="modal-title">{{ editandoId() ? 'Editar Professor' : 'Cadastrar Professor' }}</h2>
+      </div>
+      <button type="button" class="btn-ghost btn-sm" (click)="fecharModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <form (ngSubmit)="salvarProfessor()">
+        <div class="form-group">
+          <label class="form-label" for="profNome">Nome Completo</label>
+          <input
+            id="profNome"
+            type="text"
+            class="form-control"
+            placeholder="Ex.: Prof. Fernando Henrique"
+            [ngModel]="formNome()"
+            (ngModelChange)="formNome.set($event)"
+            name="nome"
+            required
+            autocomplete="name"
+          >
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="profRg">RG</label>
+            <input
+              id="profRg"
+              type="text"
+              class="form-control"
+              placeholder="00.000.000-0"
+              [ngModel]="formRg()"
+              (ngModelChange)="formRg.set($event)"
+              name="rg"
+            >
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="profTelefone">Telefone / WhatsApp</label>
+            <input
+              id="profTelefone"
+              type="text"
+              class="form-control"
+              placeholder="(14) 99999-9999"
+              [ngModel]="formTelefone()"
+              (ngModelChange)="formTelefone.set($event)"
+              name="telefone"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="profEmail">E-mail Institucional</label>
+          <input
+            id="profEmail"
+            type="email"
+            class="form-control"
+            placeholder="nome.sobrenome@escola.gov.br"
+            [ngModel]="formEmail()"
+            (ngModelChange)="formEmail.set($event)"
+            name="email"
+          >
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="profDisciplina">Disciplina / Área</label>
+            <input
+              id="profDisciplina"
+              type="text"
+              class="form-control"
+              placeholder="Ex.: Robótica & Física"
+              [ngModel]="formDisciplina()"
+              (ngModelChange)="formDisciplina.set($event)"
+              name="disciplina"
+            >
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="profStatus">Status no Sistema</label>
+            <select
+              id="profStatus"
+              class="form-select"
+              [ngModel]="formStatus()"
+              (ngModelChange)="formStatus.set($event)"
+              name="status"
+            >
+              <option value="Ativo">Ativo (Habilitado para reservas)</option>
+              <option value="Inativo">Inativo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="fecharModal()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            ✓ {{ editandoId() ? 'Salvar Alterações' : 'Concluir Cadastro' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

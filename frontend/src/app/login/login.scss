@@ -1,452 +1,282 @@
-:host {
-    display: block;
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
-  
-  .login-page {
-    width: 100%;
-    min-height: 100vh;
-    position: relative;
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #ffffff;
-  }
-  
-  /* =================================
-     FUNDO
-  ================================= */
-  
-  .background {
-    position: absolute;
-    inset: 0;
-  
-    /*
-      TROQUE SOMENTE ESTA IMAGEM
-      quando quiser mudar o fundo.
-    */
-    background-image: url('/assets/escola-fundo.jpg');
-  
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  
-    transform: scale(1.02);
-  }
-  
-  /* Camada azul sobre a fotografia */
-  
-  .overlay {
-    position: absolute;
-    inset: 0;
-  
-    background:
-      linear-gradient(
-        90deg,
-        rgba(11, 27, 62, 0.92) 0%,
-        rgba(16, 35, 72, 0.82) 45%,
-        rgba(10, 27, 59, 0.86) 100%
-      );
-  }
-  
-  
-  /* =================================
-     CONTAINER
-  ================================= */
-  
-  .login-container {
-    position: relative;
-    z-index: 2;
-  
-    width: 100%;
-    min-height: 100vh;
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    gap: 130px;
-  
-    padding: 40px 70px;
-  }
-  
-  
-  /* =================================
-     INFORMAÇÕES DA ESCOLA
-  ================================= */
-  
-  .school-info {
-    width: 360px;
+.login-wrapper {
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: radial-gradient(circle at 10% 20%, #064e3b 0%, #062817 40%, #021a0e 90%);
+  overflow: hidden;
+}
+
+.login-bg-mesh {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(at 80% 10%, rgba(245, 158, 11, 0.12) 0px, transparent 50%),
+    radial-gradient(at 20% 80%, rgba(34, 197, 94, 0.15) 0px, transparent 50%);
+  pointer-events: none;
+}
+
+.login-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 440px;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-xl);
+  padding: 40px 36px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+
+  &__brand {
     text-align: center;
-    margin-top: 20px;
+    margin-bottom: 24px;
   }
-  
-  
-  /* Logo */
-  
-  .logo {
-    width: 104px;
-    height: 118px;
-  
-    margin: 0 auto 18px;
-  
-    border: 3px solid #f3c400;
-  
-    border-radius: 8px 8px 50px 50px;
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  
-    position: relative;
+}
+
+.brand-crest-large {
+  width: 68px;
+  height: 68px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-950) 100%);
+  color: var(--accent-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 24px rgba(22, 101, 52, 0.35);
+  border: 2px solid rgba(251, 191, 36, 0.3);
+}
+
+.brand-tag {
+  display: inline-block;
+  font-size: 0.675rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--primary-800);
+  background: var(--primary-100);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: 8px;
+}
+
+.brand-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--slate-900);
+  margin: 0 0 6px;
+  line-height: 1.1;
+
+  span {
+    color: var(--primary-600);
   }
-  
-  .logo::after {
-    content: '';
-  
-    position: absolute;
-    bottom: 25px;
-  
-    width: 45px;
-    height: 1px;
-  
-    background: #ffffff;
-  }
-  
-  .logo span {
-    font-size: 32px;
-    font-weight: 800;
-    color: #f3c400;
-  }
-  
-  .logo small {
-    position: absolute;
-    bottom: 10px;
-  
-    font-size: 7px;
-    font-weight: bold;
-  
-    color: #ffffff;
-  }
-  
-  
-  /* Nome da escola */
-  
-  .school-info h1 {
-    margin: 0;
-  
-    font-size: 21px;
-    line-height: 1.15;
-  
-    font-weight: 700;
-  }
-  
-  .school-info p {
-    margin-top: 10px;
-  
-    font-size: 12px;
-  
-    color: #f3c400;
-  }
-  
-  
-  /* =================================
-     CARD LOGIN
-  ================================= */
-  
-  .login-card {
-    width: 380px;
-  
-    background: #ffffff;
-  
-    border-radius: 15px;
-  
-    padding: 30px;
-  
-    box-shadow:
-      0 20px 50px rgba(0, 0, 0, 0.25);
-  
-    color: #17274d;
-  }
-  
-  
-  /* Cabeçalho */
-  
-  .card-header h2 {
-    margin: 0 0 5px;
-  
-    font-size: 20px;
-  
-    font-weight: 800;
-  }
-  
-  .card-header h2 span {
-    color: #e2ad00;
-  }
-  
-  .card-header p {
-    margin: 0 0 25px;
-  
-    color: #71809a;
-  
-    font-size: 10px;
-  
-    line-height: 1.5;
-  }
-  
-  
-  /* =================================
-     CAMPOS
-  ================================= */
-  
-  .input-group {
-    margin-bottom: 15px;
-  }
-  
-  .input-group label {
+}
+
+.brand-subtitle {
+  font-size: 0.85rem;
+  color: var(--slate-500);
+  margin: 0;
+}
+
+/* Demo Pills */
+.demo-pills {
+  background: var(--slate-50);
+  border: 1px dashed var(--slate-300);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  margin-bottom: 24px;
+
+  .demo-label {
     display: block;
-  
-    margin-bottom: 6px;
-  
-    font-size: 9px;
-  
+    font-size: 0.725rem;
     font-weight: 700;
-  
-    color: #28344b;
+    color: var(--slate-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
   }
-  
-  .input-wrapper {
-    position: relative;
+
+  .pills-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
   }
-  
-  .input-wrapper input {
-    width: 100%;
-  
-    height: 31px;
-  
-    border: 1px solid #e0e5ee;
-  
-    border-radius: 7px;
-  
-    background: #f4f6fa;
-  
-    padding: 0 35px;
-  
-    outline: none;
-  
-    color: #263653;
-  
-    font-size: 10px;
-  
-    transition: 0.2s;
-  }
-  
-  .input-wrapper input:focus {
-    border-color: #14254d;
-  
+
+  .pill-btn {
     background: #ffffff;
-  
-    box-shadow:
-      0 0 0 2px rgba(20, 37, 77, 0.08);
+    border: 1px solid var(--slate-200);
+    color: var(--slate-700);
+    font-size: 0.775rem;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: var(--shadow-xs);
+
+    &:hover {
+      background: var(--primary-50);
+      border-color: var(--primary-300);
+      color: var(--primary-800);
+      transform: translateY(-1px);
+    }
   }
-  
-  .input-wrapper input::placeholder {
-    color: #8793a8;
-  }
-  
-  
-  /* Ícones */
-  
+}
+
+/* Form Styles */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+
   .input-icon {
     position: absolute;
-  
-    left: 11px;
-    top: 50%;
-  
-    transform: translateY(-50%);
-  
-    font-size: 12px;
-  
-    color: #71809a;
-  
-    z-index: 1;
+    left: 14px;
+    color: var(--slate-400);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
   }
-  
-  .password-icon {
+
+  .form-control {
+    padding-left: 42px;
+    padding-right: 70px;
+    height: 48px;
+  }
+
+  .toggle-password-btn {
     position: absolute;
-  
-    right: 11px;
-    top: 50%;
-  
-    transform: translateY(-50%);
-  
-    color: #71809a;
-  
-    font-size: 11px;
-  }
-  
-  
-  /* =================================
-     OPÇÕES
-  ================================= */
-  
-  .login-options {
-    display: flex;
-  
-    justify-content: space-between;
-    align-items: center;
-  
-    margin: 2px 0 19px;
-  
-    font-size: 9px;
-  }
-  
-  .remember {
-    display: flex;
-  
-    align-items: center;
-  
-    gap: 5px;
-  
-    color: #68758a;
-  
-    cursor: pointer;
-  }
-  
-  .remember input {
-    width: 11px;
-    height: 11px;
-  
-    accent-color: #17274d;
-  }
-  
-  .login-options a {
-    color: #242424;
-  
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--primary-700);
+    font-size: 0.775rem;
     font-weight: 700;
-  
+    cursor: pointer;
+    padding: 6px;
+
+    &:hover {
+      color: var(--primary-900);
+      text-decoration: underline;
+    }
+  }
+}
+
+.forgot-link {
+  font-size: 0.75rem;
+  color: var(--slate-500);
+  font-weight: 500;
+
+  &:hover {
+    color: var(--primary-700);
     text-decoration: underline;
   }
-  
-  
-  /* =================================
-     BOTÃO
-  ================================= */
-  
-  .login-button {
-    width: 100%;
-  
-    height: 33px;
-  
-    border: none;
-  
-    border-radius: 7px;
-  
-    background: #101f48;
-  
+}
+
+.login-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  color: #991b1b;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.825rem;
+  font-weight: 500;
+
+  .error-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--danger);
     color: #ffffff;
-  
-    font-size: 10px;
-  
-    font-weight: 700;
-  
-    cursor: pointer;
-  
-    transition:
-      transform 0.2s,
-      background 0.2s,
-      box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+    flex-shrink: 0;
   }
-  
-  .login-button:hover {
-    background: #182d61;
-  
+}
+
+.btn-login {
+  height: 50px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-900) 100%);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(20, 83, 45, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 6px;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-800) 100%);
     transform: translateY(-1px);
-  
-    box-shadow:
-      0 5px 12px rgba(16, 31, 72, 0.25);
+    box-shadow: 0 6px 20px rgba(20, 83, 45, 0.45);
   }
-  
-  .login-button:active {
-    transform: translateY(0);
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
   }
-  
-  
-  /* =================================
-     RESPONSIVIDADE
-  ================================= */
-  
-  @media (max-width: 900px) {
-  
-    .login-container {
-      gap: 50px;
-      padding: 30px;
-    }
-  
-    .school-info {
-      width: 300px;
-    }
-  
-    .login-card {
-      width: 360px;
-    }
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.login-footer {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--slate-100);
+  text-align: center;
+}
+
+.security-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--slate-400);
+  font-size: 0.725rem;
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 30px 22px;
   }
-  
-  
-  @media (max-width: 700px) {
-  
-    .login-container {
-      flex-direction: column;
-  
-      gap: 30px;
-  
-      padding: 30px 20px;
-  
-      justify-content: center;
-    }
-  
-    .school-info {
-      width: 100%;
-    }
-  
-    .school-info h1 {
-      font-size: 19px;
-    }
-  
-    .logo {
-      width: 85px;
-      height: 95px;
-    }
-  
-    .logo span {
-      font-size: 27px;
-    }
-  
-    .login-card {
-      width: 100%;
-      max-width: 380px;
-  
-      padding: 25px;
-    }
-  
-  }
-  
-  
-  @media (max-width: 420px) {
-  
-    .login-container {
-      padding: 20px 15px;
-    }
-  
-    .school-info {
-      transform: scale(0.9);
-    }
-  
-    .login-card {
-      padding: 22px;
-    }
-  
-  }
+}

@@ -1,148 +1,284 @@
-<main>
-    <!-- =========================================         CABEÇALHO DA PÁGINA    ========================================== -->
-    <section class="cabecalho">
-        <div class="introducao"> <span>GERENCIAMENTO</span>
-            <h2>Equipamentos</h2>
-            <p> Cadastre, consulte e gerencie os equipamentos disponíveis para utilização nos espaços da escola. </p>
-        </div> <!-- BOTÃO CADASTRAR --> 
-        <button class="btn-cadastrar" routerLink="/equipamento-register"> <span>+</span> Cadastrar equipamento </button>
+<div class="equipamento-page">
+  <!-- View Header -->
+  <header class="view-header">
+    <div class="view-header__left">
+      <span class="view-header__badge">PATRIMÔNIO & RECURSOS DIDÁTICOS</span>
+      <h1 class="view-header__title">Inventário de Equipamentos</h1>
+      <p class="view-header__subtitle">
+        Controle de notebooks, kits de robótica, projetores multimídia e caixas de som da escola.
+      </p>
+    </div>
 
-    </section>
-    <!-- =========================================         PAINEL DE EQUIPAMENTOS    ========================================== -->
-    <section class="painel"> <!-- CABEÇALHO DO PAINEL -->
-        <div class="painel-cabecalho">
-            <div> <span>EQUIPAMENTOS CADASTRADOS</span>
-                <h3>Lista de equipamentos</h3>
-            </div> <!-- CONTADOR -->
-            <div class="contador"> <strong>6</strong> <small>equipamentos</small> </div>
+    <div class="view-header__actions">
+      <button type="button" class="btn btn-primary" (click)="abrirModalNovo()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Novo Equipamento</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Search & Category Filter Toolbar -->
+  <div class="search-toolbar ui-card">
+    <div class="search-input-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Buscar por modelo, categoria ou número de patrimônio..."
+        [ngModel]="busca()"
+        (ngModelChange)="busca.set($event)"
+      >
+    </div>
+
+    <div class="filter-type-box">
+      <label for="eqFilterCat">Categoria:</label>
+      <select
+        id="eqFilterCat"
+        class="form-select"
+        [ngModel]="filtroCategoria()"
+        (ngModelChange)="filtroCategoria.set($event)"
+      >
+        <option value="Todos">Todas as Categorias</option>
+        <option value="Áudio & Vídeo">Áudio & Vídeo</option>
+        <option value="Informática">Informática</option>
+        <option value="Robótica">Robótica Educacional</option>
+        <option value="Áudio">Áudio & Som</option>
+        <option value="Maker">Cultura Maker / 3D</option>
+      </select>
+    </div>
+
+    <div class="counter-chip">
+      <strong>{{ dataService.equipamentosDisponiveis() }}</strong>
+      <span>itens livres para uso</span>
+    </div>
+  </div>
+
+  <!-- Equipments Grid -->
+  <div class="equipamentos-grid">
+    <div *ngFor="let eq of equipamentosFiltrados()" class="ui-card eq-card ui-card--interactive">
+      <div class="eq-card-header">
+        <div class="eq-icon-box">
+          <span>{{ eq.icone }}</span>
         </div>
-        <!-- =========================================             TABELA        ========================================== -->
-        <div class="tabela-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Equipamento</th>
-                        <th>Categoria</th>
-                        <th>Quantidade</th>
-                        <th>Localização</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- =================================                         CARRINHO DE NOTEBOOK                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="equipamento">
-                                <div class="equipamento-icon"> 💻 </div>
-                                <div> <strong>Carrinho de Notebook</strong> <small> Equipamento de informática </small>
-                                </div>
-                            </div>
-                        </td>
-                        <td> Informática </td>
-                        <td> 01 unidade </td>
-                        <td> Informática 1 </td>
-                        <td> <span class="status ativo"> Disponível </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         ROBÓTICA                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="equipamento">
-                                <div class="equipamento-icon"> 🤖 </div>
-                                <div> <strong>Robótica</strong> <small> Kit de robótica educacional </small> </div>
-                            </div>
-                        </td>
-                        <td> Tecnologia </td>
-                        <td> 08 unidades </td>
-                        <td> Sala Maker </td>
-                        <td> <span class="status ativo"> Disponível </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         REDES                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="equipamento">
-                                <div class="equipamento-icon"> 🌐 </div>
-                                <div> <strong>Redes</strong> <small> Kit para atividades de redes </small> </div>
-                            </div>
-                        </td>
-                        <td> Informática </td>
-                        <td> 05 unidades </td>
-                        <td> Informática 3 </td>
-                        <td> <span class="status ativo"> Disponível </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         QUÍMICA                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="equipamento">
-                                <div class="equipamento-icon"> 🧪 </div>
-                                <div> <strong>Química</strong> <small> Kit para atividades de química </small> </div>
-                            </div>
-                        </td>
-                        <td> Ciências </td>
-                        <td> 12 unidades </td>
-                        <td> Laboratório </td>
-                        <td> <span class="status ativo"> Disponível </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         CAIXA DE SOM                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="equipamento">
-                                <div class="equipamento-icon"> 🔊 </div>
-                                <div> <strong>Caixa de Som</strong> <small> Equipamento de áudio </small> </div>
-                            </div>
-                        </td>
-                        <td> Áudio </td>
-                        <td> 04 unidades </td>
-                        <td> Salão Nobre </td>
-                        <td> <span class="status ativo"> Disponível </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         CAIXA DE FONE                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="equipamento">
-                                <div class="equipamento-icon"> 🎧 </div>
-                                <div> <strong>Caixa de Fone</strong> <small> Fones para atividades </small> </div>
-                            </div>
-                        </td>
-                        <td> Áudio </td>
-                        <td> 20 unidades </td>
-                        <td> Informática 2 </td>
-                        <td> <span class="status ativo"> Disponível </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> 🖌️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="eq-header-info">
+          <div class="eq-tag-line">
+            <span class="eq-category-tag">{{ eq.categoria }}</span>
+            <span class="eq-patrimonio-tag">{{ eq.patrimonio }}</span>
+          </div>
+          <h3>{{ eq.nome }}</h3>
         </div>
-    </section>
-    <!-- =========================================         AVISO    ========================================== -->
-    <section class="aviso"> <span>ℹ️</span>
-        <div> <strong>Gerenciamento de equipamentos</strong>
-            <p> Utilize esta área para manter atualizado o cadastro dos equipamentos disponíveis para utilização durante
-                as reservas dos espaços da escola. </p>
+      </div>
+
+      <div class="eq-card-body">
+        <!-- Stock Progress Bar -->
+        <div class="stock-status-box">
+          <div class="stock-labels">
+            <span>Disponibilidade:</span>
+            <strong>{{ eq.quantidadeDisponivel }} de {{ eq.quantidadeTotal }} unidades</strong>
+          </div>
+          <div class="stock-progress-track">
+            <div
+              class="stock-progress-fill"
+              [style.width.%]="(eq.quantidadeDisponivel / eq.quantidadeTotal) * 100"
+              [ngClass]="{
+                'fill-high': (eq.quantidadeDisponivel / eq.quantidadeTotal) > 0.5,
+                'fill-mid': (eq.quantidadeDisponivel / eq.quantidadeTotal) <= 0.5 && (eq.quantidadeDisponivel / eq.quantidadeTotal) > 0.2,
+                'fill-low': (eq.quantidadeDisponivel / eq.quantidadeTotal) <= 0.2
+              }"
+            ></div>
+          </div>
         </div>
-    </section>
-</main><!-- =========================================     RODAPÉ========================================= -->
-<footer> <span> © 2026 ReservaLab </span> <span> Monsenhor Bicudo </span></footer>
+
+        <!-- Quick Loan / Return Actions -->
+        <div class="quick-adjust-box">
+          <span class="adjust-label">Empréstimo Rápido:</span>
+          <div class="adjust-buttons">
+            <button
+              type="button"
+              class="btn-stock-adjust"
+              (click)="ajustarDisp(eq, -1)"
+              [disabled]="eq.quantidadeDisponivel <= 0"
+              title="Emprestar 1 unidade"
+            >
+              − Emprestar
+            </button>
+            <button
+              type="button"
+              class="btn-stock-adjust"
+              (click)="ajustarDisp(eq, 1)"
+              [disabled]="eq.quantidadeDisponivel >= eq.quantidadeTotal"
+              title="Devolver 1 unidade"
+            >
+              + Devolver
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="eq-card-footer">
+        <span
+          class="badge"
+          [ngClass]="{
+            'badge-success': eq.status === 'Disponível',
+            'badge-warning': eq.status === 'Em uso',
+            'badge-danger': eq.status === 'Em manutenção'
+          }"
+        >
+          {{ eq.status }}
+        </span>
+
+        <div class="eq-action-btns">
+          <button type="button" class="btn btn-sm btn-ghost" (click)="abrirModalEditar(eq)">
+            Editar
+          </button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="confirmarExcluir(eq)">
+            Excluir
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Cadastro / Edição de Equipamento -->
+<div class="modal-overlay" *ngIf="modalAberto()" (click)="fecharModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <span class="badge badge-success">{{ editandoId() ? 'EDIÇÃO' : 'NOVO ITEM' }}</span>
+        <h2 class="modal-title">{{ editandoId() ? 'Editar Equipamento' : 'Cadastrar Equipamento' }}</h2>
+      </div>
+      <button type="button" class="btn-ghost btn-sm" (click)="fecharModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <form (ngSubmit)="salvarEquipamento()">
+        <div class="form-group">
+          <label class="form-label" for="eqNome">Nome do Equipamento / Modelo *</label>
+          <input
+            id="eqNome"
+            type="text"
+            class="form-control"
+            placeholder="Ex.: Projetor Epson PowerLite 3500 Lumens"
+            [ngModel]="formNome()"
+            (ngModelChange)="formNome.set($event)"
+            name="nome"
+            required
+          >
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="eqCat">Categoria</label>
+            <select
+              id="eqCat"
+              class="form-select"
+              [ngModel]="formCategoria()"
+              (ngModelChange)="formCategoria.set($event)"
+              name="categoria"
+            >
+              <option value="Áudio & Vídeo">Áudio & Vídeo</option>
+              <option value="Informática">Informática</option>
+              <option value="Robótica">Robótica Educacional</option>
+              <option value="Áudio">Áudio & Som</option>
+              <option value="Maker">Cultura Maker / 3D</option>
+            </select>
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="eqPatrimonio">Número de Patrimônio</label>
+            <input
+              id="eqPatrimonio"
+              type="text"
+              class="form-control"
+              placeholder="PAT-2026-001"
+              [ngModel]="formPatrimonio()"
+              (ngModelChange)="formPatrimonio.set($event)"
+              name="patrimonio"
+            >
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="eqQtdTotal">Quantidade Total</label>
+            <input
+              id="eqQtdTotal"
+              type="number"
+              class="form-control"
+              [ngModel]="formQtdTotal()"
+              (ngModelChange)="formQtdTotal.set($event)"
+              name="quantidadeTotal"
+              min="1"
+              required
+            >
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="eqQtdDisp">Quantidade Disponível</label>
+            <input
+              id="eqQtdDisp"
+              type="number"
+              class="form-control"
+              [ngModel]="formQtdDisp()"
+              (ngModelChange)="formQtdDisp.set($event)"
+              name="quantidadeDisponivel"
+              min="0"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="eqIcone">Ícone</label>
+            <select
+              id="eqIcone"
+              class="form-select"
+              [ngModel]="formIcone()"
+              (ngModelChange)="formIcone.set($event)"
+              name="icone"
+            >
+              <option value="📽️">📽️ Projetor</option>
+              <option value="💻">💻 Notebook</option>
+              <option value="🤖">🤖 Robótica</option>
+              <option value="🔊">🔊 Caixa de som</option>
+              <option value="🖨️">🖨️ Impressora 3D</option>
+              <option value="🎙️">🎙️ Microfone</option>
+            </select>
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="eqStatus">Status Geral</label>
+            <select
+              id="eqStatus"
+              class="form-select"
+              [ngModel]="formStatus()"
+              (ngModelChange)="formStatus.set($event)"
+              name="status"
+            >
+              <option value="Disponível">Disponível</option>
+              <option value="Em uso">Em uso regular</option>
+              <option value="Em manutenção">Em manutenção técnica</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="fecharModal()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            ✓ {{ editandoId() ? 'Salvar Alterações' : 'Cadastrar Equipamento' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,304 +1,108 @@
-
-<!-- Controle do painel lateral -->
-<input
-  type="checkbox"
-  id="abrir-professor"
-  class="controle-professor"
->
-
-<main class="pagina-professores">
-
-  <!-- Cabeçalho -->
-  <header class="cabecalho">
-    <div>
-      <span class="sobretitulo">GERENCIAMENTO</span>
-      <h1>Professores</h1>
-      <p>Cadastre e organize os professores da escola.</p>
+<div class="register-page">
+  <header class="view-header">
+    <div class="view-header__left">
+      <span class="view-header__badge">CADASTRO DE DOCENTE</span>
+      <h1 class="view-header__title">Novo Professor</h1>
+      <p class="view-header__subtitle">
+        Cadastre um novo professor para liberar acesso a reservas de salas e equipamentos.
+      </p>
     </div>
 
-    <label for="abrir-professor" class="btn-novo">
-      <span>+</span>
-      Novo professor
-    </label>
+    <div class="view-header__actions">
+      <a routerLink="/professor" class="btn btn-secondary">
+        ← Voltar à Lista
+      </a>
+    </div>
   </header>
 
-  <section class="conteudo">
-
-    <!-- Filtros -->
-    <div class="filtros">
-
-      <div class="campo campo-pesquisa">
-        <label for="pesquisar-professor">Pesquisar professor</label>
+  <div class="ui-card register-card">
+    <form (ngSubmit)="salvar()">
+      <div class="form-group">
+        <label class="form-label" for="regNome">Nome Completo do Docente *</label>
         <input
+          id="regNome"
           type="text"
-          id="pesquisar-professor"
-          placeholder="Buscar por nome, RG ou e-mail..."
+          class="form-control"
+          placeholder="Ex.: Profª. Juliana Martins"
+          [(ngModel)]="nome"
+          name="nome"
+          required
         >
       </div>
 
-      <div class="campo">
-        <label for="filtro-status">Status</label>
-        <select id="filtro-status">
-          <option>Todos</option>
-          <option>Ativo</option>
-          <option>Inativo</option>
-        </select>
-      </div>
-
-    </div>
-
-    <!-- Tabela -->
-    <section class="cartao-tabela">
-
-      <div class="titulo-tabela">
-        <div>
-          <h2>Professores cadastrados</h2>
-          <p>Consulte os registros de professores da escola.</p>
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regRg">RG</label>
+          <input
+            id="regRg"
+            type="text"
+            class="form-control"
+            placeholder="00.000.000-0"
+            [(ngModel)]="rg"
+            name="rg"
+          >
         </div>
 
-        <span class="contador">05 professores</span>
+        <div class="form-group flex-1">
+          <label class="form-label" for="regTel">Telefone / WhatsApp</label>
+          <input
+            id="regTel"
+            type="text"
+            class="form-control"
+            placeholder="(14) 99999-9999"
+            [(ngModel)]="telefone"
+            name="telefone"
+          >
+        </div>
       </div>
 
-      <div class="tabela-responsiva">
-        <table>
-
-          <thead>
-            <tr>
-              <th>Professor</th>
-              <th>RG</th>
-              <th>E-mail</th>
-              <th>Telefone</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">J</span>
-                  <strong>João da Silva</strong>
-                </div>
-              </td>
-              <td>12.345.678-9</td>
-              <td>joao@escola.com</td>
-              <td>(14) 99999-1111</td>
-              <td><span class="status ativo">Ativo</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar professor">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir professor">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">M</span>
-                  <strong>Maria Oliveira</strong>
-                </div>
-              </td>
-              <td>23.456.789-0</td>
-              <td>maria@escola.com</td>
-              <td>(14) 98888-2222</td>
-              <td><span class="status ativo">Ativo</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar professor">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir professor">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">A</span>
-                  <strong>Ana Costa</strong>
-                </div>
-              </td>
-              <td>34.567.890-1</td>
-              <td>ana@escola.com</td>
-              <td>(14) 97777-3333</td>
-              <td><span class="status inativo">Inativo</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar professor">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir professor">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">P</span>
-                  <strong>Pedro Santos</strong>
-                </div>
-              </td>
-              <td>45.678.901-2</td>
-              <td>pedro@escola.com</td>
-              <td>(14) 96666-4444</td>
-              <td><span class="status ativo">Ativo</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar professor">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir professor">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">C</span>
-                  <strong>Carla Mendes</strong>
-                </div>
-              </td>
-              <td>56.789.012-3</td>
-              <td>carla@escola.com</td>
-              <td>(14) 95555-5555</td>
-              <td><span class="status ativo">Ativo</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar professor">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir professor">×</button>
-                </div>
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-    </section>
-  </section>
-</main>
-
-<!-- Fundo escurecido -->
-<label
-  for="abrir-professor"
-  class="fundo-escuro"
-  aria-label="Fechar painel de cadastro"
-></label>
-
-<!-- Painel lateral de cadastro -->
-<aside class="painel-professor" aria-label="Cadastrar professor">
-
-  <header class="painel-cabecalho">
-    <div>
-      <span class="sobretitulo">GERENCIAMENTO DE PROFESSORES</span>
-      <h2>Novo professor</h2>
-      <p>Preencha os dados para cadastrar um novo professor.</p>
-    </div>
-
-    <label
-      for="abrir-professor"
-      class="btn-fechar"
-      aria-label="Fechar painel"
-    >×</label>
-  </header>
-
-  <div class="painel-conteudo">
-
-    <form class="formulario-professor">
-
-      <div class="campo">
-        <label for="nome-professor">Nome completo *</label>
+      <div class="form-group">
+        <label class="form-label" for="regEmail">E-mail Institucional</label>
         <input
-          id="nome-professor"
-          type="text"
-          placeholder="Digite o nome completo"
-        >
-      </div>
-
-      <div class="campo">
-        <label for="rg-professor">RG *</label>
-        <input
-          id="rg-professor"
-          type="text"
-          placeholder="Ex.: 12.345.678-9"
-        >
-      </div>
-
-      <div class="campo">
-        <label for="email-professor">E-mail institucional *</label>
-        <input
-          id="email-professor"
+          id="regEmail"
           type="email"
-          placeholder="professor@escola.com"
+          class="form-control"
+          placeholder="juliana.martins@escola.gov.br"
+          [(ngModel)]="email"
+          name="email"
         >
       </div>
 
-      <div class="campo">
-        <label for="telefone-professor">Telefone</label>
-        <input
-          id="telefone-professor"
-          type="tel"
-          placeholder="(14) 99999-9999"
-        >
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regDisc">Disciplina / Área de Atuação</label>
+          <input
+            id="regDisc"
+            type="text"
+            class="form-control"
+            placeholder="Ex.: Química & Ciências da Natureza"
+            [(ngModel)]="disciplina"
+            name="disciplina"
+          >
+        </div>
+
+        <div class="form-group flex-1">
+          <label class="form-label" for="regStatus">Status</label>
+          <select
+            id="regStatus"
+            class="form-select"
+            [(ngModel)]="status"
+            name="status"
+          >
+            <option value="Ativo">Ativo (Permite agendamentos)</option>
+            <option value="Inativo">Inativo</option>
+          </select>
+        </div>
       </div>
 
-      <div class="campo">
-        <label for="disciplina-professor">Disciplina</label>
-        <select id="disciplina-professor">
-          <option value="">Selecione a disciplina</option>
-          <option>Matemática</option>
-          <option>Português</option>
-          <option>História</option>
-          <option>Geografia</option>
-          <option>Ciências</option>
-          <option>Biologia</option>
-          <option>Física</option>
-          <option>Química</option>
-          <option>Informática</option>
-          <option>Outra</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label for="status-professor">Status do professor</label>
-        <select id="status-professor">
-          <option>Ativo</option>
-          <option>Inativo</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label for="observacoes-professor">Observações</label>
-        <textarea
-          id="observacoes-professor"
-          rows="4"
-          placeholder="Adicione informações sobre o professor..."
-        ></textarea>
-      </div>
-
-      <footer class="painel-acoes">
-        <label for="abrir-professor" class="btn-cancelar">
+      <div class="ui-card-footer">
+        <a routerLink="/professor" class="btn btn-secondary">
           Cancelar
-        </label>
-
-        <button type="button" class="btn-cadastrar">
-          <span>+</span>
-          Cadastrar professor
+        </a>
+        <button type="submit" class="btn btn-primary">
+          ✓ Salvar Professor
         </button>
-      </footer>
-
-      <p class="aviso-campos">* Campos obrigatórios</p>
-
+      </div>
     </form>
   </div>
-</aside>
+</div>

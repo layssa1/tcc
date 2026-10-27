@@ -1,394 +1,131 @@
-
-<!-- Controle para abrir e fechar o painel -->
-<input
-  type="checkbox"
-  id="abrir-espaco"
-  class="controle-espaco"
->
-
-<main class="pagina-espacos">
-
-  <!-- Cabeçalho -->
-  <header class="cabecalho">
-    <div>
-      <span class="sobretitulo">GERENCIAMENTO</span>
-      <h1>Espaços</h1>
-      <p>Cadastre e organize os espaços disponíveis na escola.</p>
+<div class="register-page">
+  <header class="view-header">
+    <div class="view-header__left">
+      <span class="view-header__badge">CADASTRO DE AMBIENTE</span>
+      <h1 class="view-header__title">Novo Espaço Didático</h1>
+      <p class="view-header__subtitle">
+        Cadastre um novo laboratório, sala temática ou espaço de convivência da E.E. Monsenhor Bicudo.
+      </p>
     </div>
 
-    <label for="abrir-espaco" class="btn-novo">
-      <span>+</span>
-      Novo espaço
-    </label>
+    <div class="view-header__actions">
+      <a routerLink="/espaco" class="btn btn-secondary">
+        ← Voltar aos Espaços
+      </a>
+    </div>
   </header>
 
-  <section class="conteudo">
-
-    <!-- Filtros -->
-    <div class="filtros">
-
-      <div class="campo campo-pesquisa">
-        <label for="pesquisar-espaco">Pesquisar espaço</label>
+  <div class="ui-card register-card">
+    <form (ngSubmit)="salvar()">
+      <div class="form-group">
+        <label class="form-label" for="regEspNome">Nome do Ambiente *</label>
         <input
+          id="regEspNome"
           type="text"
-          id="pesquisar-espaco"
-          placeholder="Buscar por nome ou localização..."
+          class="form-control"
+          placeholder="Ex.: Laboratório de Informática 3"
+          [(ngModel)]="nome"
+          name="nome"
+          required
         >
       </div>
 
-      <div class="campo">
-        <label for="filtro-tipo">Tipo de espaço</label>
-        <select id="filtro-tipo">
-          <option>Todos os tipos</option>
-          <option>Sala de informática</option>
-          <option>Laboratório</option>
-          <option>Sala de leitura</option>
-          <option>Sala Maker</option>
-          <option>Salão Nobre</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label for="filtro-status">Status</label>
-        <select id="filtro-status">
-          <option>Todos</option>
-          <option>Disponível</option>
-          <option>Indisponível</option>
-          <option>Em manutenção</option>
-        </select>
-      </div>
-
-    </div>
-
-    <!-- Lista de espaços -->
-    <section class="cartao-tabela">
-
-      <div class="titulo-tabela">
-        <div>
-          <h2>Espaços cadastrados</h2>
-          <p>Consulte os ambientes registrados no sistema.</p>
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEspTipo">Tipo de Ambiente</label>
+          <select
+            id="regEspTipo"
+            class="form-select"
+            [(ngModel)]="tipo"
+            name="tipo"
+          >
+            <option value="Informática">Informática</option>
+            <option value="Laboratório Especial">Laboratório Especial / Maker</option>
+            <option value="Multiuso">Multiuso / Sala de Leitura</option>
+            <option value="Auditório">Auditório / Salão Nobre</option>
+            <option value="Ciências">Ciências</option>
+          </select>
         </div>
 
-        <span class="contador">08 espaços</span>
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEspCapac">Capacidade (Alunos)</label>
+          <input
+            id="regEspCapac"
+            type="number"
+            class="form-control"
+            [(ngModel)]="capacidade"
+            name="capacidade"
+            min="1"
+            max="300"
+            required
+          >
+        </div>
       </div>
 
-      <div class="tabela-responsiva">
-        <table>
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEspLoc">Localização / Bloco</label>
+          <input
+            id="regEspLoc"
+            type="text"
+            class="form-control"
+            placeholder="Ex.: Bloco C — Sala 12"
+            [(ngModel)]="localizacao"
+            name="localizacao"
+          >
+        </div>
 
-          <thead>
-            <tr>
-              <th>Espaço</th>
-              <th>Tipo</th>
-              <th>Capacidade</th>
-              <th>Localização</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">I1</span>
-                  <strong>Informática 1</strong>
-                </div>
-              </td>
-              <td>Sala de informática</td>
-              <td>30 pessoas</td>
-              <td>Bloco A</td>
-              <td><span class="status disponivel">Disponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar espaço">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir espaço">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">I2</span>
-                  <strong>Informática 2</strong>
-                </div>
-              </td>
-              <td>Sala de informática</td>
-              <td>30 pessoas</td>
-              <td>Bloco A</td>
-              <td><span class="status disponivel">Disponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar espaço">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir espaço">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">I3</span>
-                  <strong>Informática 3</strong>
-                </div>
-              </td>
-              <td>Sala de informática</td>
-              <td>25 pessoas</td>
-              <td>Bloco B</td>
-              <td><span class="status disponivel">Disponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar espaço">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir espaço">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">I4</span>
-                  <strong>Informática 4</strong>
-                </div>
-              </td>
-              <td>Sala de informática</td>
-              <td>25 pessoas</td>
-              <td>Bloco B</td>
-              <td><span class="status manutencao">Em manutenção</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar espaço">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir espaço">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">I5</span>
-                  <strong>Informática 5</strong>
-                </div>
-              </td>
-              <td>Sala de informática</td>
-              <td>30 pessoas</td>
-              <td>Bloco B</td>
-              <td><span class="status disponivel">Disponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar espaço">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir espaço">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">SL</span>
-                  <strong>Sala de Leitura</strong>
-                </div>
-              </td>
-              <td>Sala de leitura</td>
-              <td>35 pessoas</td>
-              <td>Bloco C</td>
-              <td><span class="status disponivel">Disponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar espaço">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir espaço">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">LB</span>
-                  <strong>Laboratório</strong>
-                </div>
-              </td>
-              <td>Laboratório</td>
-              <td>25 pessoas</td>
-              <td>Bloco C</td>
-              <td><span class="status disponivel">Disponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar espaço">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir espaço">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">SM</span>
-                  <strong>Sala Maker</strong>
-                </div>
-              </td>
-              <td>Sala Maker</td>
-              <td>30 pessoas</td>
-              <td>Bloco B</td>
-              <td><span class="status disponivel">Disponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar espaço">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir espaço">×</button>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td>
-                <div class="identidade">
-                  <span class="avatar">SN</span>
-                  <strong>Salão Nobre</strong>
-                </div>
-              </td>
-              <td>Salão Nobre</td>
-              <td>150 pessoas</td>
-              <td>Bloco principal</td>
-              <td><span class="status indisponivel">Indisponível</span></td>
-              <td>
-                <div class="acoes">
-                  <button type="button" class="btn-acao editar"
-                    aria-label="Editar espaço">✎</button>
-                  <button type="button" class="btn-acao excluir"
-                    aria-label="Excluir espaço">×</button>
-                </div>
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEspIcone">Ícone Representativo</label>
+          <select
+            id="regEspIcone"
+            class="form-select"
+            [(ngModel)]="icone"
+            name="icone"
+          >
+            <option value="💻">💻 Informática / PCs</option>
+            <option value="🤖">🤖 Robótica / Maker</option>
+            <option value="📚">📚 Leitura / Livros</option>
+            <option value="🎭">🎭 Auditório / Eventos</option>
+            <option value="🔬">🔬 Ciências / Microscópios</option>
+          </select>
+        </div>
       </div>
 
-    </section>
-  </section>
-</main>
-
-<!-- Fundo escurecido -->
-<label
-  for="abrir-espaco"
-  class="fundo-escuro"
-  aria-label="Fechar painel"
-></label>
-
-<!-- Painel lateral de cadastro -->
-<aside class="painel-espaco" aria-label="Cadastrar novo espaço">
-
-  <header class="painel-cabecalho">
-    <div>
-      <span class="sobretitulo">GERENCIAMENTO DE ESPAÇOS</span>
-      <h2>Novo espaço</h2>
-      <p>Preencha os dados para cadastrar um novo ambiente.</p>
-    </div>
-
-    <label for="abrir-espaco" class="btn-fechar"
-      aria-label="Fechar painel">×</label>
-  </header>
-
-  <div class="painel-conteudo">
-
-    <form class="formulario-espaco">
-
-      <div class="campo">
-        <label for="nome-espaco">Nome do espaço *</label>
+      <div class="form-group">
+        <label class="form-label" for="regEspEquip">Equipamentos Instalados (separados por vírgula)</label>
         <input
-          id="nome-espaco"
+          id="regEspEquip"
           type="text"
-          placeholder="Ex.: Informática 1"
+          class="form-control"
+          placeholder="Ex.: 32 Computadores, Projetor HD, 2 Ares-condicionados"
+          [(ngModel)]="equipamentos"
+          name="equipamentos"
         >
       </div>
 
-      <div class="campo">
-        <label for="tipo-espaco">Tipo de espaço *</label>
-        <select id="tipo-espaco">
-          <option value="">Selecione o tipo de espaço</option>
-          <option>Sala de informática</option>
-          <option>Laboratório</option>
-          <option>Sala de leitura</option>
-          <option>Sala Maker</option>
-          <option>Salão Nobre</option>
-          <option>Sala de aula</option>
-          <option>Outro</option>
+      <div class="form-group">
+        <label class="form-label" for="regEspStatus">Status Inicial</label>
+        <select
+          id="regEspStatus"
+          class="form-select"
+          [(ngModel)]="status"
+          name="status"
+        >
+          <option value="Disponível">Disponível para reservas imediatas</option>
+          <option value="Ocupado">Ocupado</option>
+          <option value="Em manutenção">Em manutenção</option>
         </select>
       </div>
 
-      <div class="campo">
-        <label for="capacidade">Capacidade de pessoas *</label>
-        <input
-          id="capacidade"
-          type="number"
-          placeholder="Ex.: 30 pessoas"
-        >
-      </div>
-
-      <div class="campo">
-        <label for="localizacao">Localização</label>
-        <input
-          id="localizacao"
-          type="text"
-          placeholder="Ex.: Bloco A, primeiro andar"
-        >
-      </div>
-
-      <div class="campo">
-        <label for="status-espaco">Status do espaço</label>
-        <select id="status-espaco">
-          <option>Disponível</option>
-          <option>Indisponível</option>
-          <option>Em manutenção</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label for="recursos">Recursos disponíveis</label>
-        <input
-          id="recursos"
-          type="text"
-          placeholder="Ex.: Computadores, projetor, quadro..."
-        >
-      </div>
-
-      <div class="campo">
-        <label for="descricao-espaco">Descrição do espaço</label>
-        <textarea
-          id="descricao-espaco"
-          rows="4"
-          placeholder="Adicione informações sobre o ambiente..."
-        ></textarea>
-      </div>
-
-      <footer class="painel-acoes">
-        <label for="abrir-espaco" class="btn-cancelar">
+      <div class="ui-card-footer">
+        <a routerLink="/espaco" class="btn btn-secondary">
           Cancelar
-        </label>
-
-        <button type="button" class="btn-cadastrar">
-          <span>+</span>
-          Cadastrar espaço
+        </a>
+        <button type="submit" class="btn btn-primary">
+          ✓ Cadastrar Espaço
         </button>
-      </footer>
-
+      </div>
     </form>
   </div>
-</aside>
+</div>

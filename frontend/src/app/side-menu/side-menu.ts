@@ -1,13 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
+  selector: 'app-side-menu',
+  standalone: true,
   imports: [
     RouterLink,
     RouterLinkActive
   ],
-  selector: 'app-side-menu',
-  styleUrl: './side-menu.scss',
   templateUrl: './side-menu.html',
+  styleUrl: './side-menu.scss',
 })
-export class SideMenu {}
+export class SideMenu {
+  readonly closeMobile = output<void>();
+
+  onNavClick() {
+    this.closeMobile.emit();
+  }
+}

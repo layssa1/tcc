@@ -1,118 +1,126 @@
-<div class="login-page">
+<div class="login-wrapper">
+  <!-- Dynamic Background with Gradient & Mesh -->
+  <div class="login-bg-mesh"></div>
 
-    <!-- Fundo -->
-    <div class="background"></div>
-    <div class="overlay"></div>
-  
-    <main class="login-container">
-  
-      <!-- Lado esquerdo -->
-      <section class="school-info">
-  
-        <div class="logo">
-          <span>BM</span>
-          <small>ESCOLA 1978</small>
+  <div class="login-container">
+    <div class="login-card">
+      <!-- School Header & Crest -->
+      <div class="login-card__brand">
+        <div class="brand-crest-large">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"></path>
+            <path d="M12 7v10"></path>
+            <path d="M8 12h8"></path>
+          </svg>
         </div>
-  
-        <h1>
-          Escola Bicudo<br>
-          Monsenhor
-        </h1>
-  
-        <p>Sistema Integrado de Reservas</p>
-  
-      </section>
-  
-  
-      <!-- Card de Login -->
-      <section class="login-card">
-  
-        <div class="card-header">
-          <h2>
-            Reserva <span>BM</span>
-          </h2>
-  
-          <p>
-            Faça login para reservar salas de informática,<br>
-            laboratórios ou equipamentos.
-          </p>
-        </div>
-  
-  
-        <form (ngSubmit)="entrar()">
-  
-          <!-- E-mail -->
-          <div class="input-group">
-            <label for="email">E-mail Institucional</label>
-  
-            <div class="input-wrapper">
-  
-              <span class="input-icon">
-                ✉
-              </span>
-  
-              <input
-                id="email"
-                type="email"
-                name="email"
-                [(ngModel)]="email"
-                placeholder="exemplo@escola.gov.br"
-              >
-  
-            </div>
-          </div>
-  
-  
-          <!-- Senha -->
-          <div class="input-group">
-            <label for="senha">Senha</label>
-  
-            <div class="input-wrapper">
-  
-              <span class="input-icon">
-                ♙
-              </span>
-  
-              <input
-                id="senha"
-                type="password"
-                name="senha"
-                [(ngModel)]="senha"
-                placeholder="••••••••••••"
-              >
-  
-              <span class="password-icon">
-                ◉
-              </span>
-  
-            </div>
-          </div>
-  
-  
-          <!-- Opções -->
-          <div class="login-options">
-  
-            <label class="remember">
-              <input type="checkbox">
-              <span>Lembrar-me</span>
-            </label>
-  
-            <a href="#" (click)="$event.preventDefault()">
-              Esqueceu a senha?
-            </a>
-  
-          </div>
-  
-  
-          <!-- Botão -->
-          <button type="submit" class="login-button">
-            Entrar no Sistema
+
+        <span class="brand-tag">PORTAL INSTITUCIONAL</span>
+        <h1 class="brand-title">Reserva<span>Lab</span></h1>
+        <p class="brand-subtitle">E.E. Monsenhor Bicudo — Gestão de Recursos</p>
+      </div>
+
+      <!-- Quick Demo Login Pills -->
+      <div class="demo-pills">
+        <span class="demo-label">Acesso Rápido de Teste:</span>
+        <div class="pills-group">
+          <button type="button" class="pill-btn" (click)="fillDemo('admin')">
+            👨‍💼 Gestor (Coordenação)
           </button>
-  
-        </form>
-  
-      </section>
-  
-    </main>
-  
+          <button type="button" class="pill-btn" (click)="fillDemo('professor')">
+            👨‍🏫 Professor Carlos
+          </button>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <form class="login-form" (ngSubmit)="entrar()">
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">
+            <span>E-mail Institucional</span>
+          </label>
+          <div class="input-with-icon">
+            <span class="input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </span>
+            <input
+              id="loginEmail"
+              name="email"
+              type="email"
+              class="form-control"
+              placeholder="seu.nome@escola.gov.br"
+              [(ngModel)]="email"
+              required
+              autocomplete="email"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginSenha">
+            <span>Senha de Acesso</span>
+            <a href="javascript:void(0)" class="forgot-link">Esqueceu a senha?</a>
+          </label>
+          <div class="input-with-icon">
+            <span class="input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
+            <input
+              id="loginSenha"
+              name="senha"
+              [type]="showPassword() ? 'text' : 'password'"
+              class="form-control"
+              placeholder="••••••••"
+              [(ngModel)]="senha"
+              required
+              autocomplete="current-password"
+            >
+            <button
+              type="button"
+              class="toggle-password-btn"
+              (click)="togglePassword()"
+              [attr.aria-label]="showPassword() ? 'Ocultar senha' : 'Exibir senha'"
+            >
+              {{ showPassword() ? 'Ocultar' : 'Exibir' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div class="login-error" *ngIf="errorMessage()">
+          <span class="error-dot">✕</span>
+          <span>{{ errorMessage() }}</span>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="btn-login"
+          [disabled]="isSubmitting()"
+        >
+          <span *ngIf="!isSubmitting()">Acessar Sistema</span>
+          <span *ngIf="isSubmitting()" class="spinner-wrapper">
+            <span class="spinner"></span>
+            <span>Verificando credenciais...</span>
+          </span>
+        </button>
+      </form>
+
+      <!-- Security / Institutional Footer -->
+      <div class="login-footer">
+        <div class="security-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <span>Conexão Segura — Secretaria de Educação</span>
+        </div>
+      </div>
+    </div>
   </div>
+</div>

@@ -1,209 +1,358 @@
-<main>
-    <!-- =========================================         CABEÇALHO    ========================================== -->
-    <section class="cabecalho-pagina">
-        <div> <span class="titulo-pequeno"> GERENCIAMENTO </span>
-            <h2> Reservas </h2>
-            <p> Consulte e organize os agendamentos de professores, espaços e equipamentos da escola. </p>
-        </div> <!-- BOTÃO --> <button class="btn-cadastrar" routerLink="/reserva-register"><span>＋</span> Nova reserva </button>
-    </section>
-    <!-- =========================================         RESUMO    ========================================== -->
-    <section class="resumo"> <!-- CARD 1 -->
-        <div class="resumo-card">
-            <div class="resumo-icon"> 📅 </div>
-            <div> <small> RESERVAS </small> <strong> 12 </strong> </div>
-        </div> <!-- CARD 2 -->
-        <div class="resumo-card">
-            <div class="resumo-icon"> 👨‍🏫 </div>
-            <div> <small> PROFESSORES </small> <strong> 5 </strong> </div>
-        </div> <!-- CARD 3 -->
-        <div class="resumo-card">
-            <div class="resumo-icon"> 🏫 </div>
-            <div> <small> ESPAÇOS RESERVADOS </small> <strong> 8 </strong> </div>
+<div class="reserva-page">
+  <!-- View Header -->
+  <header class="view-header">
+    <div class="view-header__left">
+      <span class="view-header__badge">GESTÃO DE HORÁRIOS</span>
+      <h1 class="view-header__title">Reservas & Agendamentos</h1>
+      <p class="view-header__subtitle">
+        Consulte, filtre e organize todos os horários alocados para os professores da instituição.
+      </p>
+    </div>
+
+    <div class="view-header__actions">
+      <button type="button" class="btn btn-primary" (click)="abrirModalNovo()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Nova Reserva</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Summary Cards -->
+  <div class="resumo-cards-row">
+    <div class="ui-card resumo-stat-card">
+      <div class="resumo-icon resumo-icon--emerald">📅</div>
+      <div>
+        <small>RESERVAS CONFIRMADAS</small>
+        <strong>{{ dataService.reservasAtivas() }}</strong>
+      </div>
+    </div>
+
+    <div class="ui-card resumo-stat-card">
+      <div class="resumo-icon resumo-icon--blue">👨‍🏫</div>
+      <div>
+        <small>DOCENTES ATIVOS</small>
+        <strong>{{ dataService.professoresAtivos() }}</strong>
+      </div>
+    </div>
+
+    <div class="ui-card resumo-stat-card">
+      <div class="resumo-icon resumo-icon--amber">🏫</div>
+      <div>
+        <small>AMBIENTES EM USO</small>
+        <strong>{{ dataService.totalEspacos() }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search & Filter Toolbar -->
+  <div class="search-toolbar ui-card">
+    <div class="search-input-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Buscar por professor, turma ou ambiente..."
+        [ngModel]="busca()"
+        (ngModelChange)="busca.set($event)"
+      >
+    </div>
+
+    <div class="filter-group-inline">
+      <label for="resFilterEsp">Espaço:</label>
+      <select
+        id="resFilterEsp"
+        class="form-select"
+        [ngModel]="filtroEspaco()"
+        (ngModelChange)="filtroEspaco.set($event)"
+      >
+        <option value="Todos">Todos os Espaços</option>
+        <option *ngFor="let espaco of dataService.espacos()" [value]="espaco.nome">
+          {{ espaco.nome }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group-inline">
+      <label for="resFilterStatus">Status:</label>
+      <select
+        id="resFilterStatus"
+        class="form-select"
+        [ngModel]="filtroStatus()"
+        (ngModelChange)="filtroStatus.set($event)"
+      >
+        <option value="Todos">Todos os Status</option>
+        <option value="Confirmada">Confirmadas</option>
+        <option value="Cancelada">Canceladas</option>
+      </select>
+    </div>
+
+    <div class="counter-chip">
+      <strong>{{ reservasFiltradas().length }}</strong>
+      <span>registros</span>
+    </div>
+  </div>
+
+  <!-- Table Card -->
+  <div class="ui-card table-card">
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Professor Responsável</th>
+            <th>Espaço Didático</th>
+            <th>Dia & Horário</th>
+            <th>Turma / Finalidade</th>
+            <th>Equipamento Vinculado</th>
+            <th>Status</th>
+            <th class="col-actions">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let res of reservasFiltradas()">
+            <td>
+              <div class="teacher-cell">
+                <div class="teacher-avatar">{{ res.professorNome.charAt(0) }}</div>
+                <div class="teacher-meta">
+                  <strong>{{ res.professorNome }}</strong>
+                  <small>{{ res.semana }}</small>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="space-badge">🏫 {{ res.espacoNome }}</span>
+            </td>
+            <td>
+              <div class="time-meta">
+                <strong>{{ res.diaSemana }}-feira</strong>
+                <small>{{ res.horarioInicio }} às {{ res.horarioFim }}</small>
+              </div>
+            </td>
+            <td>
+              <div class="turma-meta">
+                <strong>{{ res.turma }}</strong>
+                <small *ngIf="res.observacao">{{ res.observacao }}</small>
+              </div>
+            </td>
+            <td>
+              <span class="equip-tag" *ngIf="res.equipamentoNome && res.equipamentoNome !== 'Nenhum'">
+                💻 {{ res.equipamentoNome }}
+              </span>
+              <span class="text-muted" *ngIf="!res.equipamentoNome || res.equipamentoNome === 'Nenhum'">
+                —
+              </span>
+            </td>
+            <td>
+              <span
+                class="badge"
+                [ngClass]="{
+                  'badge-success': res.status === 'Confirmada',
+                  'badge-warning': res.status === 'Pendente',
+                  'badge-danger': res.status === 'Cancelada'
+                }"
+              >
+                {{ res.status }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button
+                  type="button"
+                  class="btn-icon btn-ghost"
+                  *ngIf="res.status !== 'Cancelada'"
+                  (click)="cancelarReserva(res.id)"
+                  title="Cancelar Reserva"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  class="btn-icon btn-danger"
+                  (click)="excluirReserva(res.id)"
+                  title="Excluir Registro"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="reservasFiltradas().length === 0">
+            <td colspan="7">
+              <div class="empty-state">
+                <div class="empty-state__icon">📅</div>
+                <div class="empty-state__title">Nenhuma reserva encontrada</div>
+                <p class="empty-state__desc">Tente ajustar os filtros ou realize um novo agendamento de espaço.</p>
+                <button type="button" class="btn btn-primary btn-sm" (click)="abrirModalNovo()">
+                  Criar Nova Reserva
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Nova Reserva -->
+<div class="modal-overlay" *ngIf="modalAberto()" (click)="fecharModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <span class="badge badge-success">NOVO AGENDAMENTO</span>
+        <h2 class="modal-title">Cadastrar Reserva de Espaço</h2>
+      </div>
+      <button type="button" class="btn-ghost btn-sm" (click)="fecharModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <form (ngSubmit)="salvarReserva()">
+        <div class="form-group">
+          <label class="form-label" for="reservaProfId">Professor Solicitante *</label>
+          <select
+            id="reservaProfId"
+            class="form-select"
+            [ngModel]="formProfessorId()"
+            (ngModelChange)="formProfessorId.set($event)"
+            name="professorId"
+            required
+          >
+            <option *ngFor="let prof of dataService.professores()" [value]="prof.id">
+              {{ prof.nome }} — {{ prof.disciplina }}
+            </option>
+          </select>
         </div>
-    </section>
-    <!-- =========================================         FILTROS VISUAIS    ========================================== -->
-    <section class="filtros">
-        <div class="campo"> <label> Semana </label> <select>
-                <option> Semana 02 — 07/09 a 11/09 </option>
-                <option> Semana 03 — 14/09 a 18/09 </option>
-                <option> Semana 04 — 21/09 a 25/09 </option>
-            </select> </div>
-        <div class="campo"> <label> Professor </label> <select>
-                <option> Todos os professores </option>
-                <option> Carlos Eduardo </option>
-                <option> Ana Paula Santos </option>
-                <option> Marcos Oliveira </option>
-                <option> Juliana Martins </option>
-                <option> Ricardo Almeida </option>
-            </select> </div>
-        <div class="campo"> <label> Espaço </label> <select>
-                <option> Todos os espaços </option>
-                <option> Laboratório </option>
-                <option> Informática 1 </option>
-                <option> Informática 2 </option>
-                <option> Informática 3 </option>
-                <option> Informática 4 </option>
-                <option> Sala Maker </option>
-                <option> Sala de Leitura </option>
-                <option> Salão Nobre </option>
-            </select> </div> <button class="btn-filtrar"> Consultar </button>
-    </section>
-    <!-- =========================================         TABELA DE RESERVAS    ========================================== -->
-    <section class="painel"> <!-- CABEÇALHO DA TABELA -->
-        <div class="painel-topo">
-            <div> <span class="titulo-pequeno"> AGENDA DE RESERVAS </span>
-                <h3> Reservas cadastradas </h3>
-                <p> Visualização dos agendamentos organizados por semana e dia. </p>
-            </div>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="reservaEspacoId">Espaço Didático *</label>
+            <select
+              id="reservaEspacoId"
+              class="form-select"
+              [ngModel]="formEspacoId()"
+              (ngModelChange)="formEspacoId.set($event)"
+              name="espacoId"
+              required
+            >
+              <option *ngFor="let e of dataService.espacos()" [value]="e.id">
+                {{ e.nome }} ({{ e.capacidade }} vagas)
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="reservaEquipNome">Equipamento Extra</label>
+            <select
+              id="reservaEquipNome"
+              class="form-select"
+              [ngModel]="formEquipamentoNome()"
+              (ngModelChange)="formEquipamentoNome.set($event)"
+              name="equipamentoNome"
+            >
+              <option value="Nenhum">Nenhum equipamento adicional</option>
+              <option *ngFor="let eq of dataService.equipamentos()" [value]="eq.nome">
+                {{ eq.nome }} ({{ eq.quantidadeDisponivel }} disp.)
+              </option>
+            </select>
+          </div>
         </div>
-        <!-- =========================================             TABELA        ========================================== -->
-        <div class="tabela-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th> Professor </th>
-                        <th> Semana </th>
-                        <th> Dia </th>
-                        <th> Data </th>
-                        <th> Horário </th>
-                        <th> Espaço </th>
-                        <th> Equipamento </th>
-                        <th> Status </th>
-                        <th class="acoes-coluna"> Ações </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- =================================                         RESERVA 1                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="professor">
-                                <div class="avatar"> C </div>
-                                <div> <strong> Carlos Eduardo </strong> <small> Professor </small> </div>
-                            </div>
-                        </td>
-                        <td> Semana 02 </td>
-                        <td> Segunda-feira </td>
-                        <td> 07/09/2026 </td>
-                        <td> 08:00 — 10:00 </td>
-                        <td> <span class="espaco"> Informática 1 </span> </td>
-                        <td> Computadores </td>
-                        <td> <span class="status confirmado"> Confirmada </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar" title="Editar"> ✏️ </button> <button
-                                    class="btn-acao excluir" title="Excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         RESERVA 2                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="professor">
-                                <div class="avatar"> A </div>
-                                <div> <strong> Ana Paula Santos </strong> <small> Professora </small> </div>
-                            </div>
-                        </td>
-                        <td> Semana 02 </td>
-                        <td> Terça-feira </td>
-                        <td> 08/09/2026 </td>
-                        <td> 10:00 — 12:00 </td>
-                        <td> <span class="espaco"> Sala Maker </span> </td>
-                        <td> Kit de Robótica </td>
-                        <td> <span class="status confirmado"> Confirmada </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         RESERVA 3                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="professor">
-                                <div class="avatar"> M </div>
-                                <div> <strong> Marcos Oliveira </strong> <small> Professor </small> </div>
-                            </div>
-                        </td>
-                        <td> Semana 02 </td>
-                        <td> Quarta-feira </td>
-                        <td> 09/09/2026 </td>
-                        <td> 08:00 — 09:30 </td>
-                        <td> <span class="espaco"> Laboratório </span> </td>
-                        <td> Microscópios </td>
-                        <td> <span class="status confirmado"> Confirmada </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         RESERVA 4                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="professor">
-                                <div class="avatar"> J </div>
-                                <div> <strong> Juliana Martins </strong> <small> Professora </small> </div>
-                            </div>
-                        </td>
-                        <td> Semana 02 </td>
-                        <td> Quinta-feira </td>
-                        <td> 10/09/2026 </td>
-                        <td> 13:00 — 15:00 </td>
-                        <td> <span class="espaco"> Sala de Leitura </span> </td>
-                        <td> Projetor </td>
-                        <td> <span class="status pendente"> Pendente </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         RESERVA 5                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="professor">
-                                <div class="avatar"> R </div>
-                                <div> <strong> Ricardo Almeida </strong> <small> Professor </small> </div>
-                            </div>
-                        </td>
-                        <td> Semana 02 </td>
-                        <td> Sexta-feira </td>
-                        <td> 11/09/2026 </td>
-                        <td> 09:00 — 11:00 </td>
-                        <td> <span class="espaco"> Salão Nobre </span> </td>
-                        <td> Projetor + Notebook </td>
-                        <td> <span class="status confirmado"> Confirmada </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                    <!-- =================================                         RESERVA 6                    ================================== -->
-                    <tr>
-                        <td>
-                            <div class="professor">
-                                <div class="avatar"> C </div>
-                                <div> <strong> Carlos Eduardo </strong> <small> Professor </small> </div>
-                            </div>
-                        </td>
-                        <td> Semana 03 </td>
-                        <td> Segunda-feira </td>
-                        <td> 14/09/2026 </td>
-                        <td> 14:00 — 16:00 </td>
-                        <td> <span class="espaco"> Informática 2 </span> </td>
-                        <td> Computadores </td>
-                        <td> <span class="status confirmado"> Confirmada </span> </td>
-                        <td>
-                            <div class="acoes"> <button class="btn-acao editar"> ✏️ </button> <button
-                                    class="btn-acao excluir"> 🗑️ </button> </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div> <!-- LEGENDA -->
-        <div class="legenda"> <span> 🟢 Reserva confirmada </span> <span> 🟡 Reserva pendente </span> </div>
-    </section>
-    <!-- =========================================         AVISO    ========================================== -->
-    <section class="aviso"> <span> ℹ️ </span>
-        <div> <strong> Gerenciamento de reservas </strong>
-            <p> Nesta área a Gestão pode acompanhar os agendamentos de professores, espaços e equipamentos da
-                instituição. </p>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="reservaDiaSem">Dia da Semana</label>
+            <select
+              id="reservaDiaSem"
+              class="form-select"
+              [ngModel]="formDiaSemana()"
+              (ngModelChange)="formDiaSemana.set($event)"
+              name="diaSemana"
+            >
+              <option value="Segunda">Segunda-feira</option>
+              <option value="Terça">Terça-feira</option>
+              <option value="Quarta">Quarta-feira</option>
+              <option value="Quinta">Quinta-feira</option>
+              <option value="Sexta">Sexta-feira</option>
+            </select>
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="reservaTurmaTxt">Turma / Ano</label>
+            <input
+              id="reservaTurmaTxt"
+              type="text"
+              class="form-control"
+              placeholder="Ex.: 3º Ano B - Ensino Médio"
+              [ngModel]="formTurma()"
+              (ngModelChange)="formTurma.set($event)"
+              name="turma"
+              required
+            >
+          </div>
         </div>
-    </section>
-</main><!-- =========================================     RODAPÉ========================================= -->
-<footer> <span> © 2026 ReservaLab </span> <span> Monsenhor Bicudo </span></footer>
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label class="form-label" for="reservaHoraIni">Horário de Início</label>
+            <input
+              id="reservaHoraIni"
+              type="time"
+              class="form-control"
+              [ngModel]="formHorarioInicio()"
+              (ngModelChange)="formHorarioInicio.set($event)"
+              name="horarioInicio"
+              required
+            >
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label" for="reservaHoraFim">Horário de Término</label>
+            <input
+              id="reservaHoraFim"
+              type="time"
+              class="form-control"
+              [ngModel]="formHorarioFim()"
+              (ngModelChange)="formHorarioFim.set($event)"
+              name="horarioFim"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reservaObs">Observações / Plano de Aula</label>
+          <textarea
+            id="reservaObs"
+            class="form-control form-textarea"
+            placeholder="Ex.: Atividade prática de biologia com uso de microscópios."
+            [ngModel]="formObservacao()"
+            (ngModelChange)="formObservacao.set($event)"
+            name="observacao"
+          ></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="fecharModal()">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            ✓ Confirmar Reserva
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
