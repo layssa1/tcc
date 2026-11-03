@@ -10,6 +10,7 @@ import { ProfessorRegister } from './professor/professor-register/professor-regi
 import { EspacoRegister } from './espaco/espaco-register/espaco-register';
 import { EquipamentoRegister } from './equipamento/equipamento-register/equipamento-register';
 import { ReservaRegister } from './reserva/reserva-register/reserva-register';
+import { ProfessorCalandario } from './professor/professor-calandario/professor-calandario';
 
 export const routes: Routes = [
     {path:'', component:Login},
@@ -22,5 +23,6 @@ export const routes: Routes = [
     {path:'equipamento-register', component:EquipamentoRegister},
     {path:'reserva', component:Reserva},
     {path:'reserva-register', component:ReservaRegister},
-    {path:'agenda', component:Agenda}
+    {path:'agenda', component:Agenda},
+    {path:'professor-calendario', component:ProfessorCalandario}
 ];
