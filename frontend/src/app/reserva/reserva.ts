@@ -32,13 +32,25 @@ export class Reserva {
   formTurma = signal<string>('2º Ano A - EM');
   formObservacao = signal<string>('');
 
+  readonly apenasMinhas = signal<boolean>(true);
+
   readonly reservasFiltradas = computed(() => {
     const q = this.busca().toLowerCase().trim();
     const esp = this.filtroEspaco();
     const prof = this.filtroProfessor();
     const st = this.filtroStatus();
+    const isProf = this.dataService.isProfessor();
+    const apenasMinhasAtivo = this.apenasMinhas();
+    const user = this.dataService.usuarioAtual();
 
     return this.dataService.reservas().filter(r => {
+      // Se for professor e o filtro "apenas minhas" estiver ativo
+      if (isProf && apenasMinhasAtivo) {
+        const ehDele = (user.id && r.professorId === user.id) || 
+                       r.professorNome.toLowerCase().includes(user.nome.toLowerCase());
+        if (!ehDele) return false;
+      }
+
       const matchBusca = !q ||
         r.professorNome.toLowerCase().includes(q) ||
         r.espacoNome.toLowerCase().includes(q) ||
@@ -56,7 +68,14 @@ export class Reserva {
   abrirModalNovo() {
     const profs = this.dataService.professores();
     const espacos = this.dataService.espacos();
-    if (profs.length > 0) this.formProfessorId.set(profs[0].id);
+    const user = this.dataService.usuarioAtual();
+
+    if (this.dataService.isProfessor() && user.id) {
+      this.formProfessorId.set(user.id);
+    } else if (profs.length > 0) {
+      this.formProfessorId.set(profs[0].id);
+    }
+
     if (espacos.length > 0) this.formEspacoId.set(espacos[0].id);
     this.modalAberto.set(true);
   }

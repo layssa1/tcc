@@ -9,8 +9,8 @@
     </div>
 
     <div class="view-header__actions">
-      <a routerLink="/reserva" class="btn btn-secondary">
-        ← Voltar às Reservas
+      <a [routerLink]="dataService.isProfessor() ? '/professor-calendario' : '/reserva'" class="btn btn-secondary">
+        ← Voltar {{ dataService.isProfessor() ? 'ao Calendário' : 'às Reservas' }}
       </a>
     </div>
   </header>
@@ -19,7 +19,20 @@
     <form (ngSubmit)="salvar()">
       <div class="form-group">
         <label class="form-label" for="regResProf">Professor Responsável *</label>
+        
+        <!-- Visão do Professor: Exibição Elegante Bloqueada para Si Mesmo -->
+        <div *ngIf="dataService.isProfessor()" class="prof-auto-card">
+          <div class="prof-auto-avatar">{{ dataService.usuarioAtual().avatar }}</div>
+          <div class="prof-auto-details">
+            <strong>{{ dataService.usuarioAtual().nome }}</strong>
+            <small>{{ dataService.usuarioAtual().cargo }} • E-mail: {{ dataService.usuarioAtual().email }}</small>
+          </div>
+          <span class="prof-auto-badge">Identidade Verificada</span>
+        </div>
+
+        <!-- Visão de Administrador: Seletor Completo de Todos os Professores -->
         <select
+          *ngIf="dataService.isAdmin()"
           id="regResProf"
           class="form-select"
           [(ngModel)]="professorId"

@@ -1,0 +1,25 @@
+{
+  "name": "reservalab-backend",
+  "version": "1.0.0",
+  "description": "API RESTful do ReservaLab — Gestão e Agendamento de Recursos Escolares com RBAC (Administrador & Professor)",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [
+    "tcc",
+    "reservalab",
+    "express",
+    "rbac",
+    "gestao-escolar"
+  ],
+  "author": "Equipe ReservaLab",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
+

@@ -48,8 +48,24 @@ export class Login {
     // Smooth login transition
     setTimeout(() => {
       this.isSubmitting.set(false);
-      this.dataService.showToast('Bem-vindo(a) ao ReservaLab — Gestão Escolar!', 'success');
-      this.router.navigate(['/gestao']);
+
+      const emailLower = this.email.toLowerCase().trim();
+      const profEncontrado = this.dataService.professores().find(
+        p => p.email.toLowerCase() === emailLower
+      );
+
+      const isProf = !!profEncontrado || emailLower.includes('prof') || emailLower.includes('carlos');
+
+      if (isProf) {
+        this.dataService.definirPerfil('professor', profEncontrado ? profEncontrado.id : 1);
+        const nome = this.dataService.usuarioAtual().nome;
+        this.dataService.showToast(`Bem-vindo(a), ${nome}! Portal do Professor liberado.`, 'success');
+        this.router.navigate(['/professor-calendario']);
+      } else {
+        this.dataService.definirPerfil('admin');
+        this.dataService.showToast('Bem-vindo(a) ao ReservaLab — Gestão Escolar!', 'success');
+        this.router.navigate(['/gestao']);
+      }
     }, 400);
   }
 }

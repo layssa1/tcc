@@ -60,16 +60,45 @@
         </div>
 
         <div class="topbar-right">
+          <!-- Role Switcher (Seletor Dinâmico de Perfil para TCC) -->
+          <div class="role-selector-bar">
+            <span class="role-selector-caption">Visão:</span>
+            <div class="role-pills">
+              <button
+                type="button"
+                class="role-pill-btn"
+                [class.role-pill-btn--active]="dataService.isAdmin()"
+                (click)="mudarPerfil('admin')"
+                title="Acessar como Administrador (Gestão)"
+              >
+                <span class="pill-icon">🛡️</span>
+                <span>Administrador</span>
+              </button>
+              <button
+                type="button"
+                class="role-pill-btn"
+                [class.role-pill-btn--active]="dataService.isProfessor()"
+                (click)="mudarPerfil('professor')"
+                title="Acessar como Professor Docente"
+              >
+                <span class="pill-icon">👨‍🏫</span>
+                <span>Professor</span>
+              </button>
+            </div>
+          </div>
+
           <div class="quick-status">
             <span class="status-indicator"></span>
             <span class="status-text">Período Letivo 2026</span>
           </div>
 
-          <div class="user-chip">
-            <div class="user-avatar">AD</div>
+          <div class="user-chip" [class.user-chip--prof]="dataService.isProfessor()">
+            <div class="user-avatar" [class.user-avatar--prof]="dataService.isProfessor()">
+              {{ dataService.usuarioAtual().avatar }}
+            </div>
             <div class="user-meta">
-              <strong>Administração</strong>
-              <small>Gestão Escolar</small>
+              <strong>{{ dataService.usuarioAtual().nome }}</strong>
+              <small>{{ dataService.usuarioAtual().cargo }}</small>
             </div>
             <button
               type="button"

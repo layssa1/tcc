@@ -43,10 +43,22 @@ export interface Reserva {
   data: string; // YYYY-MM-DD
   semana: string; // 'Semana 40'
   horarioInicio: string; // '08:00'
-  horarioFim: string; // '09:00'
+  horarioFim: string; // '09:40'
   turma: string;
   observacao: string;
   status: 'Confirmada' | 'Pendente' | 'Cancelada';
+}
+
+export type UserRole = 'admin' | 'professor';
+
+export interface UsuarioLogado {
+  id?: number;
+  nome: string;
+  email: string;
+  perfil: UserRole;
+  cargo: string;
+  avatar: string;
+  disciplina?: string;
 }
 
 export interface ToastMessage {
@@ -55,11 +67,30 @@ export interface ToastMessage {
   tipo: 'success' | 'error' | 'info';
 }
 
+const USUARIO_ADMIN_DEFAULT: UsuarioLogado = {
+  nome: 'Coordenação Escolar',
+  email: 'gestao@bicudo.escola.gov.br',
+  perfil: 'admin',
+  cargo: 'Gestão Escolar',
+  avatar: 'AD'
+};
+
+const USUARIO_PROF_DEFAULT: UsuarioLogado = {
+  id: 1,
+  nome: 'Prof. Carlos Eduardo',
+  email: 'carlos.eduardo@escola.gov.br',
+  perfil: 'professor',
+  cargo: 'Docente de Matemática & Robótica',
+  avatar: 'CE',
+  disciplina: 'Matemática & Robótica'
+};
+
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   private readonly STORAGE_KEY = 'reservalab_data_v1';
+  private readonly USER_STORAGE_KEY = 'reservalab_user_v1';
 
   // Signals for reactive state
   readonly professores = signal<Professor[]>([]);
@@ -67,6 +98,25 @@ export class DataService {
   readonly equipamentos = signal<Equipamento[]>([]);
   readonly reservas = signal<Reserva[]>([]);
   readonly toasts = signal<ToastMessage[]>([]);
+
+  // RBAC User Role Signal
+  readonly usuarioAtual = signal<UsuarioLogado>(USUARIO_ADMIN_DEFAULT);
+
+  // RBAC Helper Computed Signals
+  readonly isAdmin = computed(() => this.usuarioAtual().perfil === 'admin');
+  readonly isProfessor = computed(() => this.usuarioAtual().perfil === 'professor');
+
+  // Filtered reservations for the active professor or all if admin
+  readonly minhasReservas = computed(() => {
+    const user = this.usuarioAtual();
+    if (user.perfil !== 'professor') {
+      return this.reservas();
+    }
+    return this.reservas().filter(r => 
+      (user.id && r.professorId === user.id) || 
+      r.professorNome.toLowerCase().includes(user.nome.toLowerCase())
+    );
+  });
 
   // Computed metrics for dashboard
   readonly totalReservas = computed(() => this.reservas().length);
@@ -88,6 +138,19 @@ export class DataService {
 
   private initData() {
     if (this.isBrowser()) {
+      // Load saved user if available
+      const savedUser = localStorage.getItem(this.USER_STORAGE_KEY);
+      if (savedUser) {
+        try {
+          const parsedUser = JSON.parse(savedUser);
+          if (parsedUser && parsedUser.perfil) {
+            this.usuarioAtual.set(parsedUser);
+          }
+        } catch (e) {
+          console.error('Erro ao ler usuário salvo:', e);
+        }
+      }
+
       const saved = localStorage.getItem(this.STORAGE_KEY);
       if (saved) {
         try {
@@ -150,6 +213,59 @@ export class DataService {
         reservas: this.reservas()
       };
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(payload));
+    }
+  }
+
+  saveUserData() {
+    if (this.isBrowser()) {
+      localStorage.setItem(this.USER_STORAGE_KEY, JSON.stringify(this.usuarioAtual()));
+    }
+  }
+
+  definirPerfil(tipo: UserRole, professorId?: number) {
+    if (tipo === 'admin') {
+      this.usuarioAtual.set(USUARIO_ADMIN_DEFAULT);
+      this.saveUserData();
+      this.showToast('Visão de Administrador (Gestão) ativada.', 'info');
+    } else {
+      const listaProfs = this.professores();
+      const prof = professorId
+        ? listaProfs.find(p => p.id === professorId)
+        : listaProfs[0];
+
+      if (prof) {
+        const initials = prof.nome
+          .replace('Prof. ', '')
+          .replace('Profª. ', '')
+          .split(' ')
+          .filter(Boolean)
+          .slice(0, 2)
+          .map(n => n[0])
+          .join('')
+          .toUpperCase() || 'PR';
+
+        this.usuarioAtual.set({
+          id: prof.id,
+          nome: prof.nome,
+          email: prof.email,
+          perfil: 'professor',
+          cargo: `Docente de ${prof.disciplina}`,
+          avatar: initials,
+          disciplina: prof.disciplina
+        });
+      } else {
+        this.usuarioAtual.set(USUARIO_PROF_DEFAULT);
+      }
+      this.saveUserData();
+      this.showToast(`Visão do(a) ${this.usuarioAtual().nome} ativada.`, 'info');
+    }
+  }
+
+  alternarPerfil() {
+    if (this.isAdmin()) {
+      this.definirPerfil('professor');
+    } else {
+      this.definirPerfil('admin');
     }
   }
 
