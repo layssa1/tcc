@@ -19,8 +19,12 @@ export class Reserva {
   readonly filtroProfessor = signal<string>('Todos');
   readonly filtroStatus = signal<string>('Todos');
 
-  // Modal State
+  // Modal State (Nova Reserva)
   readonly modalAberto = signal<boolean>(false);
+
+  // Modais de Confirmação (Substituem alert/confirm)
+  readonly reservaParaCancelar = signal<IReserva | null>(null);
+  readonly reservaParaExcluir = signal<IReserva | null>(null);
 
   // Form State
   formProfessorId = signal<number>(1);
@@ -44,7 +48,6 @@ export class Reserva {
     const user = this.dataService.usuarioAtual();
 
     return this.dataService.reservas().filter(r => {
-      // Se for professor e o filtro "apenas minhas" estiver ativo
       if (isProf && apenasMinhasAtivo) {
         const ehDele = (user.id && r.professorId === user.id) || 
                        r.professorNome.toLowerCase().includes(user.nome.toLowerCase());
@@ -64,6 +67,13 @@ export class Reserva {
       return matchBusca && matchEsp && matchProf && matchSt;
     });
   });
+
+  podeCancelar(res: IReserva): boolean {
+    if (this.dataService.isAdmin()) return true;
+    const user = this.dataService.usuarioAtual();
+    return (user.id && res.professorId === user.id) ||
+           res.professorNome.toLowerCase().includes(user.nome.toLowerCase());
+  }
 
   abrirModalNovo() {
     const profs = this.dataService.professores();
@@ -114,15 +124,43 @@ export class Reserva {
     }
   }
 
-  cancelarReserva(id: number) {
-    if (confirm('Deseja realmente cancelar esta reserva?')) {
-      this.dataService.cancelarReserva(id);
+  // Abertura da Modal para Cancelar
+  solicitarCancelar(res: IReserva) {
+    if (!this.podeCancelar(res)) {
+      this.dataService.showToast('Você só pode cancelar suas próprias reservas.', 'error');
+      return;
+    }
+    this.reservaParaCancelar.set(res);
+  }
+
+  fecharModalCancelar() {
+    this.reservaParaCancelar.set(null);
+  }
+
+  executarCancelamento() {
+    const res = this.reservaParaCancelar();
+    if (res) {
+      this.dataService.cancelarReserva(res.id);
+      this.reservaParaCancelar.set(null);
     }
   }
 
-  excluirReserva(id: number) {
-    if (confirm('Deseja excluir permanentemente este registro?')) {
-      this.dataService.excluirReserva(id);
+  // Abertura da Modal para Excluir Permanentemente (Apenas Administrador)
+  solicitarExcluir(res: IReserva) {
+    if (!this.dataService.isAdmin()) return;
+    this.reservaParaExcluir.set(res);
+  }
+
+  fecharModalExcluir() {
+    this.reservaParaExcluir.set(null);
+  }
+
+  executarExclusao() {
+    if (!this.dataService.isAdmin()) return;
+    const res = this.reservaParaExcluir();
+    if (res) {
+      this.dataService.excluirReserva(res.id);
+      this.reservaParaExcluir.set(null);
     }
   }
 }

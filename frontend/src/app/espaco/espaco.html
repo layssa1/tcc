@@ -9,7 +9,7 @@
       </p>
     </div>
 
-    <div class="view-header__actions">
+    <div class="view-header__actions" *ngIf="dataService.isAdmin()">
       <button type="button" class="btn btn-primary" (click)="abrirModalNovo()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -130,7 +130,7 @@
           {{ espaco.status }}
         </span>
 
-        <div class="card-action-btns">
+        <div class="card-action-btns" *ngIf="dataService.isAdmin()">
           <button type="button" class="btn btn-sm btn-ghost" (click)="abrirModalEditar(espaco)">
             Editar
           </button>
@@ -154,7 +154,7 @@
             <th>Localização</th>
             <th>Equipamentos</th>
             <th>Status</th>
-            <th class="col-actions">Ações</th>
+            <th class="col-actions" *ngIf="dataService.isAdmin()">Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -183,7 +183,7 @@
                 {{ espaco.status }}
               </span>
             </td>
-            <td>
+            <td *ngIf="dataService.isAdmin()">
               <div class="action-buttons">
                 <button type="button" class="btn-icon btn-ghost" (click)="abrirModalEditar(espaco)" title="Editar">
                   ✏️
@@ -331,6 +331,41 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmação de Exclusão de Espaço -->
+<div class="modal-overlay" *ngIf="espacoParaExcluir()" (click)="cancelarExclusao()">
+  <div class="modal-content modal-content--sm" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.5rem;">⚠️</span>
+        <div>
+          <span class="badge badge-danger">EXCLUSÃO PERMANENTE</span>
+          <h2 class="modal-title">Confirmar Exclusão</h2>
+        </div>
+      </div>
+      <button type="button" class="btn-ghost btn-sm" (click)="cancelarExclusao()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <p style="font-size: 0.95rem; color: var(--slate-700); margin-bottom: 8px;">
+        Tem certeza de que deseja excluir o ambiente <strong>{{ espacoParaExcluir()?.nome }}</strong>?
+      </p>
+      <p style="font-size: 0.825rem; color: var(--slate-500); line-height: 1.4;">
+        Tipo: <strong>{{ espacoParaExcluir()?.tipo }}</strong> • Localização: <strong>{{ espacoParaExcluir()?.localizacao }}</strong><br>
+        Esta ação é permanente e removerá o ambiente do catálogo da instituição.
+      </p>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="cancelarExclusao()">
+        Cancelar
+      </button>
+      <button type="button" class="btn btn-danger" (click)="executarExclusao()">
+        🗑️ Sim, Excluir Espaço
+      </button>
     </div>
   </div>
 </div>

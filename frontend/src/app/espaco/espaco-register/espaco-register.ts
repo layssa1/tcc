@@ -23,6 +23,13 @@ export class EspacoRegister {
   icone = '💻';
   localizacao = 'Bloco A';
 
+  constructor() {
+    if (this.dataService.isProfessor()) {
+      this.dataService.showToast('Acesso restrito à Coordenação Escolar.', 'error');
+      this.router.navigate(['/espaco']);
+    }
+  }
+
   salvar() {
     if (!this.nome.trim()) {
       this.dataService.showToast('Informe o nome do espaço.', 'error');

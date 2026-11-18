@@ -48,16 +48,6 @@ export class App {
     this.isMobileMenuOpen.set(false);
   }
 
-  mudarPerfil(role: 'admin' | 'professor') {
-    if (this.dataService.usuarioAtual().perfil === role) return;
-    this.dataService.definirPerfil(role);
-    if (role === 'professor') {
-      this.router.navigate(['/professor-calendario']);
-    } else {
-      this.router.navigate(['/gestao']);
-    }
-  }
-
   logout() {
     this.router.navigate(['/']);
     this.dataService.showToast('Sessão encerrada com sucesso.', 'info');

@@ -60,31 +60,10 @@
         </div>
 
         <div class="topbar-right">
-          <!-- Role Switcher (Seletor Dinâmico de Perfil para TCC) -->
-          <div class="role-selector-bar">
-            <span class="role-selector-caption">Visão:</span>
-            <div class="role-pills">
-              <button
-                type="button"
-                class="role-pill-btn"
-                [class.role-pill-btn--active]="dataService.isAdmin()"
-                (click)="mudarPerfil('admin')"
-                title="Acessar como Administrador (Gestão)"
-              >
-                <span class="pill-icon">🛡️</span>
-                <span>Administrador</span>
-              </button>
-              <button
-                type="button"
-                class="role-pill-btn"
-                [class.role-pill-btn--active]="dataService.isProfessor()"
-                (click)="mudarPerfil('professor')"
-                title="Acessar como Professor Docente"
-              >
-                <span class="pill-icon">👨‍🏫</span>
-                <span>Professor</span>
-              </button>
-            </div>
+          <!-- Perfil Ativo (Informativo - Sem alternância manual) -->
+          <div class="user-role-badge" [class.user-role-badge--prof]="dataService.isProfessor()">
+            <span class="role-icon">{{ dataService.isAdmin() ? '🛡️' : '👨‍🏫' }}</span>
+            <span class="role-title">{{ dataService.isAdmin() ? 'Administrador (Gestão)' : 'Professor Docente' }}</span>
           </div>
 
           <div class="quick-status">

@@ -1,66 +1,136 @@
 # ReservaLab Backend API — Gestão e Agendamento Escolar
 
-API RESTful desenvolvida com **Node.js** e **Express**, desenhada especificamente para o projeto de TCC do **ReservaLab (E.E. Monsenhor Bicudo)**, com controle de acesso baseado em perfis (**RBAC - Role-Based Access Control**).
+API RESTful completa desenvolvida com **Node.js**, **Express** e **MySQL** para o projeto de TCC do **ReservaLab (E.E. Monsenhor Bicudo)**, com persistência em banco relacional e controle de acesso baseado em perfis (**RBAC - Role-Based Access Control**).
 
 ---
 
-## 🛡️ Matriz de Perfis (RBAC)
+## 🏗️ Estrutura do Projeto
 
-O sistema suporta nativamente dois papéis de usuário com privilégios distintos:
+```
+backend/
+├── .env.example              # Modelo de variáveis de ambiente
+├── .env                      # Arquivo de configuração local
+├── database.sql              # Script DDL e DML para criação do banco MySQL
+├── package.json              # Dependências e scripts do projeto
+├── README.md                 # Documentação da API
+└── src/
+    ├── app.js                # Configuração do Express, CORS e rotas
+    ├── server.js             # Ponto de entrada e inicialização do servidor
+    ├── config/
+    │   └── db.js             # Pool de conexão MySQL (mysql2/promise)
+    ├── controllers/
+    │   ├── auth.controller.js        # Login e dados da sessão
+    │   ├── dashboard.controller.js   # Métricas consolidadas
+    │   ├── equipamento.controller.js # CRUD de equipamentos
+    │   ├── espaco.controller.js      # CRUD de espaços e laboratórios
+    │   ├── professor.controller.js   # CRUD de docentes
+    │   └── reserva.controller.js     # CRUD de reservas com validação de conflitos
+    ├── middlewares/
+    │   ├── auth.middleware.js        # Validação JWT e controle de papéis (RBAC)
+    │   └── error.middleware.js       # Tratamento de erros 404 e 500
+    └── routes/
+        ├── auth.routes.js
+        ├── dashboard.routes.js
+        ├── equipamento.routes.js
+        ├── espaco.routes.js
+        ├── professor.routes.js
+        └── reserva.routes.js
+```
 
-| Recurso / Rota | Administrador (Coordenação) | Professor (Docente) |
-|---|---|---|
-| **Painel Geral / Gestão** (`/gestao`) | ✅ Total acesso a relatórios e métricas | ❌ Redirecionado ao Portal do Professor |
-| **Agenda Semanal Completa** (`/agenda`) | ✅ Visualiza toda a grade da escola | ✅ Visualiza toda a grade |
-| **Grade Horária do Docente** (`/professor-calendario`) | ✅ Supervisiona horários de qualquer professor | ✅ Visualiza e interage com seus horários |
-| **Cadastros (Professores, Espaços, Equipamentos)** | ✅ Criar, Atualizar, Excluir | 👁️ Apenas Leitura / Consulta de Recursos |
-| **Solicitar Reserva** (`/reserva-register`) | ✅ Pode agendar para qualquer professor | ✅ Reserva vinculada estritamente ao seu perfil |
-| **Listagem de Reservas** (`/reserva`) | ✅ Vê todas as reservas e pode excluir | ✅ Filtro rápido "Minhas Reservas" vs "Geral" |
+---
+
+## 🗄️ Passo a Passo para Configurar o MySQL
+
+### 1. Criar e Povoar o Banco de Dados
+Execute o script [database.sql](file:///c:/Users/NycoleRodriguesGomes/Desktop/tcc/backend/database.sql) no seu cliente MySQL preferido (MySQL Workbench, phpMyAdmin, DBeaver ou Terminal):
+
+```bash
+mysql -u root -p < database.sql
+```
+
+O script criará automaticamente o banco `reservalab`, todas as tabelas com integridade referencial (`ON DELETE CASCADE / SET NULL`) e inserirá os dados de demonstração.
+
+### 2. Configurar o `.env`
+No arquivo [backend/.env](file:///c:/Users/NycoleRodriguesGomes/Desktop/tcc/backend/.env), verifique as credenciais de acesso ao seu MySQL:
+
+```env
+PORT=3000
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=reservalab
+JWT_SECRET=reservalab_secret_key_tcc_bicudo_2026
+JWT_EXPIRES_IN=8h
+```
 
 ---
 
 ## 🚀 Como Executar o Backend
 
-### Pré-requisitos
-- Node.js instalado (v18+)
-
-### Instalação das dependências
+### 1. Instalar as dependências
 ```bash
 cd backend
 npm install
 ```
 
-### Iniciar o servidor
-```bash
-npm start
-```
-> O servidor iniciará na porta `3000` em: `http://localhost:3000`
+### 2. Iniciar o servidor
+- Em produção:
+  ```bash
+  npm start
+  ```
+- Em modo de desenvolvimento (com auto-reload):
+  ```bash
+  npm run dev
+  ```
 
-Para desenvolvimento com auto-reload:
-```bash
-npm run dev
-```
+O servidor estará disponível em: `http://localhost:3000`
 
 ---
 
-## 📡 Endpoints Principais
+## 🛡️ Credenciais Padrão (Seed)
 
-### Autenticação
-- `POST /api/auth/login`: Realiza login por e-mail e senha.
-  - Administrador: `gestao@bicudo.escola.gov.br` / `admin123`
-  - Professor: `carlos.eduardo@escola.gov.br` / `prof123`
-- `GET /api/auth/me`: Retorna os dados do perfil autenticado.
+| Papel | E-mail Institucional | Senha Padrão |
+|---|---|---|
+| **Administrador (Gestão)** | `gestao@bicudo.escola.gov.br` | `admin123` |
+| **Professor (Docente)** | `carlos.eduardo@escola.gov.br` | `prof123` |
+| **Professora (Docente)** | `mariana.silveira@escola.gov.br` | `prof123` |
 
-### Recursos Escolares
-- `GET /api/professores`: Lista docentes ativos.
-- `POST /api/professores`: *(Admin)* Cadastra novo professor.
-- `GET /api/espacos`: Lista laboratórios, salas maker e auditório.
+---
+
+## 📡 Visão Geral dos Endpoints
+
+### 🔑 Autenticação
+- `POST /api/auth/login`: Autentica com e-mail e senha, retornando token JWT e dados do usuário.
+- `GET /api/auth/me`: Retorna os dados do perfil logado.
+
+### 👨‍🏫 Professores
+- `GET /api/professores`: Lista todos os professores ativos/inativos.
+- `GET /api/professores/:id`: Retorna detalhes de um professor.
+- `POST /api/professores`: *(Admin)* Cadastra um novo professor.
+- `PUT /api/professores/:id`: *(Admin)* Atualiza dados do professor.
+- `DELETE /api/professores/:id`: *(Admin)* Exclui professor.
+
+### 🏫 Espaços e Laboratórios
+- `GET /api/espacos`: Lista todos os espaços da escola.
+- `GET /api/espacos/:id`: Retorna detalhes de um espaço.
 - `POST /api/espacos`: *(Admin)* Cadastra novo ambiente.
-- `GET /api/equipamentos`: Lista recursos como projetores, notebooks e kits de robótica.
+- `PUT /api/espacos/:id`: *(Admin)* Atualiza dados do ambiente.
+- `DELETE /api/espacos/:id`: *(Admin)* Remove ambiente.
 
-### Reservas & Calendário
-- `GET /api/reservas`: Lista reservas com suporte a filtros (`?apenasMinhas=true`, `?professorId=...`, `?diaSemana=...`).
-- `POST /api/reservas`: Cria reserva com **validação de conflito de horários** (impede sobreposição no mesmo espaço e horário).
-- `PUT /api/reservas/:id/status`: Altera status da reserva (`Confirmada`, `Cancelada`).
-- `DELETE /api/reservas/:id`: *(Admin)* Exclui reserva.
+### 📦 Equipamentos
+- `GET /api/equipamentos`: Lista recursos disponíveis e em uso.
+- `GET /api/equipamentos/:id`: Retorna detalhes do equipamento.
+- `POST /api/equipamentos`: *(Admin)* Cadastra novo recurso/patrimônio.
+- `PUT /api/equipamentos/:id`: *(Admin)* Atualiza dados do equipamento.
+- `DELETE /api/equipamentos/:id`: *(Admin)* Remove equipamento.
 
+### 📅 Reservas & Agendamentos
+- `GET /api/reservas`: Lista reservas com suporte a query params (`?apenasMinhas=true`, `?professorId=1`, `?espacoId=2`, `?diaSemana=Segunda`).
+- `GET /api/reservas/:id`: Detalhes de um agendamento.
+- `POST /api/reservas`: Cria reserva com **validação de conflito de horário** (retorna `409 Conflict` se já houver reserva no mesmo espaço e horário).
+- `PUT /api/reservas/:id/status`: Altera status (`Confirmada`, `Cancelada`, `Pendente`). Professores só alteram suas próprias reservas; Administradores alteram qualquer uma.
+- `DELETE /api/reservas/:id`: *(Admin)* Exclui agendamento permanentemente.
+
+### 📊 Painel Geral / Dashboard
+- `GET /api/dashboard/metricas`: Retorna totais consolidados para os cards e gráficos da gestão.

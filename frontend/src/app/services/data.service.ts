@@ -261,14 +261,6 @@ export class DataService {
     }
   }
 
-  alternarPerfil() {
-    if (this.isAdmin()) {
-      this.definirPerfil('professor');
-    } else {
-      this.definirPerfil('admin');
-    }
-  }
-
   // Toast notifications
   showToast(texto: string, tipo: 'success' | 'error' | 'info' = 'success') {
     const id = Date.now();

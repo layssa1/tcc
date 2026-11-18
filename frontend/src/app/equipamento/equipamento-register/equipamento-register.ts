@@ -23,6 +23,13 @@ export class EquipamentoRegister {
   icone = '📽️';
   patrimonio = `PAT-2026-${Math.floor(100 + Math.random() * 900)}`;
 
+  constructor() {
+    if (this.dataService.isProfessor()) {
+      this.dataService.showToast('Acesso restrito à Coordenação Escolar.', 'error');
+      this.router.navigate(['/equipamento']);
+    }
+  }
+
   salvar() {
     if (!this.nome.trim()) {
       this.dataService.showToast('Informe o nome do equipamento.', 'error');

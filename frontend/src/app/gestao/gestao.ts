@@ -1,7 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DataService, Reserva, Professor, Espaco, Equipamento } from '../services/data.service';
 
 @Component({
@@ -13,6 +13,14 @@ import { DataService, Reserva, Professor, Espaco, Equipamento } from '../service
 })
 export class Gestao {
   protected readonly dataService = inject(DataService);
+  private readonly router = inject(Router);
+
+  constructor() {
+    if (this.dataService.isProfessor()) {
+      this.dataService.showToast('Acesso restrito à Coordenação Escolar.', 'error');
+      this.router.navigate(['/professor-calendario']);
+    }
+  }
 
   // Modal de Nova Reserva Express
   readonly showModalNovaReserva = signal<boolean>(false);

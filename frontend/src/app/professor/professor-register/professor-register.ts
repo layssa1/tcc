@@ -22,6 +22,13 @@ export class ProfessorRegister {
   telefone = '';
   status: 'Ativo' | 'Inativo' = 'Ativo';
 
+  constructor() {
+    if (this.dataService.isProfessor()) {
+      this.dataService.showToast('Acesso restrito à Coordenação Escolar.', 'error');
+      this.router.navigate(['/professor-calendario']);
+    }
+  }
+
   salvar() {
     if (!this.nome.trim()) {
       this.dataService.showToast('Informe o nome do professor.', 'error');

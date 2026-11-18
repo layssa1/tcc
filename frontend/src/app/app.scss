@@ -89,64 +89,28 @@
   gap: 16px;
 }
 
-/* Role Selector Pill in Topbar */
-.role-selector-bar {
-  display: flex;
+/* Role Badge in Topbar */
+.user-role-badge {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: var(--slate-50);
-  border: 1px solid var(--border-subtle);
-  padding: 3px 6px;
+  gap: 7px;
+  background: var(--primary-50);
+  border: 1px solid var(--primary-200);
+  color: var(--primary-800);
+  font-size: 0.775rem;
+  font-weight: 700;
+  padding: 6px 14px;
   border-radius: var(--radius-full);
+  box-shadow: var(--shadow-xs);
 
-  .role-selector-caption {
-    font-size: 0.725rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--slate-400);
-    padding-left: 6px;
+  .role-icon {
+    font-size: 0.9rem;
   }
 
-  .role-pills {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .role-pill-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    border-radius: var(--radius-full);
-    border: none;
-    background: transparent;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--slate-600);
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    .pill-icon {
-      font-size: 0.85rem;
-    }
-
-    &:hover {
-      background: var(--slate-200);
-      color: var(--slate-900);
-    }
-
-    &--active {
-      background: var(--primary-700);
-      color: #ffffff;
-      box-shadow: 0 1px 3px rgba(20, 83, 45, 0.25);
-
-      &:hover {
-        background: var(--primary-800);
-        color: #ffffff;
-      }
-    }
+  &--prof {
+    background: #f0f9ff;
+    border-color: #bae6fd;
+    color: #0369a1;
   }
 }
 

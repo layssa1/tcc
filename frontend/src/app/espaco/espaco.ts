@@ -18,9 +18,12 @@ export class Espaco {
   readonly filtroTipo = signal<string>('Todos');
   readonly visualizacao = signal<'grid' | 'tabela'>('grid');
 
-  // Modal State
+  // Modal State (Cadastro / Edição)
   readonly modalAberto = signal<boolean>(false);
   readonly editandoId = signal<number | null>(null);
+
+  // Modal State (Confirmação de Exclusão)
+  readonly espacoParaExcluir = signal<IEspaco | null>(null);
 
   // Form Fields
   formNome = signal<string>('');
@@ -48,6 +51,7 @@ export class Espaco {
   });
 
   abrirModalNovo() {
+    if (!this.dataService.isAdmin()) return;
     this.editandoId.set(null);
     this.formNome.set('');
     this.formTipo.set('Informática');
@@ -60,6 +64,7 @@ export class Espaco {
   }
 
   abrirModalEditar(espaco: IEspaco) {
+    if (!this.dataService.isAdmin()) return;
     this.editandoId.set(espaco.id);
     this.formNome.set(espaco.nome);
     this.formTipo.set(espaco.tipo);
@@ -77,6 +82,7 @@ export class Espaco {
   }
 
   salvarEspaco() {
+    if (!this.dataService.isAdmin()) return;
     const nome = this.formNome().trim();
     if (!nome) {
       this.dataService.showToast('Informe o nome do espaço.', 'error');
@@ -114,9 +120,22 @@ export class Espaco {
     this.fecharModal();
   }
 
+  // Abertura da Modal de Exclusão em vez de confirm()
   confirmarExcluir(espaco: IEspaco) {
-    if (confirm(`Deseja remover o espaço ${espaco.nome}?`)) {
+    if (!this.dataService.isAdmin()) return;
+    this.espacoParaExcluir.set(espaco);
+  }
+
+  cancelarExclusao() {
+    this.espacoParaExcluir.set(null);
+  }
+
+  executarExclusao() {
+    if (!this.dataService.isAdmin()) return;
+    const espaco = this.espacoParaExcluir();
+    if (espaco) {
       this.dataService.excluirEspaco(espaco.id);
+      this.espacoParaExcluir.set(null);
     }
   }
 }

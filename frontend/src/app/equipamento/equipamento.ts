@@ -17,9 +17,12 @@ export class Equipamento {
   readonly busca = signal<string>('');
   readonly filtroCategoria = signal<string>('Todos');
 
-  // Modal State
+  // Modal State (Cadastro / Edição)
   readonly modalAberto = signal<boolean>(false);
   readonly editandoId = signal<number | null>(null);
+
+  // Modal State (Confirmação de Exclusão)
+  readonly equipamentoParaExcluir = signal<IEquipamento | null>(null);
 
   // Form Fields
   formNome = signal<string>('');
@@ -47,6 +50,7 @@ export class Equipamento {
   });
 
   abrirModalNovo() {
+    if (!this.dataService.isAdmin()) return;
     this.editandoId.set(null);
     this.formNome.set('');
     this.formCategoria.set('Áudio & Vídeo');
@@ -59,6 +63,7 @@ export class Equipamento {
   }
 
   abrirModalEditar(eq: IEquipamento) {
+    if (!this.dataService.isAdmin()) return;
     this.editandoId.set(eq.id);
     this.formNome.set(eq.nome);
     this.formCategoria.set(eq.categoria);
@@ -76,6 +81,7 @@ export class Equipamento {
   }
 
   salvarEquipamento() {
+    if (!this.dataService.isAdmin()) return;
     const nome = this.formNome().trim();
     if (!nome) {
       this.dataService.showToast('Informe o nome do equipamento.', 'error');
@@ -112,6 +118,7 @@ export class Equipamento {
   }
 
   ajustarDisp(eq: IEquipamento, delta: number) {
+    if (!this.dataService.isAdmin()) return;
     const novaDisp = eq.quantidadeDisponivel + delta;
     if (novaDisp < 0 || novaDisp > eq.quantidadeTotal) return;
 
@@ -122,9 +129,22 @@ export class Equipamento {
     });
   }
 
+  // Abertura da Modal de Exclusão em vez de confirm()
   confirmarExcluir(eq: IEquipamento) {
-    if (confirm(`Deseja remover o equipamento ${eq.nome}?`)) {
+    if (!this.dataService.isAdmin()) return;
+    this.equipamentoParaExcluir.set(eq);
+  }
+
+  cancelarExclusao() {
+    this.equipamentoParaExcluir.set(null);
+  }
+
+  executarExclusao() {
+    if (!this.dataService.isAdmin()) return;
+    const eq = this.equipamentoParaExcluir();
+    if (eq) {
       this.dataService.excluirEquipamento(eq.id);
+      this.equipamentoParaExcluir.set(null);
     }
   }
 }

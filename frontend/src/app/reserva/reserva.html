@@ -176,8 +176,8 @@
                 <button
                   type="button"
                   class="btn-icon btn-ghost"
-                  *ngIf="res.status !== 'Cancelada'"
-                  (click)="cancelarReserva(res.id)"
+                  *ngIf="res.status !== 'Cancelada' && podeCancelar(res)"
+                  (click)="solicitarCancelar(res)"
                   title="Cancelar Reserva"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -187,10 +187,11 @@
                   </svg>
                 </button>
                 <button
+                  *ngIf="dataService.isAdmin()"
                   type="button"
                   class="btn-icon btn-danger"
-                  (click)="excluirReserva(res.id)"
-                  title="Excluir Registro"
+                  (click)="solicitarExcluir(res)"
+                  title="Excluir Registro Permanentemente"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="3 6 5 6 21 6"></polyline>
@@ -365,6 +366,77 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmação de Cancelamento de Reserva -->
+<div class="modal-overlay" *ngIf="reservaParaCancelar()" (click)="fecharModalCancelar()">
+  <div class="modal-content modal-content--sm" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.5rem;">🛑</span>
+        <div>
+          <span class="badge badge-warning">CANCELAMENTO</span>
+          <h2 class="modal-title">Cancelar Reserva</h2>
+        </div>
+      </div>
+      <button type="button" class="btn-ghost btn-sm" (click)="fecharModalCancelar()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <p style="font-size: 0.95rem; color: var(--slate-700); margin-bottom: 8px;">
+        Deseja cancelar o agendamento de <strong>{{ reservaParaCancelar()?.espacoNome }}</strong>?
+      </p>
+      <p style="font-size: 0.825rem; color: var(--slate-500); line-height: 1.4;">
+        Horário: <strong>{{ reservaParaCancelar()?.horarioInicio }} - {{ reservaParaCancelar()?.horarioFim }} ({{ reservaParaCancelar()?.diaSemana }})</strong><br>
+        Docente: <strong>{{ reservaParaCancelar()?.professorNome }}</strong> • Turma: <strong>{{ reservaParaCancelar()?.turma }}</strong><br>
+        O espaço voltará a ficar disponível para outros agendamentos.
+      </p>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="fecharModalCancelar()">
+        Voltar
+      </button>
+      <button type="button" class="btn btn-danger" (click)="executarCancelamento()">
+        ✓ Sim, Cancelar Reserva
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmação de Exclusão Permanente de Registro (Apenas Admin) -->
+<div class="modal-overlay" *ngIf="reservaParaExcluir()" (click)="fecharModalExcluir()">
+  <div class="modal-content modal-content--sm" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.5rem;">⚠️</span>
+        <div>
+          <span class="badge badge-danger">EXCLUSÃO PERMANENTE</span>
+          <h2 class="modal-title">Excluir Registro de Reserva</h2>
+        </div>
+      </div>
+      <button type="button" class="btn-ghost btn-sm" (click)="fecharModalExcluir()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <p style="font-size: 0.95rem; color: var(--slate-700); margin-bottom: 8px;">
+        Tem certeza de que deseja excluir permanentemente o registro de reserva de <strong>{{ reservaParaExcluir()?.espacoNome }}</strong>?
+      </p>
+      <p style="font-size: 0.825rem; color: var(--slate-500); line-height: 1.4;">
+        Docente: <strong>{{ reservaParaExcluir()?.professorNome }}</strong> • Turma: <strong>{{ reservaParaExcluir()?.turma }}</strong><br>
+        Esta ação não poderá ser desfeita e removerá o histórico do banco de dados.
+      </p>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="fecharModalExcluir()">
+        Cancelar
+      </button>
+      <button type="button" class="btn btn-danger" (click)="executarExclusao()">
+        🗑️ Sim, Excluir Registro
+      </button>
     </div>
   </div>
 </div>

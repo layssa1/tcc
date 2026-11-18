@@ -1,7 +1,7 @@
 {
   "name": "reservalab-backend",
   "version": "1.0.0",
-  "description": "API RESTful do ReservaLab — Gestão e Agendamento de Recursos Escolares com RBAC (Administrador & Professor)",
+  "description": "API RESTful do ReservaLab — Gestão e Agendamento de Recursos Escolares com RBAC e MySQL",
   "main": "src/server.js",
   "type": "module",
   "scripts": {
@@ -12,14 +12,18 @@
     "tcc",
     "reservalab",
     "express",
+    "mysql",
     "rbac",
     "gestao-escolar"
   ],
   "author": "Equipe ReservaLab",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "express": "^4.21.2"
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.0"
   }
 }
-

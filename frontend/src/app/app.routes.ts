@@ -11,18 +11,19 @@ import { EspacoRegister } from './espaco/espaco-register/espaco-register';
 import { EquipamentoRegister } from './equipamento/equipamento-register/equipamento-register';
 import { ReservaRegister } from './reserva/reserva-register/reserva-register';
 import { ProfessorCalandario } from './professor/professor-calandario/professor-calandario';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
-    {path:'', component:Login},
-    {path:'gestao', component:Gestao},
-    {path:'professor', component:Professor},
-    {path:'professor-register', component:ProfessorRegister},
-    {path:'espaco', component:Espaco},
-    {path:'espaco-register', component:EspacoRegister},
-    {path:'equipamento', component:Equipamento},
-    {path:'equipamento-register', component:EquipamentoRegister},
-    {path:'reserva', component:Reserva},
-    {path:'reserva-register', component:ReservaRegister},
-    {path:'agenda', component:Agenda},
-    {path:'professor-calendario', component:ProfessorCalandario}
+  { path: '', component: Login },
+  { path: 'gestao', component: Gestao, canActivate: [adminGuard] },
+  { path: 'professor', component: Professor, canActivate: [adminGuard] },
+  { path: 'professor-register', component: ProfessorRegister, canActivate: [adminGuard] },
+  { path: 'espaco', component: Espaco },
+  { path: 'espaco-register', component: EspacoRegister, canActivate: [adminGuard] },
+  { path: 'equipamento', component: Equipamento },
+  { path: 'equipamento-register', component: EquipamentoRegister, canActivate: [adminGuard] },
+  { path: 'reserva', component: Reserva },
+  { path: 'reserva-register', component: ReservaRegister },
+  { path: 'agenda', component: Agenda },
+  { path: 'professor-calendario', component: ProfessorCalandario }
 ];
