@@ -1,1 +1,131 @@
-<p>espaco-register works!</p>
+<div class="register-page">
+  <header class="view-header">
+    <div class="view-header__left">
+      <span class="view-header__badge">CADASTRO DE AMBIENTE</span>
+      <h1 class="view-header__title">Novo Espaço Didático</h1>
+      <p class="view-header__subtitle">
+        Cadastre um novo laboratório, sala temática ou espaço de convivência da E.E. Monsenhor Bicudo.
+      </p>
+    </div>
+
+    <div class="view-header__actions">
+      <a routerLink="/espaco" class="btn btn-secondary">
+        ← Voltar aos Espaços
+      </a>
+    </div>
+  </header>
+
+  <div class="ui-card register-card">
+    <form (ngSubmit)="salvar()">
+      <div class="form-group">
+        <label class="form-label" for="regEspNome">Nome do Ambiente *</label>
+        <input
+          id="regEspNome"
+          type="text"
+          class="form-control"
+          placeholder="Ex.: Laboratório de Informática 3"
+          [(ngModel)]="nome"
+          name="nome"
+          required
+        >
+      </div>
+
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEspTipo">Tipo de Ambiente</label>
+          <select
+            id="regEspTipo"
+            class="form-select"
+            [(ngModel)]="tipo"
+            name="tipo"
+          >
+            <option value="Informática">Informática</option>
+            <option value="Laboratório Especial">Laboratório Especial / Maker</option>
+            <option value="Multiuso">Multiuso / Sala de Leitura</option>
+            <option value="Auditório">Auditório / Salão Nobre</option>
+            <option value="Ciências">Ciências</option>
+          </select>
+        </div>
+
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEspCapac">Capacidade (Alunos)</label>
+          <input
+            id="regEspCapac"
+            type="number"
+            class="form-control"
+            [(ngModel)]="capacidade"
+            name="capacidade"
+            min="1"
+            max="300"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEspLoc">Localização / Bloco</label>
+          <input
+            id="regEspLoc"
+            type="text"
+            class="form-control"
+            placeholder="Ex.: Bloco C — Sala 12"
+            [(ngModel)]="localizacao"
+            name="localizacao"
+          >
+        </div>
+
+        <div class="form-group flex-1">
+          <label class="form-label" for="regEspIcone">Ícone Representativo</label>
+          <select
+            id="regEspIcone"
+            class="form-select"
+            [(ngModel)]="icone"
+            name="icone"
+          >
+            <option value="💻">💻 Informática / PCs</option>
+            <option value="🤖">🤖 Robótica / Maker</option>
+            <option value="📚">📚 Leitura / Livros</option>
+            <option value="🎭">🎭 Auditório / Eventos</option>
+            <option value="🔬">🔬 Ciências / Microscópios</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="regEspEquip">Equipamentos Instalados (separados por vírgula)</label>
+        <input
+          id="regEspEquip"
+          type="text"
+          class="form-control"
+          placeholder="Ex.: 32 Computadores, Projetor HD, 2 Ares-condicionados"
+          [(ngModel)]="equipamentos"
+          name="equipamentos"
+        >
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="regEspStatus">Status Inicial</label>
+        <select
+          id="regEspStatus"
+          class="form-select"
+          [(ngModel)]="status"
+          name="status"
+        >
+          <option value="Disponível">Disponível para reservas imediatas</option>
+          <option value="Ocupado">Ocupado</option>
+          <option value="Em manutenção">Em manutenção</option>
+        </select>
+      </div>
+
+      <div class="ui-card-footer">
+        <a routerLink="/espaco" class="btn btn-secondary">
+          Cancelar
+        </a>
+        <button type="submit" class="btn btn-primary">
+          ✓ Cadastrar Espaço
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

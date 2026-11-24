@@ -1,0 +1,197 @@
+<div class="calendario-page">
+  <!-- View Header -->
+  <header class="view-header">
+    <div class="view-header__left">
+      <div class="header-badge-row">
+        <span class="view-header__badge">
+          {{ dataService.isProfessor() ? 'PORTAL DO PROFESSOR' : 'VISÃO GERAL DO DOCENTE' }}
+        </span>
+        <span class="view-header__user-pill">
+          👤 {{ dataService.usuarioAtual().nome }}
+        </span>
+      </div>
+      <h1 class="view-header__title">Agenda Semanal de Aulas & Laboratórios</h1>
+      <p class="view-header__subtitle">
+        Consulte sua grade horária, espaços alocados e equipamentos requisitados para a semana letiva.
+      </p>
+    </div>
+
+    <div class="view-header__actions">
+      <!-- Week Navigation -->
+      <div class="week-nav">
+        <button type="button" class="week-nav-btn" (click)="anteriorSemana()" title="Semana anterior">
+          ‹
+        </button>
+        <div class="week-nav-info">
+          <strong>Semana 40</strong>
+          <small>28 de Setembro a 02 de Outubro</small>
+        </div>
+        <button type="button" class="week-nav-btn" (click)="proximaSemana()" title="Próxima semana">
+          ›
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="semanaAtual()">
+          Semana Atual
+        </button>
+      </div>
+
+      <a routerLink="/reserva-register" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="16"></line>
+          <line x1="8" y1="12" x2="16" y2="12"></line>
+        </svg>
+        <span>Solicitar Reserva</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Filtros & Legenda -->
+  <div class="ui-card toolbar-card">
+    <div class="toolbar-filters">
+      <div class="filter-item">
+        <label for="filtroDiaSemana">Dia da Semana:</label>
+        <select
+          id="filtroDiaSemana"
+          class="form-select form-select-sm"
+          [ngModel]="filtroDia()"
+          (ngModelChange)="filtroDia.set($event)"
+        >
+          <option value="Todos">Todos os Dias</option>
+          <option value="Segunda">Segunda-feira</option>
+          <option value="Terça">Terça-feira</option>
+          <option value="Quarta">Quarta-feira</option>
+          <option value="Quinta">Quinta-feira</option>
+          <option value="Sexta">Sexta-feira</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label for="filtroTurno">Turno:</label>
+        <select
+          id="filtroTurno"
+          class="form-select form-select-sm"
+          [ngModel]="filtroTurno()"
+          (ngModelChange)="filtroTurno.set($event)"
+        >
+          <option value="Todos">Todos os Turnos</option>
+          <option value="Manhã">Manhã</option>
+          <option value="Tarde">Tarde</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Legenda visual -->
+    <div class="toolbar-legend">
+      <span class="legend-item legend-item--mine">
+        <span class="legend-box"></span> Minhas Aulas / Reservas
+      </span>
+      <span class="legend-item legend-item--other">
+        <span class="legend-box"></span> Outros Docentes
+      </span>
+      <span class="legend-item legend-item--free">
+        <span class="legend-box"></span> Horário Livre
+      </span>
+      <span class="legend-item legend-item--equip">
+        <span class="legend-icon">💻</span> Com Equipamento
+      </span>
+    </div>
+  </div>
+
+  <!-- Tabela da Grade Horária Semanal -->
+  <div class="ui-card agenda-card">
+    <div class="agenda-table-wrapper">
+      <table class="agenda-table">
+        <thead>
+          <tr>
+            <th class="th-horario">HORÁRIO / TURNO</th>
+            <th *ngFor="let dia of diasFiltrados()" class="th-dia">
+              <span class="dia-nome">{{ dia.nome }}</span>
+              <span class="dia-data">{{ dia.data }}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let slot of slotsFiltrados()">
+            <!-- Coluna Horário -->
+            <td class="td-horario">
+              <span class="turno-tag" [class.turno-tag--tarde]="slot.turno === 'Tarde'">
+                {{ slot.turno }}
+              </span>
+              <strong class="hora-inicio">{{ slot.horaInicio }}</strong>
+              <small class="aula-rotulo">{{ slot.rotulo }} ({{ slot.horaInicio }} - {{ slot.horaFim }})</small>
+            </td>
+
+            <!-- Colunas por Dia -->
+            <td *ngFor="let dia of diasFiltrados()" class="td-celula">
+              <!-- Se existir reserva -->
+              <ng-container *ngIf="obterReserva(dia.nome, slot.horaInicio) as res; else livreTemplate">
+                <div
+                  class="card-reserva"
+                  [class.card-reserva--mine]="isMinhaReserva(res)"
+                  [class.card-reserva--other]="!isMinhaReserva(res)"
+                >
+                  <div class="reserva-header">
+                    <strong class="prof-name">{{ res.professorNome }}</strong>
+                    <span *ngIf="isMinhaReserva(res)" class="mine-tag">Minha Aula</span>
+                  </div>
+                  <div class="reserva-local">
+                    <span class="reserva-icon">🏫</span>
+                    <span>{{ res.espacoNome }}</span>
+                  </div>
+                  <div class="reserva-turma" *ngIf="res.turma">
+                    <span class="reserva-icon">👥</span>
+                    <span>{{ res.turma }}</span>
+                  </div>
+                  <div class="reserva-equipamento" *ngIf="res.equipamentoNome && res.equipamentoNome !== 'Nenhum'">
+                    <span class="reserva-icon">💻</span>
+                    <span>{{ res.equipamentoNome }}</span>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- Slot Livre -->
+              <ng-template #livreTemplate>
+                <button
+                  type="button"
+                  class="btn-slot-livre"
+                  (click)="solicitarReserva(dia.nome, slot.horaInicio)"
+                  title="Clique para agendar um espaço neste horário"
+                >
+                  <span class="plus-icon">+</span>
+                  <span>Disponível</span>
+                </button>
+              </ng-template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Resumo da Semana do Professor -->
+  <div class="resumo-professor-grid">
+    <div class="ui-card resumo-item">
+      <div class="resumo-item__icon icon--green">📅</div>
+      <div class="resumo-item__content">
+        <small>MINHAS AULAS NA SEMANA</small>
+        <strong>{{ dataService.minhasReservas().length }} aulas agendadas</strong>
+      </div>
+    </div>
+
+    <div class="ui-card resumo-item">
+      <div class="resumo-item__icon icon--blue">🏫</div>
+      <div class="resumo-item__content">
+        <small>ESPAÇO PRINCIPAL</small>
+        <strong>Laboratório de Informática 1</strong>
+      </div>
+    </div>
+
+    <div class="ui-card resumo-item">
+      <div class="resumo-item__icon icon--purple">💻</div>
+      <div class="resumo-item__content">
+        <small>EQUIPAMENTO MAIS USADO</small>
+        <strong>Projetor Epson HD 3500</strong>
+      </div>
+    </div>
+  </div>
+</div>

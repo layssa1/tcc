@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-login',
@@ -10,43 +12,60 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./login.scss']
 })
 export class Login {
+  private readonly router = inject(Router);
+  private readonly dataService = inject(DataService);
 
-  // ---------------------------------------------------------------
-  // PERSONALIZAÇÃO — troque estes valores pelos definitivos
-  // ---------------------------------------------------------------
+  email = 'gestao@bicudo.escola.gov.br';
+  senha = '••••••••';
+  showPassword = signal<boolean>(false);
+  errorMessage = signal<string>('');
+  isSubmitting = signal<boolean>(false);
 
-  @Input() schoolName: string = 'Bicudo Monsenhor';
-  @Input() schoolFoundedYear: string = '1961';
-  @Input() systemName: string = 'Reserva BM';
-
-  // ---------------------------------------------------------------
-  // Estado do formulário
-  // ---------------------------------------------------------------
-
-  email: string = '';
-  password: string = '';
-  showPassword: boolean = false;
-  isSubmitting: boolean = false;
-  errorMessage: string = '';
-
-  togglePassword(): void {
-    this.showPassword = !this.showPassword;
+  togglePassword() {
+    this.showPassword.update(v => !v);
   }
 
-  onSubmit(form: any): void {
-    if (form.invalid) {
-      this.errorMessage = 'Preencha e-mail e senha para continuar.';
+  fillDemo(type: 'admin' | 'professor') {
+    if (type === 'admin') {
+      this.email = 'gestao@bicudo.escola.gov.br';
+      this.senha = 'admin123';
+    } else {
+      this.email = 'carlos.eduardo@escola.gov.br';
+      this.senha = 'prof123';
+    }
+    this.errorMessage.set('');
+  }
+
+  entrar() {
+    if (!this.email || !this.senha) {
+      this.errorMessage.set('Por favor, informe seu e-mail institucional e senha.');
       return;
     }
 
-    this.errorMessage = '';
-    this.isSubmitting = true;
+    this.isSubmitting.set(true);
+    this.errorMessage.set('');
 
-    // TODO: substituir pela chamada real ao serviço de autenticação
-    // this.authService.login(this.email, this.password).subscribe(...)
+    // Smooth login transition
     setTimeout(() => {
-      this.isSubmitting = false;
-      console.log('Login enviado:', { email: this.email });
-    }, 1200);
+      this.isSubmitting.set(false);
+
+      const emailLower = this.email.toLowerCase().trim();
+      const profEncontrado = this.dataService.professores().find(
+        p => p.email.toLowerCase() === emailLower
+      );
+
+      const isProf = !!profEncontrado || emailLower.includes('prof') || emailLower.includes('carlos');
+
+      if (isProf) {
+        this.dataService.definirPerfil('professor', profEncontrado ? profEncontrado.id : 1);
+        const nome = this.dataService.usuarioAtual().nome;
+        this.dataService.showToast(`Bem-vindo(a), ${nome}! Portal do Professor liberado.`, 'success');
+        this.router.navigate(['/professor-calendario']);
+      } else {
+        this.dataService.definirPerfil('admin');
+        this.dataService.showToast('Bem-vindo(a) ao ReservaLab — Gestão Escolar!', 'success');
+        this.router.navigate(['/gestao']);
+      }
+    }, 400);
   }
 }
