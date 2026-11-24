@@ -1,0 +1,215 @@
+/* ==============================
+   SIDEBAR
+================================ */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+  
+    width: 245px;
+    height: 100vh;
+  
+    background: #ffffff;
+    border-right: 1px solid #dce6df;
+  
+    padding: 24px 17px;
+  
+    display: flex;
+    flex-direction: column;
+  
+    z-index: 1000;
+  }
+  
+  
+  /* ==============================
+     LOGO
+  ================================ */
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  
+    gap: 12px;
+  
+    padding: 5px 8px 25px;
+  
+    border-bottom: 1px solid #e5ece7;
+  }
+  
+  .logo-icon {
+    width: 44px;
+    height: 44px;
+  
+    background: #dff1e4;
+  
+    border-radius: 11px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    font-size: 21px;
+  
+    flex-shrink: 0;
+  }
+  
+  .logo-text {
+    min-width: 0;
+  }
+  
+  .logo h2 {
+    margin: 0;
+  
+    font-size: 18px;
+    font-weight: 700;
+  
+    color: #2d5d40;
+  }
+  
+  .logo span {
+    display: block;
+  
+    color: #89958e;
+  
+    font-size: 10px;
+  
+    margin-top: 3px;
+  }
+  
+  
+  /* ==============================
+     MENU
+  ================================ */
+  
+  .menu {
+    display: flex;
+    flex-direction: column;
+  
+    gap: 6px;
+  
+    margin-top: 25px;
+  }
+  
+  
+  /* ITEM DO MENU */
+  
+  .menu-item {
+    width: 100%;
+  
+    display: flex;
+    align-items: center;
+  
+    gap: 12px;
+  
+    padding: 12px 13px;
+  
+    border-radius: 9px;
+  
+    text-decoration: none;
+  
+    color: #68756e;
+  
+    font-size: 14px;
+    font-weight: 500;
+  
+    transition: 0.2s ease;
+  }
+  
+  
+  /* ÍCONE */
+  
+  .menu-icon {
+    width: 24px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    font-size: 17px;
+  }
+  
+  
+  /* HOVER */
+  
+  .menu-item:hover {
+    background: #f0f7f2;
+    color: #2d5d40;
+  }
+  
+  
+  /* ITEM ATIVO */
+  
+  .menu-item.ativo {
+    background: #dff1e4;
+    color: #2d5d40;
+  
+    font-weight: 600;
+  }
+  
+  .menu-item.ativo .menu-icon {
+    transform: scale(1.05);
+  }
+  
+  
+  /* ==============================
+     ADMINISTRADOR
+  ================================ */
+  
+  .administrador {
+    margin-top: auto;
+  
+    padding: 15px 8px 5px;
+  
+    border-top: 1px solid #e5ece7;
+  
+    display: flex;
+    align-items: center;
+  
+    gap: 11px;
+  }
+  
+  
+  /* AVATAR */
+  
+  .admin-avatar {
+    width: 38px;
+    height: 38px;
+  
+    border-radius: 50%;
+  
+    background: #dff1e4;
+  
+    color: #2d5d40;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    font-size: 14px;
+    font-weight: 700;
+  
+    flex-shrink: 0;
+  }
+  
+  
+  /* INFORMAÇÕES */
+  
+  .admin-info {
+    display: flex;
+    flex-direction: column;
+  
+    gap: 2px;
+  }
+  
+  .admin-info strong {
+    color: #34443b;
+  
+    font-size: 13px;
+  }
+  
+  .admin-info small {
+    color: #89958e;
+  
+    font-size: 10px;
+  }

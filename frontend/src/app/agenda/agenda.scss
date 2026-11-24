@@ -1,0 +1,557 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    background: #f7faf8;
+
+    color: #17372d;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+}
+
+
+/* =========================================
+   PÁGINA
+========================================= */
+
+.page {
+    min-height: 100vh;
+
+    padding: 32px 38px 42px;
+}
+
+
+/* =========================================
+   CABEÇALHO
+========================================= */
+
+.page-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-bottom: 28px;
+}
+
+
+.eyebrow {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #3e8069;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.8px;
+}
+
+
+h1 {
+    margin: 0;
+
+    color: #17372d;
+
+    font-size: 31px;
+
+    line-height: 1.1;
+
+    font-weight: 600;
+}
+
+
+.page-header p {
+    margin: 8px 0 0;
+
+    color: #718079;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   RESUMO DA SEMANA
+========================================= */
+
+.week-summary {
+    min-width: 190px;
+
+    padding: 15px 19px;
+
+    border: 1px solid #dce8e0;
+
+    border-radius: 14px;
+
+    background: #edf5ef;
+
+    text-align: right;
+}
+
+
+.week-summary strong {
+    display: block;
+
+    color: #297255;
+
+    font-size: 19px;
+}
+
+
+.week-summary span {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #6c7e75;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   BARRA DE NAVEGAÇÃO
+========================================= */
+
+.toolbar {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 14px;
+}
+
+
+.week-navigation {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.nav-button {
+    width: 36px;
+    height: 36px;
+
+    border: 1px solid #d9e5de;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #376955;
+
+    font-size: 24px;
+
+    line-height: 20px;
+
+    cursor: default;
+}
+
+
+.current-week span {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #819088;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+}
+
+
+.current-week strong {
+    display: block;
+
+    color: #244c3d;
+
+    font-size: 15px;
+
+    font-weight: 600;
+}
+
+
+.today-button {
+    padding: 9px 17px;
+
+    border: 1px solid #d9e5de;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #376955;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: default;
+}
+
+
+/* =========================================
+   CARD DA AGENDA
+========================================= */
+
+.schedule-card {
+    overflow: hidden;
+
+    border: 1px solid #dce6e0;
+
+    border-radius: 5px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 5px 20px rgba(33, 69, 54, 0.035);
+}
+
+
+.table-container {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+/* =========================================
+   TABELA
+========================================= */
+
+.schedule-table {
+    width: 100%;
+
+    min-width: 1000px;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+}
+
+
+.schedule-table th,
+.schedule-table td {
+    border-right: 1px solid #dfe8e3;
+
+    border-bottom: 1px solid #dfe8e3;
+}
+
+
+.schedule-table th:last-child,
+.schedule-table td:last-child {
+    border-right: none;
+}
+
+
+/* =========================================
+   CABEÇALHO DA TABELA
+========================================= */
+
+.schedule-table thead th {
+    height: 66px;
+
+    padding: 10px 14px;
+
+    background: #eef6f0;
+
+    color: #315847;
+
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+
+.schedule-table thead th:first-child {
+    text-align: left;
+}
+
+
+.schedule-table thead th span {
+    display: block;
+
+    font-size: 12px;
+
+    letter-spacing: 0.3px;
+}
+
+
+.schedule-table thead th small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #789085;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 400;
+}
+
+
+.time-column {
+    width: 80px;
+}
+
+
+/* =========================================
+   LINHAS
+========================================= */
+
+.schedule-table tbody td {
+    height: 88px;
+
+    padding: 7px;
+
+    vertical-align: top;
+
+    background: #ffffff;
+}
+
+
+/* =========================================
+   HORÁRIO
+========================================= */
+
+.schedule-table tbody td.time {
+    padding: 12px 9px;
+
+    background: #fafcfb;
+
+    color: #7b8983;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+
+    text-align: center;
+
+    vertical-align: top;
+}
+
+
+/* =========================================
+   RESERVA
+========================================= */
+
+.booking {
+    min-height: 70px;
+
+    padding: 9px 10px 8px;
+
+    border-left: 3px solid #5a9a7b;
+
+    border-radius: 5px;
+
+    background: #f4f8f5;
+}
+
+
+.booking strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #254d3d;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.booking span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #657870;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+}
+
+
+.booking small {
+    display: block;
+
+    color: #376957;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   CORES DOS AGENDAMENTOS
+========================================= */
+
+.booking.blue {
+    border-left-color: #5d9ac5;
+
+    background: #f1f7fa;
+}
+
+
+.booking.green {
+    border-left-color: #5e9d79;
+
+    background: #f1f8f3;
+}
+
+
+.booking.orange {
+    border-left-color: #d69b54;
+
+    background: #fcf7ef;
+}
+
+
+.booking.purple {
+    border-left-color: #9582b7;
+
+    background: #f7f4fa;
+}
+
+
+/* =========================================
+   LEGENDA
+========================================= */
+
+.legend {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 17px;
+
+    padding: 15px 18px;
+
+    color: #687971;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 10px;
+}
+
+
+.legend strong {
+    margin-right: 4px;
+
+    color: #365d4c;
+
+    font-weight: 700;
+}
+
+
+.legend span {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+}
+
+
+.dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #6aa482;
+}
+
+
+.dot.blue {
+    background: #5d9ac5;
+}
+
+
+.dot.green {
+    background: #5e9d79;
+}
+
+
+.dot.orange {
+    background: #d69b54;
+}
+
+
+.dot.purple {
+    background: #9582b7;
+}
+
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .page {
+        padding: 22px 16px 30px;
+    }
+
+
+    .page-header {
+        flex-direction: column;
+    }
+
+
+    .week-summary {
+        width: 100%;
+
+        text-align: left;
+    }
+
+
+    .toolbar {
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+
+    .current-week strong {
+        font-size: 13px;
+    }
+
+
+    .schedule-table {
+        min-width: 1000px;
+    }
+
+}
